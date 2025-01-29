@@ -1,0 +1,148 @@
+/* Our Team Section */
+.ourteam-section {
+    position: relative;
+    height: 100vh;
+    background: linear-gradient(to bottom, #42c0ff, #45c8de);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    overflow: hidden;
+    background-image: url('../../../public/landing-page-iamge/ourteam.jpg'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;    
+  }
+  .ourteam-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 123, 255, 0.6);
+    z-index: 1;
+  }
+  .team-heading {
+    font-size: 2.5rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    z-index: 2;
+  }
+  
+  .team-subheading {
+    font-size: 1.2rem;
+    color: #f0f0f0;
+    margin-bottom: 2rem;
+    font-style: italic;
+    z-index: 2;
+  }
+  
+  /* Carousel Container */
+  .team-carousel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    z-index: 2;
+  }
+  
+  .team-cards-container {
+    display: flex;
+    gap: 2rem; 
+    overflow: hidden;
+  }
+  
+  .team-card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 280px;
+    flex-shrink: 0; 
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .team-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .team-image-wrapper {
+    background-color: #0077b6;
+    padding: 1rem;
+  }
+  
+  .team-image {
+    width: 100%;
+    border-radius: 8px;
+    object-fit: cover;
+    height: 240px;
+  }
+  
+  .team-info {
+    padding: 1rem;
+  }
+  
+  .team-role {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #0077b6;
+  }
+  
+  .team-name {
+    font-size: 1rem;
+    color: #333;
+    margin-top: 0.5rem;
+  }
+  
+  /* Arrows */
+  .arrow {
+    position: absolute;
+    background: none; /* Remove the blue background */
+    border: none;
+    color: #ffffff; 
+    font-size: 2rem; /* Adjust icon size */
+    cursor: pointer;
+    transition: color 0.3s ease; /* Smooth hover transition */
+    z-index: 10;
+  }
+  
+
+  
+  .left-arrow {
+    left: 0%; 
+    transform: translateY(-50%);
+  }
+  
+  .right-arrow {
+    right: 0%; 
+    transform: translateY(-50%);
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .team-card {
+      width: 220px;
+    }
+  
+    .team-cards-container {
+      gap: 1rem; /* Reduce gap on smaller screens */
+    }
+  
+    .arrow {
+      width: 40px;
+      height: 40px;
+      font-size: 1.2rem;
+    }
+  
+    .left-arrow {
+      left: 5%;
+    }
+  
+    .right-arrow {
+      right: 5%;
+    }
+  }
+  

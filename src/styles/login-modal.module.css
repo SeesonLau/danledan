@@ -1,0 +1,257 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    pointer-events: none;
+  }
+  
+  .modal-content {
+    width: 800px;
+    height: 550px;
+    background: #C8E3F5;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    position: relative;
+    padding: 20px;
+    pointer-events: auto;
+  }
+  
+  .close-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  
+  .close-button:hover {
+    color: #FF0000;
+  }
+  
+  .logo-and-user-type {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 50px;
+  }
+  
+  .opticare-logo {
+    width: 300px;
+    height: auto;
+    margin-top: -70px;
+  }
+  
+  .login-message {
+    width: 100%;
+    text-align: right;
+    margin-right: 250px;
+    margin-top: -80px;
+  }
+  
+  .blue-text {
+    color: #3871C1;
+    font-size: 15px;
+    font-family: 'Montserrat';
+    font-weight: 700;
+  }
+  
+  .green-text {
+    color: #6FB118;
+    font-size: 15px;
+    font-family: 'Montserrat';
+    font-weight: 700;
+  }
+  
+  .blue-dark-text {
+    color: #219DE9;
+    font-size: 15px;
+    font-family: 'Montserrat';
+    font-weight: 700;
+  }
+  
+  .user-type-picker {
+    display: flex;
+    gap: 0px;
+    margin-top: 30px;
+    margin-bottom: 50px;
+  }
+  
+  .user-type-button {
+    padding: 10px 20px;
+    border: 1px solid #4461F2;
+    border-radius: 7px;
+    cursor: pointer;
+  }
+  
+  .user-type-button.active {
+    background-color: #90DD2B;
+    color: white;
+  }
+  
+  .email-input-section {
+    margin-top: -50px;
+    padding-left: 275px;
+    margin-bottom: 20px; /* Adds spacing below the email input */
+  }
+  
+  .password-input-section {
+    padding-left: 275px;
+  }
+  
+  .input-wrapper {
+    position: relative;
+  }
+  
+  .input-field {
+    width: 250px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #667085;
+    padding-left: 10px;
+    font-size: 15px;
+    font-family: 'Montserrat';
+    font-weight: 700;
+    color: #4F555A;
+  }
+  
+  
+  .clear-button,
+  .toggle-password-button {
+    position: absolute;
+    top: 10px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #4F555A;
+    font-size: large;
+  }
+  
+  .clear-button {
+    left: 240px;
+  }
+  
+  .toggle-password-button {
+    left: 229px;
+  }
+  
+  .login-button-section {
+    display: flex;
+    justify-content: center;
+    margin-left: 15px;
+    margin-top: 35px;
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .login-button-background {
+    width: 250px;
+    height: 40px;
+    position: absolute;
+    background: linear-gradient(90deg, #4183CF 0%, #77B032 100%);
+    box-shadow: 0px 11.85px 20.74px 3.95px rgba(68, 97, 242, 0.15);
+    border-radius: 20px;
+  }
+  
+  .login-button-text {
+    position: absolute;
+    color: white;
+    font-size: 17px;
+    font-family: 'Montserrat';
+    font-weight: 700;
+    letter-spacing: 1.53px;
+    margin-top: 10px;
+  }
+  
+  .separator-section {
+    display: inline-flex;
+    width: 280px;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    margin-top: 60px;
+    margin-left: 265px;
+  }
+  
+  .line {
+    flex: 1;
+    height: 1px;
+    background: #4183CF;
+  }
+  
+  .or-text {
+    text-align: center;
+    color: #4183CF;
+    font-size: 16px;
+    font-family: 'Inter';
+    font-weight: 500;
+  }
+  
+  .google-signin-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 10px 15px; /* Adds some padding inside the box */
+    margin-top: 20px;
+    margin-right: 280px;
+    margin-left: 295px;
+    border-radius: 5px; /* Rounds the corners of the box */
+    transition: all 0.3s ease; /* Smooth hover effect */
+  }
+  
+  .google-signin-section:hover {
+    border-color: #219DE9; /* Changes outline color on hover */
+    box-shadow: 0px 0px 10px rgba(33, 157, 233, 0.5); /* Adds a shadow on hover */
+  }
+  
+  
+  .google-icon {
+    width: 20px;
+    height: auto;
+  }
+  
+  .google-signin-text {
+    text-align: center;
+    color: #3871C1;
+    font-size: 14px;
+    font-family: 'Montserrat';
+    font-weight: 500;
+  }
+  
+  .register-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px; /* Adjust spacing from Google Sign-In */
+    font-family: 'Montserrat';
+  }
+  
+  .register-info {
+    color: #4183CF;
+    font-size: 12px;
+    font-weight: 400;
+    word-wrap: break-word;
+  }
+  
+  .register-link {
+    color: #77B032;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
+    word-wrap: break-word;
+  }
+  
+  .register-link:hover {
+    color: #6FB118; /* Add hover effect for better interactivity */
+  }
+  
