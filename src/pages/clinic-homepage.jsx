@@ -5,7 +5,7 @@ import "@fontsource/montserrat";
 import dynamic from 'next/dynamic';  // Import dynamic from Next.js
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faHouse, faCalendar, faNotesMedical, faGear, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
-import ClinicSidebar from './clinicsidebar.jsx'; // Adjust the path if needed
+import ClinicSidebar from '../components/sidebar/clinicsidebar.jsx'; // Adjust the path if needed
 
 {/*OVERFLOWING PURPOSES DO YOUR BACKEND HERE BROSKI*/}
 const patientNotifications = [

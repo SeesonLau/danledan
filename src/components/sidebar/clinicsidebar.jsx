@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useRef } from "react";
-import styles from '../styles/clinic-homepage/clinic-homepage.module.css';
 import "@fontsource/montserrat";
 import dynamic from 'next/dynamic';  // Import dynamic from Next.js
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faHouse, faCalendar, faNotesMedical, faGear, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import styles from '@/styles/clinic-homepage/clinic-sidebar.module.css';
 
 function ClinicSidebar () {
 
