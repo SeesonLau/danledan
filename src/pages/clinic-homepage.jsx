@@ -5,7 +5,7 @@ import "@fontsource/montserrat";
 import dynamic from 'next/dynamic';  // Import dynamic from Next.js
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faHouse, faCalendar, faNotesMedical, faGear, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
-
+import ClinicSidebar from './clinicsidebar.jsx'; // Adjust the path if needed
 
 {/*OVERFLOWING PURPOSES DO YOUR BACKEND HERE BROSKI*/}
 const patientNotifications = [
@@ -43,7 +43,7 @@ const ClinicHome = () => {
       };
       // Delay speaking slightly to ensure speech synthesis is ready
       setTimeout(() => {
-        speak("Welcome to the clinic Doctor");
+        speak("Welcome to the clinic Doctor Julian Semblante");
       }, 500);
       hasSpoken.current = true; // Mark it as spoken
     }
@@ -51,37 +51,7 @@ const ClinicHome = () => {
   
   return (
     <div className={styles.cliniccontainer}>
-      <aside className={styles.clinicsidebar}>
-        <ul>
-          <div className={styles.cliniclogodiv1}> <img src="/landing-page-iamge/opto2.png" alt="Clinic Logo" /></div>
-          <div className={styles.cliniclogodiv}>
-             <div className={styles.clinicicondiv}>
-                <FontAwesomeIcon icon={faHouse} />
-             </div>
-          </div>
-          <div className={styles.cliniclogodiv}>
-            <div className={styles.clinicicondiv}>
-              <FontAwesomeIcon icon={faCalendar} />
-            </div>
-          </div>
-          <div className={styles.cliniclogodiv}>
-            <div className={styles.clinicicondiv}>
-              <FontAwesomeIcon icon={faNotesMedical}/>
-            </div>
-          </div>
-          <div className={styles.cliniclogodiv}>
-            <div className={styles.clinicicondiv}>
-              <FontAwesomeIcon icon={faGear}/> 
-            </div>
-          </div>
-          <div className={styles.cliniclogodiv}>
-            <div className={styles.clinicicondiv}>
-              <FontAwesomeIcon icon={faRightFromBracket}/>
-            </div>
-          </div>
-        </ul>
-      </aside>
-
+      <ClinicSidebar />
       <main className={styles.maincontent}>
         
         {/* First div layer */}
