@@ -4,7 +4,7 @@ import styles from '../styles/clinic-homepage/clinic-homepage.module.css';
 import "@fontsource/montserrat";
 import dynamic from 'next/dynamic';  // Import dynamic from Next.js
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faHouse, faCalendar, faNotesMedical, faGear, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 import ClinicSidebar from '../components/sidebar/clinicsidebar.jsx'; // Adjust the path if needed
 
 {/*OVERFLOWING PURPOSES DO YOUR BACKEND HERE BROSKI*/}
@@ -43,7 +43,7 @@ const ClinicHome = () => {
       };
       // Delay speaking slightly to ensure speech synthesis is ready
       setTimeout(() => {
-        speak("Welcome to the clinic Doctor Julian Semblante");
+        speak("Welcome to the clinic Doctor");
       }, 500);
       hasSpoken.current = true; // Mark it as spoken
     }

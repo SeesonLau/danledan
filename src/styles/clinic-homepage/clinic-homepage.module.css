@@ -33,10 +33,12 @@
   flex-wrap: wrap;
   justify-content: space-between; 
   overflow: hidden;
+  height: 100vh;
 }
 
 .firstdiv {
   flex: 1; 
+  max-height: 100vh;
   min-width: 400px; /* Prevents breaking */
   max-width: 580px;
 }
