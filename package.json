@@ -16,12 +16,9 @@
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@mui/icons-material": "^6.4.2",
     "classnames": "^2.5.1",
-<<<<<<< HEAD
-    "next": "^15.1.6",
-=======
     "leaflet": "^1.9.4",
+    "lucide-react": "^0.475.0",
     "next": "15.1.6",
->>>>>>> 802206e0c2665e81678b09faaee8e3d9fce706f4
     "react": "^19.0.0",
     "react-calendar": "^5.1.0",
     "react-dom": "^19.0.0",
