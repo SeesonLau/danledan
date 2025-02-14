@@ -89,11 +89,24 @@
     background-repeat: no-repeat; /* Avoid repeating the image */
   }
   
-  .logo-title {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: white;
-  }
+    /* Logo Title Adjustments for Responsiveness */
+    .logo-title {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: white;
+      display: inline-block; /* Ensure it's inline-block for hiding */
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    /* Hide logo text on small screens */
+    @media (max-width: 620px) {
+      .logo-title {
+        opacity: 0;
+        visibility: hidden;
+        width: 0; /* Prevent text from taking up space */
+        height: 0;
+      }
+    }
   
   /* Flexbox for the Auth buttons */
   .auth-buttons {
@@ -165,26 +178,16 @@
       gap: 1rem;
     }
   }
+  /* Hero Section */
   .hero-section {
     position: relative;
-    height: 100vh; /* Full viewport height */
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     background: url('../../../public/landing-page-iamge/optoimage.jpg') no-repeat center center/cover;
   }
-  .hero-content {
-    position: relative;
-    z-index: 2; /* Bring text and buttons above the overlay */
-    color: white;
-  }
-  .hero-content h1 {
-    font-size: 3.5rem; /* Larger text size */
-    font-weight: bold;
-    margin-bottom: 1.5rem;
-  }
-  
   .hero-section::before {
     content: '';
     position: absolute;
@@ -192,16 +195,27 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 123, 255, 0.5); /* Semi-transparent blue overlay */
+    background: rgba(0, 123, 255, 0.5);
     z-index: 1;
   }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    color: white;
+  }
+  .hero-content h1 {
+    font-size: clamp(1.5rem, 6vw, 3rem); /* Adjust font size based on viewport width */
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+  }
+
   .hero-button {
-    padding: 1rem 2rem;
+    padding: clamp(0.8rem, 2vw, 1.5rem) clamp(1.5rem, 4vw, 2rem);
     background-color: #28a745; /* Green button */
     color: white;
     border: none;
     border-radius: 30px;
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
     cursor: pointer;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease-in-out;
@@ -395,3 +409,88 @@
     height: 60vh; /* Increased to 60% of the viewport height */
     color: white;
   }
+
+
+  .nav-links {
+    display: flex;
+    gap: 16px;
+  }
+  
+  .link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #000;
+  }
+  
+  .link .icon {
+    display: none; /* Initially hide icons */
+    margin-right: 8px;
+  }
+  
+  .link .text {
+    display: block;
+  }
+  
+  @media (max-width: 900px) {
+    .link .icon {
+      display: block; /* Show icons */
+    }
+  
+    .link .text {
+      display: none; /* Hide text */
+    }
+  }
+
+  /* For screens as small as 320px */
+  @media (min-width: 320px) and (max-width: 620px) {
+  .auth-icons {
+    display: flex;
+    justify-content: center; /* Center the icons */
+    align-items: center; /* Align them vertically */
+    gap: 1rem; /* Reduce gap between icons */
+    flex-wrap: wrap; /* Allow wrapping to prevent overflow */
+  }
+
+  .auth-icons .icon {
+    font-size: 1.2rem; /* Adjust icon size for visibility */
+  }
+
+  .nav-links a {
+    font-size: 0.8rem; /* Smaller text for navigation */
+    margin: 0 0.5rem; /* Reduce margin */
+  }
+
+  .home-page-header {
+    padding: 0.5rem 1rem; /* Adjust padding */
+  }
+
+  .logo {
+    height: 30px; /* Smaller logo */
+    width: 30px; /* Smaller logo */
+  }
+
+  .logo-title {
+    font-size: 1.2rem; /* Reduce text size */
+  }
+}
+
+.iconSvg {
+  width: 1.5em; /* Base size */
+  height: 1.5em;
+  transition: transform 0.2s ease; /* Smooth resizing */
+}
+
+@media (max-width: 768px) {
+  .iconSvg {
+    width: 1.2em;
+    height: 1.2em;
+  }
+}
+
+@media (max-width: 480px) {
+  .iconSvg {
+    width: 1em;
+    height: 1em;
+  }
+}
