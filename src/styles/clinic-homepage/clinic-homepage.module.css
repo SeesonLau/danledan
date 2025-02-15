@@ -33,14 +33,22 @@
   flex-wrap: wrap;
   justify-content: space-between; 
   overflow: hidden;
-  height: 100vh;
 }
 
 .firstdiv {
-  flex: 1; 
-  max-height: 100vh;
+  flex: 1;
   min-width: 400px; /* Prevents breaking */
-  max-width: 580px;
+  max-width: 650px;
+  height: auto; /* Allows it to grow */
+  min-height: 100vh; /* Ensures enough space */
+}
+
+/* Only apply changes when zoomed in (small screens) */
+@media (max-width: 1024px) {
+  .firstdiv {
+    min-height: auto; /* Allows it to expand naturally */
+    max-height: none; /* Removes the fixed limit */
+  }
 }
 
 .userprofilecontainer {
@@ -48,7 +56,7 @@
   background: linear-gradient(to right, rgb(164, 220, 246), rgb(124, 133, 250));
   height: 250px;
   width: 100%; /* Use full width of the parent container */
-  max-width: 530px; /* Prevents the container from exceeding this width */
+  max-width: 95%; /* Prevents the container from exceeding this width */
   border-radius: 10px;
   margin-bottom: 10px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -168,7 +176,6 @@
 .mapcontainer {
   width: 530px;
   height: 240px;
- /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
   text-align: center;
   padding-top: 5px;
   flex: 1;
@@ -187,16 +194,33 @@
   transition: transform 0.5s ease, text-shadow 0.5s ease;
 }
 
-.mapvisits{
+/* Always active hover effect for maptitle */
+.maptitle {
+  transform: scale(1.05); /* Always applied */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Always applied */
+}
+
+/* Underline effect always visible for maptitle */
+.maptitle::after {
+  content: '';
+  display: block;
+  width: 100%; /* Always full width */
+  height: 2px;
+  background: #4b6cb7;
+  margin-top: 5px;
+}
+
+.mapvisits {
   font-size: 50px;
 }
 
-.maptitle:hover, .mapvisits:hover {
+/* Hover effect for .mapvisits only */
+.mapvisits:hover {
   transform: scale(1.05);
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
 }
 
-.maptitle::after, .mapvisits::after {
+.mapvisits::after {
   content: '';
   display: block;
   width: 0;
@@ -206,9 +230,10 @@
   margin-top: 5px;
 }
 
-.maptitle:hover::after, .mapvisits:hover::after {
+.mapvisits:hover::after {
   width: 100%;
 }
+
 
 .mapsquarediv {
   display: flex;  
@@ -321,16 +346,19 @@
 }
 
 .seconddiv {
-  flex: 1; 
+  display: flex;
+  flex-direction: column; /* Ensures children expand properly */
+  flex: 1;
   min-width: 400px; /* Prevents breaking */
-  max-width: 600px;
-  width: 600px;
-  height: 555px;
+  max-width: 650px;
+  width: 100%; /* Ensures responsiveness */
+  height: calc(100vh - 40px); /* Limits height to prevent touching the bottom */
   background-color: #E3F2FD;
-  border: solid;
-  border-width: 1px;
+  border: solid 1px #2563EB;
   border-radius: 10px;
-  border-color: #2563EB;
+  position: relative; /* Avoids sticky issues */
+  margin-bottom: 20px; /* Prevents touching the bottom */
+  overflow: hidden; /* Prevents content overflow */
 }
 
 .notiftext {
@@ -386,18 +414,29 @@
 }
 
 
-/* BEGINNING OF THE NOTIF WRAPPER gikapoy nako haha*/
+/* BEGINNING OF THE NOTIF WRAPPER gikapoy nako haha */
 .notifwrapper {
   display: block;
-  /*background-color: black; */
-  height: 490px;
-  overflow-y: scroll;
+  flex-grow: 1; /* Allows it to expand dynamically */
+  min-height: 490px; /* Ensures a minimum height */
+  max-height: 100%; /* Prevents excessive growth */
+  overflow-y: auto; /* Enables scrolling only when needed */
   scroll-snap-type: y mandatory;
   width: 100%;
   max-width: 600px; /* Prevents stretching */
+
   /* Scrollbar Styles */
-  scrollbar-width: thin; /* For Firefox */
+  scrollbar-width: none; /* For Firefox */
   scrollbar-color: #ddd #f5f5f5; /* Thumb color (light gray) & track color (off-white) */
+}
+
+@media (max-width: 1024px) { /* Adjust for smaller screens */
+  .notifwrapper {
+    height: auto; /* Expands dynamically */
+    min-height: 490px; /* Prevents shrinking */
+    max-height: none; /* Removes height restrictions */
+    overflow-y: auto; /* Ensures scrolling if content overflows */
+  }
 }
 
 .notifwrapper::-webkit-scrollbar {
@@ -423,7 +462,7 @@
 .notifmessage {
   scroll-snap-align: center;
   width: 100%;
-  height: 55px;
+  height: 57px;
   margin-bottom: 15px;
   display: flex;
   justify-content: flex-start; 
