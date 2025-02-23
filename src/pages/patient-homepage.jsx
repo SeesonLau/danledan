@@ -3,8 +3,9 @@ import styles from '../styles/patient-homepage/patient-homepage.module.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "leaflet/dist/leaflet.css";
+import L from "leaflet";
 
 {/*OVERFLOWING PURPOSES DO YOUR BACKEND HERE BROSKI*/}
 const patientNotifications = [
@@ -23,6 +24,23 @@ const patientNotifications = [
 const PatientHomePage = () => {
   
   const position = [10.294187716769942, 123.88035066423207];
+  const [userPosition, setUserPosition] = useState(position); // Start with default position
+
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          setUserPosition([pos.coords.latitude, pos.coords.longitude]);
+        },
+        (error) => {
+          console.error("Error fetching location:", error);
+        }
+      );
+    }
+  }, []);
+  
+
+  const clinicposition = [10.294187716769942, 123.88035066423207];
 
   const [clickCount, setClickCount] = useState(0);
   const handleProfileClick = () => {
@@ -33,9 +51,17 @@ const PatientHomePage = () => {
     }
   };
 
+  const customIcon = L.icon({
+    iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
+    iconSize: [25, 41], // Default Leaflet icon size
+    iconAnchor: [12, 41], // Ensures the point of the marker is correctly positioned
+    popupAnchor: [1, -34],
+    shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
+    shadowSize: [41, 41],
+  });
+
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("Today");
-
   const options = ["Today", "Yesterday", "This Week", "This Month"];
 
   return (
@@ -75,10 +101,10 @@ const PatientHomePage = () => {
 
           {/*Profile Info Container*/}
           <div className={styles.mapcontainer}>
-            <MapContainer center={position} zoom={15} style={{ height: "100%", width: "100%", borderRadius: "10px" }}>
+          <MapContainer center={userPosition} zoom={15} style={{ height: "100%", width: "100%", borderRadius: "10px" }}>
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-              <Marker position={position}>
-                <Popup>Location Centered Here</Popup>
+              <Marker position={clinicposition} icon={customIcon}>
+                <Popup>Clinic Location</Popup>
               </Marker>
             </MapContainer>
           </div>
@@ -89,34 +115,24 @@ const PatientHomePage = () => {
           <div className={styles.notiftext}>
             <p className={styles.notifpatienttext}>Notification</p>
             <div className={styles.notifpatientbuttondiv}>
-      {/* Button */}
-      <button 
-        className={styles.notifpatientbutton} 
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        <p className={styles.notifpatientbuttontext}>
-          {selected} &#x2335;
-        </p>
-      </button>
+            <div className={styles.notifpatientbuttondiv}>
+             {/* Button */}
+              <button className={styles.notifpatientbutton} onClick={() => setIsOpen(!isOpen)}>
+                <p className={styles.notifpatientbuttontext}>{selected} &#x2335;</p>
+              </button>
 
-      {/* Dropdown Menu */}
-      {isOpen && (
-        <ul className={styles.dropdownMenu}>
-          {options.map((option) => (
-            <li 
-              key={option} 
-              className={styles.dropdownItem} 
-              onClick={() => {
+              {/* Dropdown Menu */}
+              {isOpen && ( <ul className={styles.dropdownMenu}> {options.map((option) => (
+               <li key={option} className={styles.dropdownItem} onClick={() => {
                 setSelected(option);
-                setIsOpen(false);
-              }}
-            >
+                setIsOpen(false); }}>
               {option}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+              </li>
+               ))}
+              </ul>
+              )}
+            </div>
+            </div>
           </div>
 
             {/* Notification Messages */}

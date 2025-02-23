@@ -217,11 +217,11 @@
 
 .notifpatientbuttondiv {
   height: 45px;
-  width: 200px;
+  width: 100px;
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  position: relative; /* Remove dropdown alignment from here */
+  position: relative; /* Ensures dropdown stays inside this container */
 }
 
 .notifpatientbutton {
@@ -256,20 +256,21 @@
 /* Dropdown Styles */
 .dropdownMenu {
   position: absolute;
-  top: 100%; /* Sticks to the bottom of the button */
-  left: 0;
-  width: 100%; /* Matches button width */
+  top: 100%; 
+  left: 50%; 
+  transform: translateX(-50%); 
+  width: 80px; 
   background: white;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   z-index: 10;
   padding: 0;
-  margin-top: 0px; /* No gap between button and dropdown */
+  margin-top: 5px;
   border: 1px solid #ccc;
 }
 
 .dropdownItem {
-  height: 35px; /* Matches button height */
+  height: 35px;
   display: flex;
   justify-content: center;
   align-items: center;

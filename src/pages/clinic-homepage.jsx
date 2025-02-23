@@ -153,8 +153,8 @@ const ClinicHome = () => {
               </li>
                ))}
               </ul>
-            )}
-          </div>
+              )}
+            </div>
         </div>
 
             {/* Notification Messages */}
