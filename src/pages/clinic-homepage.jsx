@@ -49,9 +49,9 @@ const ClinicHome = () => {
     }
   }, []);
 
+  {/*FILTER LOGIC IN THE PATIENT LIST*/}
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("Today");
-
   const options = ["Today", "Yesterday", "This Week", "This Month"];
   
   return (
@@ -84,10 +84,6 @@ const ClinicHome = () => {
               </p>
             </div>
           </div>
-
-          {/* Calendar Container 
-          <div className={styles.calendar}>
-          </div> */}
 
           {/* Map Container */}
           <div className={styles.mapcontainer}>
@@ -155,7 +151,7 @@ const ClinicHome = () => {
               </ul>
               )}
             </div>
-        </div>
+          </div>
 
             {/* Notification Messages */}
             <div className={styles.notifwrapper}>
@@ -186,7 +182,6 @@ const ClinicHome = () => {
             ))}
           </div>
         </div>
-
       </main>
     </div>
   );
