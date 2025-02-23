@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';  // Import dynamic from Next.js
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faHouse, faCalendar, faNotesMedical, faGear, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import ClinicSidebar from '../components/sidebar/clinicsidebar.jsx'; // Adjust the path if needed
+import ClinicLayout from "@/components/clinic-layout";
 
 {/*OVERFLOWING PURPOSES DO YOUR BACKEND HERE BROSKI*/}
 const patientNotifications = [
@@ -50,8 +51,8 @@ const ClinicHome = () => {
   }, []);
   
   return (
+    <ClinicLayout>
     <div className={styles.cliniccontainer}>
-      <ClinicSidebar />
       <main className={styles.maincontent}>
         
         {/* First div layer */}
@@ -172,6 +173,7 @@ const ClinicHome = () => {
 
       </main>
     </div>
+    </ClinicLayout>
   );
 };
 
