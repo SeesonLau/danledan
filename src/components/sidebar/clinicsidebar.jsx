@@ -43,6 +43,8 @@ function ClinicSidebar() {
           <Link href="/clinic/clinic-settings">
             <div className={styles.clinicicondiv}>
               <FontAwesomeIcon icon={faGear} />
+              <FontAwesomeIcon icon={faRightFromBracket}/>            
+
             </div>
           </Link>
         </div>
