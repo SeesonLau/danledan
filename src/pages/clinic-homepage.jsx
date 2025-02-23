@@ -48,6 +48,11 @@ const ClinicHome = () => {
       hasSpoken.current = true; // Mark it as spoken
     }
   }, []);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [selected, setSelected] = useState("Today");
+
+  const options = ["Today", "Yesterday", "This Week", "This Month"];
   
   return (
     <div className={styles.cliniccontainer}>
@@ -134,11 +139,23 @@ const ClinicHome = () => {
           <div className={styles.notiftext}>
             <p className={styles.notifpatienttext}>Patient List</p>
             <div className={styles.notifpatientbuttondiv}>
-              <button className={styles.notifpatientbutton}>
-                <p className={styles.notifpatientbuttontext}>Today {/*&#x25BC;*/} &#x2335;</p>
+             {/* Button */}
+              <button className={styles.notifpatientbutton} onClick={() => setIsOpen(!isOpen)}>
+                <p className={styles.notifpatientbuttontext}>{selected} &#x2335;</p>
               </button>
-            </div>
+
+              {/* Dropdown Menu */}
+              {isOpen && ( <ul className={styles.dropdownMenu}> {options.map((option) => (
+               <li key={option} className={styles.dropdownItem} onClick={() => {
+                setSelected(option);
+                setIsOpen(false); }}>
+              {option}
+              </li>
+               ))}
+              </ul>
+            )}
           </div>
+        </div>
 
             {/* Notification Messages */}
             <div className={styles.notifwrapper}>
@@ -163,7 +180,7 @@ const ClinicHome = () => {
                   <div className={styles.clinicpatienttimecontainer}>
                     <p className={styles.clinicpatienttime}>{patient.time}</p>
                   </div>
-              </div>
+                </div>
 
             </div>
             ))}

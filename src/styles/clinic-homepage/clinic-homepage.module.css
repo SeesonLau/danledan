@@ -388,19 +388,26 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  position: relative; /* Remove dropdown alignment from here */
 }
 
 .notifpatientbutton {
   height: 35px;
-  width: 80px; 
-  border-radius: 5px; 
-  display: flex; 
-  justify-content: center; 
+  width: 80px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
   align-items: center;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background: none;
+  position: relative; /* Needed for dropdown positioning */
 }
+
 .notifpatientbutton:hover {
   background-color: white;
   transition: 0.5s;
+  border: 1px solid #ccc;
 }
 
 .notifpatientbuttontext {
@@ -409,10 +416,46 @@
   padding: 5px;
   color: black;
   font-size: 10px;
-  text-transform: uppercase; 
-  letter-spacing: 1px; 
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
+/* Dropdown Styles */
+.dropdownMenu {
+  position: absolute;
+  top: 100%; /* Sticks to the bottom of the button */
+  left: 0;
+  width: 100%; /* Matches button width */
+  background: white;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  z-index: 10;
+  padding: 0;
+  margin-top: 0px; /* No gap between button and dropdown */
+  border: 1px solid #ccc;
+}
+
+.dropdownItem {
+  height: 35px; /* Matches button height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: black;
+  cursor: pointer;
+  background: white;
+  border-radius: 5px;
+}
+
+.dropdownItem:last-child {
+  border-bottom: none;
+}
+
+.dropdownItem:hover {
+  background-color: white;
+}
 
 /* BEGINNING OF THE NOTIF WRAPPER gikapoy nako haha */
 .notifwrapper {

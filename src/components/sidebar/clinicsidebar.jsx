@@ -35,7 +35,7 @@ function ClinicSidebar () {
           </div>
           <div className={styles.cliniclogodiv}>
             <div className={styles.clinicicondiv}>
-              <FontAwesomeIcon icon={faRightFromBracket}/>
+              <FontAwesomeIcon icon={faRightFromBracket}/>            
             </div>
           </div>
         </ul>
