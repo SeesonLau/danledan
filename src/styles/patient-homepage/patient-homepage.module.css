@@ -55,9 +55,10 @@
   transition: transform 0.3s ease;
 }
 
-  
+
   .userprofilecontainer:hover {
     transform: scale(1.05);
+    cursor: pointer;
   }
   
   .userprofilecontainer::before {
@@ -118,6 +119,7 @@
     width: 80%;  
     height: 80%;
     color: #0D54AC;
+    border-radius: 50%;
   }
   
   .userprofileicondiv2 {
@@ -348,10 +350,10 @@
   border-radius: 20px;
   color: black; /* Default text color */
 }
-/*
-.notifmessage:last-child {
 
-} */
+.notifmessage:last-child {
+  margin-bottom: 0; 
+}
 
 .notifmessage:hover {
   background: linear-gradient(to right, rgb(164, 220, 246), rgb(124, 133, 250));
