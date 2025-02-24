@@ -22,9 +22,27 @@ const patientNotifications = [
 ]; 
 
 const ClinicHome = () => {
-  const playRickroll = () => {
-    window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+  
+  const [clickCount, setClickCount] = useState(0);
+  const [timer, setTimer] = useState(null);
+
+  const handleProfileClick = () => {
+    if (clickCount + 1 === 3) {
+     window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"; // Rickroll after 3rd click
+    } else {
+     setClickCount((prev) => prev + 1);
+    
+      // Clear previous timer and set a new one
+    if (timer) clearTimeout(timer);
+    
+    const newTimer = setTimeout(() => {
+      setClickCount(0);
+    }, 5000); // Reset after 5 seconds
+
+    setTimer(newTimer);
+    }
   };
+
 
   const hasSpoken = useRef(false); // Prevents double execution
   useEffect(() => {
@@ -53,6 +71,7 @@ const ClinicHome = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("Today");
   const options = ["Today", "Yesterday", "This Week", "This Month"];
+  {/*END OF FILTER LOGIC IN THE PATIENT LIST*/}
   
   return (
     <div className={styles.cliniccontainer}>
@@ -66,9 +85,10 @@ const ClinicHome = () => {
           </h1>
 
           {/* User Container */}
-          <div className={styles.userprofilecontainer} onClick={playRickroll}>
+          <div className={styles.userprofilecontainer} onClick={handleProfileClick}>
             <div className={styles.userprofileicondiv1}>
-              <div className={styles.userprofileicon}>   
+              <div className={styles.userprofileicon}>
+                {/* Do your Profile Picture of the doctor backend here */}   
                 <FontAwesomeIcon icon={faUser} className={styles.userIcon}/>
               </div>
             </div>

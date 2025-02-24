@@ -25,13 +25,25 @@ const PatientHomePage = () => {
 
   {/*EASTER EGG LOGIC*/}
   const [clickCount, setClickCount] = useState(0);
-  const handleProfileClick = () => {
-    if (clickCount + 1 === 3) {
-      window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"; // Rickroll after 3rd click
-    } else {
-      setClickCount(clickCount + 1);
-    }
-  };
+const [timer, setTimer] = useState(null);
+
+const handleProfileClick = () => {
+  if (clickCount + 1 === 3) {
+    window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"; // Rickroll after 3rd click
+  } else {
+    setClickCount((prev) => prev + 1);
+    
+    // Clear previous timer and set a new one
+    if (timer) clearTimeout(timer);
+    
+    const newTimer = setTimeout(() => {
+      setClickCount(0);
+    }, 5000); // Reset after 5 seconds
+
+    setTimer(newTimer);
+  }
+};
+
   {/*END OF EASTER EGG LOGIC*/}
   
   {/*USER AND CLINIC LOCATION LOGIC */}
@@ -93,7 +105,9 @@ const PatientHomePage = () => {
           <div className={styles.userprofilecontainer} onClick={handleProfileClick}>
             <div className={styles.userprofileicondiv1}>    
               <div className={styles.userprofileicon}>   
+                {/* Do your Profile Picture of the patient backend here replace below icon, unless no profile use this icon below*/}
                 <FontAwesomeIcon icon={faUser} className={styles.userIcon}/>
+              {/*  <img src="/landing-page-iamge/house.jpg" alt="Profile" className={styles.userIcon} /> */}
               </div>
             </div>
             
