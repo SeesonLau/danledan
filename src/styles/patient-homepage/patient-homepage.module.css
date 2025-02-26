@@ -24,10 +24,18 @@
 }
 
 .patientfirstdiv{
-    flex: 1; 
-    max-height: 100vh;
-    min-width: 400px; /* Prevents breaking */
-    max-width: 580px;   
+  flex: 1;
+  min-width: 400px; 
+  max-width: 50%;
+  height: auto; 
+  min-height: 100vh; 
+}
+
+@media (max-width: 1024px) {
+  .patientfirstdiv {
+    min-height: auto; /* Allows it to expand naturally */
+    max-height: none; /* Removes the fixed limit */
+  }
 }
 
 .hellobar {
@@ -55,9 +63,9 @@
   transition: transform 0.3s ease;
 }
 
-  
   .userprofilecontainer:hover {
     transform: scale(1.05);
+    cursor: pointer;
   }
   
   .userprofilecontainer::before {
@@ -118,6 +126,7 @@
     width: 80%;  
     height: 80%;
     color: #0D54AC;
+    border-radius: 50%;
   }
   
   .userprofileicondiv2 {
@@ -192,6 +201,25 @@
   position: relative; /* Avoids sticky issues */
   margin-bottom: 20px; /* Prevents touching the bottom */
   overflow: hidden; /* Prevents content overflow */
+}
+
+@media (max-width: 1024px) {
+  .patientseconddiv {
+    margin-top: 20px; /* Adds space so it doesn’t overlap firstdiv */
+    height: auto; /* Allows natural height */
+    max-height: none; /* Removes height restriction */
+  }
+
+  .patientfirstdiv {
+    min-height: auto; /* Allows firstdiv to expand */
+    max-height: none;
+  }
+
+  .patientmaincontent {
+    flex-direction: column; /* Stack them vertically */
+    overflow-y: auto; /* Allows scrolling */
+    height: auto;
+  }
 }
 
 .notiftext {
@@ -348,10 +376,10 @@
   border-radius: 20px;
   color: black; /* Default text color */
 }
-/*
-.notifmessage:last-child {
 
-} */
+.notifmessage:last-child {
+  margin-bottom: 0; 
+}
 
 .notifmessage:hover {
   background: linear-gradient(to right, rgb(164, 220, 246), rgb(124, 133, 250));

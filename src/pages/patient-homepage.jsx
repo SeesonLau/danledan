@@ -22,35 +22,53 @@ const patientNotifications = [
 ]; 
 
 const PatientHomePage = () => {
+
+  {/*EASTER EGG LOGIC*/}
+  const [clickCount, setClickCount] = useState(0);
+const [timer, setTimer] = useState(null);
+
+const handleProfileClick = () => {
+  if (clickCount + 1 === 3) {
+    window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"; // Rickroll after 3rd click
+  } else {
+    setClickCount((prev) => prev + 1);
+    
+    // Clear previous timer and set a new one
+    if (timer) clearTimeout(timer);
+    
+    const newTimer = setTimeout(() => {
+      setClickCount(0);
+    }, 5000); // Reset after 5 seconds
+
+    setTimer(newTimer);
+  }
+};
+
+  {/*END OF EASTER EGG LOGIC*/}
   
-  const position = [10.294187716769942, 123.88035066423207];
-  const [userPosition, setUserPosition] = useState(position); // Start with default position
+  {/*USER AND CLINIC LOCATION LOGIC */}
+  const [userPosition, setUserPosition] = useState([10.294187716769942, 123.88035066423207]); // Default position (clinic)
 
   useEffect(() => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
-          setUserPosition([pos.coords.latitude, pos.coords.longitude]);
+          const newPosition = [pos.coords.latitude, pos.coords.longitude];
+          setUserPosition(newPosition);
         },
         (error) => {
           console.error("Error fetching location:", error);
-        }
+        },
+        { enableHighAccuracy: true } // This forces the browser to get a more precise location
       );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
     }
   }, []);
   
-
   const clinicposition = [10.294187716769942, 123.88035066423207];
 
-  const [clickCount, setClickCount] = useState(0);
-  const handleProfileClick = () => {
-    if (clickCount + 1 === 3) {
-      window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"; // Rickroll after 3rd click
-    } else {
-      setClickCount(clickCount + 1);
-    }
-  };
-
+  {/*MARKER ICON LOGIC IN MAP FOR CSS BECAUSE MARKER FROM LIBRARY IS BUGGED*/}
   const customIcon = L.icon({
     iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
     iconSize: [25, 41], // Default Leaflet icon size
@@ -60,9 +78,13 @@ const PatientHomePage = () => {
     shadowSize: [41, 41],
   });
 
+  {/* END OF USER AND CLINIC LOCATION LOGIC */}
+
+  {/*FILTER LOGIC IN THE NOTIFICATION*/}
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("Today");
   const options = ["Today", "Yesterday", "This Week", "This Month"];
+  {/*END OF FILTER LOGIC IN THE NOTIFICATION*/}
 
   return (
 
@@ -83,7 +105,9 @@ const PatientHomePage = () => {
           <div className={styles.userprofilecontainer} onClick={handleProfileClick}>
             <div className={styles.userprofileicondiv1}>    
               <div className={styles.userprofileicon}>   
+                {/* Do your Profile Picture of the patient backend here replace below icon, unless no profile use this icon below*/}
                 <FontAwesomeIcon icon={faUser} className={styles.userIcon}/>
+              {/*  <img src="/landing-page-iamge/house.jpg" alt="Profile" className={styles.userIcon} /> */}
               </div>
             </div>
             
@@ -106,6 +130,9 @@ const PatientHomePage = () => {
               <Marker position={clinicposition} icon={customIcon}>
                 <Popup>Clinic Location</Popup>
               </Marker>
+              <Marker position={userPosition} icon={customIcon}>
+                <Popup>Your Location</Popup>
+              </Marker>
             </MapContainer>
           </div>
         </div>
@@ -113,8 +140,7 @@ const PatientHomePage = () => {
         {/* Second div layer */}
         <div className={styles.seconddiv}>          
           <div className={styles.notiftext}>
-            <p className={styles.notifpatienttext}>Notification</p>
-            <div className={styles.notifpatientbuttondiv}>
+            <p className={styles.notifpatienttext}>Notification</p>         
             <div className={styles.notifpatientbuttondiv}>
              {/* Button */}
               <button className={styles.notifpatientbutton} onClick={() => setIsOpen(!isOpen)}>
@@ -122,17 +148,12 @@ const PatientHomePage = () => {
               </button>
 
               {/* Dropdown Menu */}
-              {isOpen && ( <ul className={styles.dropdownMenu}> {options.map((option) => (
-               <li key={option} className={styles.dropdownItem} onClick={() => {
-                setSelected(option);
-                setIsOpen(false); }}>
-              {option}
-              </li>
-               ))}
+              {isOpen && ( 
+              <ul className={styles.dropdownMenu}> {options.map((option) => (
+               <li key={option} className={styles.dropdownItem} onClick={() => {setSelected(option); setIsOpen(false); }}> {option} </li>))}
               </ul>
               )}
-            </div>
-            </div>
+            </div>         
           </div>
 
             {/* Notification Messages */}
