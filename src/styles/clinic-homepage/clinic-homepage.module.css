@@ -41,7 +41,6 @@
   max-width: 50%;
   height: auto; /* Allows it to grow */
   min-height: 100vh; /* Ensures enough space */
-  background-color: red;
 }
 
 /* Only apply changes when zoomed in (small screens) */
