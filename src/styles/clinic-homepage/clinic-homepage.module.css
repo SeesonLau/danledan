@@ -32,15 +32,16 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between; 
-  overflow: hidden;
+  height: 100vh;
 }
 
 .firstdiv {
   flex: 1;
   min-width: 400px; /* Prevents breaking */
-  max-width: 650px;
+  max-width: 50%;
   height: auto; /* Allows it to grow */
   min-height: 100vh; /* Ensures enough space */
+  background-color: red;
 }
 
 /* Only apply changes when zoomed in (small screens) */
@@ -220,7 +221,6 @@
   width: 100%;
 }
 
-
 .mapsquarediv {
   display: flex;  
   justify-content: flex-start;
@@ -333,18 +333,38 @@
 
 .seconddiv {
   display: flex;
-  flex-direction: column; /* Ensures children expand properly */
+  flex-direction: column;
   flex: 1;
-  min-width: 400px; /* Prevents breaking */
+  min-width: 400px;
   max-width: 650px;
-  width: 100%; /* Ensures responsiveness */
-  height: calc(100vh - 40px); /* Limits height to prevent touching the bottom */
+  width: 100%;
+  height: calc(100vh - 40px);
   background-color: #E3F2FD;
   border: solid 1px #2563EB;
   border-radius: 10px;
-  position: relative; /* Avoids sticky issues */
-  margin-bottom: 20px; /* Prevents touching the bottom */
-  overflow: hidden; /* Prevents content overflow */
+  position: relative;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+/* Adjust for mobile screens */
+@media (max-width: 1024px) {
+  .seconddiv {
+    margin-top: 20px; /* Adds space so it doesn’t overlap firstdiv */
+    height: auto; /* Allows natural height */
+    max-height: none; /* Removes height restriction */
+  }
+
+  .firstdiv {
+    min-height: auto; /* Allows firstdiv to expand */
+    max-height: none;
+  }
+
+  .maincontent {
+    flex-direction: column; /* Stack them vertically */
+    overflow-y: auto; /* Allows scrolling */
+    height: auto;
+  }
 }
 
 .notiftext {
