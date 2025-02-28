@@ -1,4 +1,4 @@
-import ClinicSidebar from '../components/sidebar/clinicsidebar.jsx'; // Adjust the path if needed
+import PatientSidebar from '../components/sidebar/patientsidebar'; // Adjust the path if needed
 import styles from '../styles/patient-homepage/patient-homepage.module.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
@@ -25,7 +25,7 @@ const PatientHomePage = () => {
 
   {/*EASTER EGG LOGIC*/}
   const [clickCount, setClickCount] = useState(0);
-const [timer, setTimer] = useState(null);
+  const [timer, setTimer] = useState(null);
 
 const handleProfileClick = () => {
   if (clickCount + 1 === 3) {
@@ -90,7 +90,7 @@ const handleProfileClick = () => {
 
     <div className={styles.patientcontainer}>
       {/* Sidebar */}
-      <ClinicSidebar />
+      <PatientSidebar />
 
       {/*main content */}
       <main className={styles.patientmaincontent}>

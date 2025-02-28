@@ -5,44 +5,61 @@ import dynamic from 'next/dynamic';  // Import dynamic from Next.js
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faHouse, faCalendar, faNotesMedical, faGear, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import styles from '@/styles/patient-homepage/patient-sidebar.module.css';
+import Link from 'next/link';
 
-function ClinicSidebar () {
+function PatientSidebar () {
 
     return (
     <div>
         <aside className={styles.clinicsidebar}>
             <ul>
           <div className={styles.cliniclogodiv1}> <img src="/landing-page-iamge/opto2.png" alt="Clinic Logo" /></div>
-          <div className={styles.cliniclogodiv}>
-             <div className={styles.clinicicondiv}>
-                <FontAwesomeIcon icon={faHouse} />
-             </div>
-          </div>
-          <div className={styles.cliniclogodiv}>
-            <div className={styles.clinicicondiv}>
-              <FontAwesomeIcon icon={faCalendar} />
+          
+          <Link href="/patient-homepage" passHref>
+            <div className={styles.cliniclogodiv}>
+              <div className={styles.clinicicondiv}>
+                  <FontAwesomeIcon icon={faHouse} />
+              </div>
             </div>
-          </div>
-          <div className={styles.cliniclogodiv}>
-            <div className={styles.clinicicondiv}>
-              <FontAwesomeIcon icon={faNotesMedical}/>
+          </Link>
+
+          <Link href="/patient/patient-appointments" passHref>
+            <div className={styles.cliniclogodiv}>
+              <div className={styles.clinicicondiv}>
+                <FontAwesomeIcon icon={faCalendar} />
+              </div>
             </div>
-          </div>
-          <div className={styles.cliniclogodiv}>
-            <div className={styles.clinicicondiv}>
-              <FontAwesomeIcon icon={faGear}/> 
+          </Link>
+
+          <Link href="/patient/patient-ehr" passHref>
+            <div className={styles.cliniclogodiv}>
+              <div className={styles.clinicicondiv}>
+                <FontAwesomeIcon icon={faNotesMedical}/>
+              </div>
             </div>
-          </div>
+          </Link>
+
+          <Link href="/patient/patient-settings" passHref>
           <div className={styles.cliniclogodiv}>
-            <div className={styles.clinicicondiv}>
-              <FontAwesomeIcon icon={faRightFromBracket}/>            
+              <div className={styles.clinicicondiv}>
+                <FontAwesomeIcon icon={faGear}/> 
+              </div>
             </div>
-          </div>
+          </Link>
+
+          <Link href="/" passHref>
+            <div className={styles.cliniclogodiv}>
+              <div className={styles.clinicicondiv}>
+                <FontAwesomeIcon icon={faRightFromBracket}/>            
+              </div>
+            </div>
+          </Link>
+
         </ul>
       </aside>
-      </div>
-    );
+    </div>
+  );
 };
 
 
-export default ClinicSidebar;
+export default PatientSidebar;
