@@ -6,7 +6,6 @@ import OurTeam from '@/components/landing-page/ourteam';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import LoginModal from '@/components/login-modal';
-import RegisterModal from '@/components/signup-modal';
 
 const HomePage = () => {
 
@@ -14,7 +13,7 @@ const HomePage = () => {
   const router = useRouter();
   
   const handleRegisterClick = () => {
-    setIsModalOpen('register'); // please change to sign up once the modal is constructed
+    setIsModalOpen('login'); // please change to sign up once the modal is constructed
   };
 
   const handleLoginClick = () => {
@@ -137,12 +136,12 @@ const HomePage = () => {
 
       {/* Modals */}
       {isModalOpen === 'register' && (
-        <RegisterModal isOpen={true} title="" onClose={handleCloseModal}> {/*change this to signup later on. the login modal is just a placeholder */}
+        <LoginModal isOpen={true} title="" onClose={handleCloseModal}> {/*change this to signup later on. the login modal is just a placeholder */}
           <div>
             <p>Create an account to unlock all features.</p>
             {/* Add register form here */}
           </div>
-        </RegisterModal>
+        </LoginModal>
       )}
       {isModalOpen === 'login' && (
         <LoginModal isOpen={true} title="Login" onClose={handleCloseModal}>
