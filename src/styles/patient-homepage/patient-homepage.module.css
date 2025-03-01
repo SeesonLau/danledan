@@ -1,6 +1,5 @@
-/* Layout.css */
-.cliniccontainer {
-  display: flex;
+.patientcontainer{
+    display: flex;
   height: 100vh;
   background-color: #f9f9f9;
   flex-wrap: wrap; /* Ensures proper wrapping */
@@ -9,24 +8,13 @@
 }
 
 @media (max-width: 1024px) { /* Adjust the breakpoint as needed */
-  .cliniccontainer {
-    overflow: auto; /* Allows scrolling when minimized */
+    .patientcontainer {
+      overflow: auto; /* Allows scrolling when minimized */
+    }
   }
-}
 
-.hellobar {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 30px;
-  font-weight: 900;
-  color:#0D54AC;
-  display: block;
-  -webkit-text-stroke: 1px #0D54AC; 
-  text-transform: uppercase; 
-  letter-spacing: 1px;
-}
-
-.maincontent {
-  flex: 1;
+.patientmaincontent{
+    flex: 1;
   padding: 20px;
   background-color: lightblue;
   display: flex;
@@ -35,22 +23,32 @@
   height: 100vh;
 }
 
-.firstdiv {
+.patientfirstdiv{
   flex: 1;
-  min-width: 400px; /* Prevents breaking */
+  min-width: 400px; 
   max-width: 50%;
-  height: auto; /* Allows it to grow */
-  min-height: 100vh; /* Ensures enough space */
+  height: auto; 
+  min-height: 100vh; 
 }
 
-/* Only apply changes when zoomed in (small screens) */
 @media (max-width: 1024px) {
-  .firstdiv {
+  .patientfirstdiv {
     min-height: auto; /* Allows it to expand naturally */
     max-height: none; /* Removes the fixed limit */
   }
 }
 
+.hellobar {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 30px;
+    font-weight: 900;
+    color:#0D54AC;
+    display: block;
+    -webkit-text-stroke: 1px #0D54AC; 
+    text-transform: uppercase; 
+    letter-spacing: 1px;
+}
+ 
 .userprofilecontainer {
   display: inline-flex;
   background: linear-gradient(to right, rgb(164, 220, 246), rgb(124, 133, 250));
@@ -65,301 +63,159 @@
   transition: transform 0.3s ease;
 }
 
-.userprofilecontainer:hover {
-  transform: scale(1.05);
-  cursor: pointer;
-}
-
-.userprofilecontainer::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.5) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  transform: rotate(25deg);
-  transition: opacity 0.3s ease;
-  opacity: 0;
-}
-
-.userprofilecontainer:hover::before {
-  opacity: 1;
-  animation: shine 0.75s forwards;
-}
-
-@keyframes shine {
-  0% {
-    transform: translateX(-100%) rotate(25deg);
+  .userprofilecontainer:hover {
+    transform: scale(1.05);
+    cursor: pointer;
   }
-  100% {
-    transform: translateX(100%) rotate(25deg);
-  }
-}
-
-.userprofilecontainer:active {
-  transform: scale(1.0); 
-}
-
-.userprofileicondiv1 {
-  width: 200px;
-  height: 100%;
-  display: flex;
-  align-items: center; 
-  justify-content: center; 
-}
-
-.userprofileicon {
-  height: 80px;
-  width: 80px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-}
-
-.userIcon {
-  width: 80%;  
-  height: 80%;
-  color: #0D54AC;
-}
-
-.userprofileicondiv2 {
-  width: 330px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.userprofileicontext1{
-  color: #0D54AC;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600;
-  font-size: 30px;
-  text-align: left; 
-  margin: 0; 
   
-}
+  .userprofilecontainer::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.5) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(25deg);
+    transition: opacity 0.3s ease;
+    opacity: 0;
+  }
+  
+  .userprofilecontainer:hover::before {
+    opacity: 1;
+    animation: shine 0.75s forwards;
+  }
+  
+  @keyframes shine {
+    0% {
+      transform: translateX(-100%) rotate(25deg);
+    }
+    100% {
+      transform: translateX(100%) rotate(25deg);
+    }
+  }
+  
+  .userprofilecontainer:active {
+    transform: scale(1.0); 
+  }
+  
+  .userprofileicondiv1 {
+    width: 200px;
+    height: 100%;
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+  }
+  
+  .userprofileicon {
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+  }
+  
+  .userIcon {
+    width: 80%;  
+    height: 80%;
+    color: #0D54AC;
+    border-radius: 50%;
+  }
+  
+  .userprofileicondiv2 {
+    width: 330px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .userprofileicontext1{
+    color: #0D54AC;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 30px;
+    text-align: left; 
+    margin: 0; 
+    
+  }
+  
+  .userprofileicontext2{
+    color: white;
+    font: 20px;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+    text-align: left;
+    margin: 0;
+    text-transform: uppercase; 
+    letter-spacing: 1px;
+  }
 
-.userprofileicontext2{
-  color: white;
-  font: 20px;
-  font-weight: 600;
-  font-family: 'Montserrat', sans-serif;
-  text-align: left;
-  margin: 0;
-  text-transform: uppercase; 
-  letter-spacing: 1px;
-}
 
-.mapcontainer {
-  width: 530px;
-  height: 240px;
-  text-align: center;
-  padding-top: 5px;
-  flex: 1;
-}
-
-.maptitle, .mapvisits {
-  font-family: 'Poppins', sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  display: block;
-  text-align: left;
-  padding-left: 20px;
-  background: linear-gradient(90deg, #4b6cb7, #182848);
-  background-clip: text;
-  color: transparent;
-  transition: transform 0.5s ease, text-shadow 0.5s ease;
-}
-
-/* Always active hover effect for maptitle */
-.maptitle {
-  transform: scale(1.05); /* Always applied */
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Always applied */
-}
-
-/* Underline effect always visible for maptitle */
-.maptitle::after {
-  content: '';
-  display: block;
-  width: 100%; /* Always full width */
-  height: 2px;
-  background: #4b6cb7;
-  margin-top: 5px;
-}
-
-.mapvisits {
-  font-size: 50px;
-}
-
-/* Hover effect for .mapvisits only */
-.mapvisits:hover {
-  transform: scale(1.05);
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-}
-
-.mapvisits::after {
-  content: '';
-  display: block;
-  width: 0;
-  height: 2px;
-  background: #4b6cb7;
-  transition: width 0.5s;
-  margin-top: 5px;
-}
-
-.mapvisits:hover::after {
-  width: 100%;
-}
-
-.mapsquarediv {
-  display: flex;  
-  justify-content: flex-start;
-  align-items: center; 
-  gap: 10px; 
-  height: 140px;
-  width: 100%;
-  border-radius: 30px;
-  overflow: visible;
-  padding-bottom: 0px;
-}
-
-.mapsquare1, .mapsquare2 {
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  height: 100px;
-  width: 200px;
-  border-radius: 30px;
-  background-color: rgba(255, 255, 255, 0.55);
+.profileinfocontainer{
+  display: inline-flex;
+  background: linear-gradient(to right, rgb(164, 220, 246), rgb(124, 133, 250));
+  height: 250px;
+  width: 100%; /* Use full width of the parent container */
+  max-width: 95%; /* Prevents the container from exceeding this width */
+  border-radius: 10px;
+  margin-bottom: 10px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   position: relative;
-  overflow: hidden; 
+  overflow: hidden; /* Ensure the shine effect doesn't overflow the container */
   transition: transform 0.3s ease;
 }
 
-.mapsquare1 {
-  margin-right: 10px;
-}
-
-.mapsquare1:hover, .mapsquare2:hover {
-  transform: scale(1.05);
-}
-
-.mapsquare1::before, .mapsquare2::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    to right,
-    rgba(0, 0, 255, 0) 0%,
-    rgba(0, 0, 255, 0.5) 50%,
-    rgba(0, 0, 255, 0) 100%
-  );
-  transform: rotate(25deg);
-  transition: opacity 0.3s ease;
-  opacity: 0;
-}
-
-.mapsquare1:hover::before, .mapsquare2:hover::before {
-  opacity: 1;
-  animation: shine 0.75s forwards;
-}
-
-@keyframes shine {
-  0% {
-    transform: translateX(-100%) rotate(25deg);
-  }
-  100% {
-    transform: translateX(100%) rotate(25deg);
-  }
-}
-
-.mapsquare1:active, .mapsquare2:active {
-  transform: scale(1.0);
-}
-
-.newoldpatient{
-  text-transform: uppercase;
-  letter-spacing: 1px; 
-  height: 40px;
-  width: 220px;
-  display: block;
-  font-family: 'Poppins', sans-serif;
-}
-
-.newoldpatienttitle {
-  text-transform: uppercase;
-  letter-spacing: 1px; 
-  font-family: 'Poppins', sans-serif;
-  font-size: 18px;
-  color: black;
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  height: 100%;
-  padding-left: 20px;
-  padding-top: 5px;
-}
-
-.newoldpatientnumber{
-  height: 60px;
-  width: 220px;
-  display: block;
-  font-family: 'Poppins', sans-serif;
-}
-
-.newoldpatientnumbertitle{
-  font-family: 'Poppins', sans-serif;
-  font-size: 40px;
-  color: black;
-  display: flex;
-  top: 8px;
-  left: 16px;
-  height: 100%; /* Ensures it takes up the full height of the div */
-  padding-left: 20px;
+.mapcontainer{
+  display: inline-flex;
+  background: rgb(124, 133, 250);
+  height: 250px;
+  width: 100%; /* Use full width of the parent container */
+  max-width: 95%; /* Prevents the container from exceeding this width */
+  border-radius: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  position: relative;
+  overflow: hidden; /* Ensure the shine effect doesn't overflow the container */
+  transition: transform 0.3s ease;
 }
 
 .seconddiv {
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* Ensures children expand properly */
   flex: 1;
-  min-width: 400px;
+  min-width: 400px; /* Prevents breaking */
   max-width: 650px;
-  width: 100%;
-  height: calc(100vh - 40px);
+  width: 100%; /* Ensures responsiveness */
+  height: calc(100vh - 35px); /* Limits height to prevent touching the bottom */
   background-color: #E3F2FD;
   border: solid 1px #2563EB;
   border-radius: 10px;
-  position: relative;
-  margin-bottom: 20px;
-  overflow: hidden;
+  position: relative; /* Avoids sticky issues */
+  margin-bottom: 20px; /* Prevents touching the bottom */
+  overflow: hidden; /* Prevents content overflow */
 }
 
-/* Adjust for mobile screens */
 @media (max-width: 1024px) {
-  .seconddiv {
+  .patientseconddiv {
     margin-top: 20px; /* Adds space so it doesn’t overlap firstdiv */
     height: auto; /* Allows natural height */
     max-height: none; /* Removes height restriction */
   }
 
-  .firstdiv {
+  .patientfirstdiv {
     min-height: auto; /* Allows firstdiv to expand */
     max-height: none;
   }
 
-  .maincontent {
+  .patientmaincontent {
     flex-direction: column; /* Stack them vertically */
     overflow-y: auto; /* Allows scrolling */
     height: auto;
@@ -389,7 +245,7 @@
 
 .notifpatientbuttondiv {
   height: 45px;
-  width: 200px;
+  width: 100px;
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -462,6 +318,7 @@
 .dropdownItem:hover {
   background-color: white;
 }
+
 
 /* BEGINNING OF THE NOTIF WRAPPER gikapoy nako haha */
 .notifwrapper {
