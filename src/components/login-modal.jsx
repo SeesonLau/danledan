@@ -1,113 +1,140 @@
-import React, { useState } from 'react';
-import { useRouter } from 'next/router';
-import CloseIcon from '@mui/icons-material/Close';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import styles from '../styles/login-modal.module.css';
+import React, { useState } from "react";
+import { useRouter } from "next/router";
+import CloseIcon from "@mui/icons-material/Close";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import styles from "../styles/login-modal.module.css";
+import {
+  auth,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  googleProvider,
+  loginWithEmail,
+} from "../config/firebase";
+import { loginWithGoogle } from "@/config/firebase";
 
 const Modal = ({ isOpen, onClose }) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
-    const [userType, setUserType] = useState('Patient');
-    const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [userType, setUserType] = useState("Patient");
+  const router = useRouter();
 
-    if (!isOpen) return null;
+  if (!isOpen) return null;
 
-    const handleLogin = () => {
-        if (!email || !password) {
-            alert('Please fill in all fields');
-            return;
-        }
-        const route = userType === 'Patient' ? '/patient-homepage' : '/clinic-homepage';
-        router.push(route);
-    };
+  const handleLogin = async () => {
+    if (!email || !password) {
+      alert("Please fill in all fields");
+      return;
+    }
+    try {
+      const validatedRole = await loginWithEmail(email, password, userType);
+      const route =
+        userType === "Patient" ? "/patient-homepage" : "/clinic-homepage";
+      router.push(route);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
-    const handleGoogleLogin = () => {
-        // Handle Google login logic here
-    };
+  const handleGoogleLogin = async () => {
+    // Handle Google login logic here
+    try {
+      await loginWithGoogle();
+      const route =
+        userType === "Patient" ? "/patient-homepage" : "/clinic-homepage";
+      router.push(route);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
-    return (
-        <div className={styles['modal-overlay']}>
-            <div className={styles['modal-content']}>
-                <button className={styles['close-button']} onClick={onClose}>
-                    <CloseIcon />
-                </button>
+  return (
+    <div className={styles["modal-overlay"]}>
+      <div className={styles["modal-content"]}>
+        <button className={styles["close-button"]} onClick={onClose}>
+          <CloseIcon />
+        </button>
 
-                <div className={styles['logo-container']}>
-                    <img 
-                        src="/landing-page-iamge/opticare-logo2.png" 
-                        alt="Opticare Logo" 
-                        className={styles['logo-image']} 
-                    />
-                </div>
-
-                <div className={styles['user-type-container']}>
-                    <button
-                        className={`${styles['user-type-button']} ${userType === 'Patient' ? styles.active : ''}`}
-                        onClick={() => setUserType('Patient')}
-                    >
-                        Patient
-                    </button>
-                    <button
-                        className={`${styles['user-type-button']} ${userType === 'Clinic' ? styles.active : ''}`}
-                        onClick={() => setUserType('Clinic')}
-                    >
-                        Clinic
-                    </button>
-                </div>
-
-                <div className={styles['input-container']}>
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="Email"
-                        className={styles['input-field']}
-                    />
-                </div>
-
-                <div className={styles['password-container']}>
-                    <input
-                        type={showPassword ? 'text' : 'password'}
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Password"
-                        className={styles['input-field']}
-                    />
-                    <button
-                        onClick={() => setShowPassword(!showPassword)}
-                        className={styles['toggle-password']}
-                    >
-                        {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                    </button>
-                </div>
-
-                <button className={styles['login-button']} onClick={handleLogin}>
-                    Login
-                </button>
-
-                <div className={styles['divider']}>
-                    <div className={styles['divider-line']} />
-                    <span className={styles['divider-text']}>or</span>
-                    <div className={styles['divider-line']} />
-                </div>
-
-                <button className={styles['google-button']} onClick={handleGoogleLogin}>
-                    <img 
-                        src="/landing-page-iamge/google-icon.png" 
-                        alt="Google" 
-                        className={styles['google-icon']} 
-                    />
-                    Continue with Google
-                </button>
-
-                <div className={styles['register-text']}>
-                    if you don't have an account, <span className={styles['register-link']}>Register Here!</span>
-                </div>
-            </div>
+        <div className={styles["logo-container"]}>
+          <img
+            src="/landing-page-iamge/opticare-logo2.png"
+            alt="Opticare Logo"
+            className={styles["logo-image"]}
+          />
         </div>
-    );
+
+        <div className={styles["user-type-container"]}>
+          <button
+            className={`${styles["user-type-button"]} ${
+              userType === "Patient" ? styles.active : ""
+            }`}
+            onClick={() => setUserType("Patient")}
+          >
+            Patient
+          </button>
+          <button
+            className={`${styles["user-type-button"]} ${
+              userType === "Clinic" ? styles.active : ""
+            }`}
+            onClick={() => setUserType("Clinic")}
+          >
+            Clinic
+          </button>
+        </div>
+
+        <div className={styles["input-container"]}>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            className={styles["input-field"]}
+          />
+        </div>
+
+        <div className={styles["password-container"]}>
+          <input
+            type={showPassword ? "text" : "password"}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            className={styles["input-field"]}
+          />
+          <button
+            onClick={() => setShowPassword(!showPassword)}
+            className={styles["toggle-password"]}
+          >
+            {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+          </button>
+        </div>
+
+        <button className={styles["login-button"]} onClick={handleLogin}>
+          Login
+        </button>
+
+        <div className={styles["divider"]}>
+          <div className={styles["divider-line"]} />
+          <span className={styles["divider-text"]}>or</span>
+          <div className={styles["divider-line"]} />
+        </div>
+
+        <button className={styles["google-button"]} onClick={handleGoogleLogin}>
+          <img
+            src="/landing-page-iamge/google-icon.png"
+            alt="Google"
+            className={styles["google-icon"]}
+          />
+          Continue with Google
+        </button>
+
+        <div className={styles["register-text"]}>
+          if you don't have an account,{" "}
+          <span className={styles["register-link"]}>Register Here!</span>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Modal;
