@@ -4,8 +4,9 @@ import styles from '../styles/clinic-homepage/clinic-homepage.module.css';
 import "@fontsource/montserrat";
 import dynamic from 'next/dynamic';  // Import dynamic from Next.js
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faHouse, faCalendar, faNotesMedical, faGear, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 import ClinicSidebar from '../components/sidebar/clinicsidebar.jsx'; // Adjust the path if needed
+import ClinicLayout from "@/components/clinic-layout";
 
 {/*OVERFLOWING PURPOSES DO YOUR BACKEND HERE BROSKI*/}
 const patientNotifications = [
@@ -22,9 +23,27 @@ const patientNotifications = [
 ]; 
 
 const ClinicHome = () => {
-  const playRickroll = () => {
-    window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+  
+  const [clickCount, setClickCount] = useState(0);
+  const [timer, setTimer] = useState(null);
+
+  const handleProfileClick = () => {
+    if (clickCount + 1 === 3) {
+     window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"; // Rickroll after 3rd click
+    } else {
+     setClickCount((prev) => prev + 1);
+    
+      // Clear previous timer and set a new one
+    if (timer) clearTimeout(timer);
+    
+    const newTimer = setTimeout(() => {
+      setClickCount(0);
+    }, 5000); // Reset after 5 seconds
+
+    setTimer(newTimer);
+    }
   };
+
 
   const hasSpoken = useRef(false); // Prevents double execution
   useEffect(() => {
@@ -43,15 +62,21 @@ const ClinicHome = () => {
       };
       // Delay speaking slightly to ensure speech synthesis is ready
       setTimeout(() => {
-        speak("Welcome to the clinic Doctor Julian Semblante");
+        speak("Welcome to the clinic Doctor");
       }, 500);
       hasSpoken.current = true; // Mark it as spoken
     }
   }, []);
+
+  {/*FILTER LOGIC IN THE PATIENT LIST*/}
+  const [isOpen, setIsOpen] = useState(false);
+  const [selected, setSelected] = useState("Today");
+  const options = ["Today", "Yesterday", "This Week", "This Month"];
+  {/*END OF FILTER LOGIC IN THE PATIENT LIST*/}
   
   return (
+    <ClinicLayout>
     <div className={styles.cliniccontainer}>
-      <ClinicSidebar />
       <main className={styles.maincontent}>
         
         {/* First div layer */}
@@ -61,9 +86,10 @@ const ClinicHome = () => {
           </h1>
 
           {/* User Container */}
-          <div className={styles.userprofilecontainer} onClick={playRickroll}>
+          <div className={styles.userprofilecontainer} onClick={handleProfileClick}>
             <div className={styles.userprofileicondiv1}>
-              <div className={styles.userprofileicon}>   
+              <div className={styles.userprofileicon}>
+                {/* Do your Profile Picture of the doctor backend here */}   
                 <FontAwesomeIcon icon={faUser} className={styles.userIcon}/>
               </div>
             </div>
@@ -79,10 +105,6 @@ const ClinicHome = () => {
               </p>
             </div>
           </div>
-
-          {/* Calendar Container 
-          <div className={styles.calendar}>
-          </div> */}
 
           {/* Map Container */}
           <div className={styles.mapcontainer}>
@@ -134,9 +156,21 @@ const ClinicHome = () => {
           <div className={styles.notiftext}>
             <p className={styles.notifpatienttext}>Patient List</p>
             <div className={styles.notifpatientbuttondiv}>
-              <button className={styles.notifpatientbutton}>
-                <p className={styles.notifpatientbuttontext}>Today {/*&#x25BC;*/} &#x2335;</p>
+             {/* Button */}
+              <button className={styles.notifpatientbutton} onClick={() => setIsOpen(!isOpen)}>
+                <p className={styles.notifpatientbuttontext}>{selected} &#x2335;</p>
               </button>
+
+              {/* Dropdown Menu */}
+              {isOpen && ( <ul className={styles.dropdownMenu}> {options.map((option) => (
+               <li key={option} className={styles.dropdownItem} onClick={() => {
+                setSelected(option);
+                setIsOpen(false); }}>
+              {option}
+              </li>
+               ))}
+              </ul>
+              )}
             </div>
           </div>
 
@@ -163,15 +197,15 @@ const ClinicHome = () => {
                   <div className={styles.clinicpatienttimecontainer}>
                     <p className={styles.clinicpatienttime}>{patient.time}</p>
                   </div>
-              </div>
+                </div>
 
             </div>
             ))}
           </div>
         </div>
-
       </main>
     </div>
+    </ClinicLayout>
   );
 };
 

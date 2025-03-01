@@ -1,4 +1,5 @@
 import { FaSignInAlt, FaUserPlus } from 'react-icons/fa';
+import { Home, MessageCircle, Info, Users, Mail } from 'lucide-react';
 import Testimonials from "@/components/landing-page/testimonials";
 import styles from '../styles/landing-page/index.module.css';
 import AboutUs from '@/components/landing-page/aboutus';
@@ -35,7 +36,8 @@ const HomePage = () => {
   };
 
   return (
-    <div className={styles['home-page-container']}> {/* Apply styles from the CSS module */}
+    <div className={`${styles['home-page-container']} overflow-x-hidden`}> {/* Prevent horizontal overflow */}
+
 
       <header className={styles['home-page-header']}>
         <div className={styles['logo-section']}>
@@ -44,22 +46,28 @@ const HomePage = () => {
         </div>
 
         <nav className={styles['nav-links']}>
-          <a href="#home" onClick={(e) => scrollToSection(e, 'home')}>
-            Home
+          <a href="#home" onClick={(e) => scrollToSection(e, 'home')} className={styles.link}>
+            <span className={styles.icon}><Home className={styles.iconSvg} /></span>
+            <span className={styles.text}>Home</span>
           </a>
-          <a href="#testimonials" onClick={(e) => scrollToSection(e, 'testimonials')}>
-            Testimonials
+          <a href="#testimonials" onClick={(e) => scrollToSection(e, 'testimonials')} className={styles.link}>
+            <span className={styles.icon}><MessageCircle className={styles.iconSvg} /></span>
+            <span className={styles.text}>Testimonials</span>
           </a>
-          <a href="#about" onClick={(e) => scrollToSection(e, 'about')}>
-            About
+          <a href="#about" onClick={(e) => scrollToSection(e, 'about')} className={styles.link}>
+            <span className={styles.icon}><Info className={styles.iconSvg} /></span>
+            <span className={styles.text}>About</span>
           </a>
-          <a href="#team" onClick={(e) => scrollToSection(e, 'team')}>
-            Our Team
+          <a href="#team" onClick={(e) => scrollToSection(e, 'team')} className={styles.link}>
+            <span className={styles.icon}><Users className={styles.iconSvg} /></span>
+            <span className={styles.text}>Our Team</span>
           </a>
-          <a href="#contact" onClick={(e) => scrollToSection(e, 'contact')}>
-            Contact
+          <a href="#contact" onClick={(e) => scrollToSection(e, 'contact')} className={styles.link}>
+            <span className={styles.icon}><Mail className={styles.iconSvg} /></span>
+            <span className={styles.text}>Contact</span>
           </a>
         </nav>
+
 
         {/* Buttons for larger screens */}
         <div className={styles['auth-buttons']}>
@@ -69,27 +77,41 @@ const HomePage = () => {
         </div>
 
         {/* Icons for smaller screens */}
-        <div className={styles['auth-icons']}>
-          <FaSignInAlt
-            size={24}
-            color="white"
-            onClick={handleLoginClick} // Login icon
-            style={{ cursor: 'pointer' }}
-          />
-          <FaUserPlus
-            size={24}
-            color="white"
-            onClick={handleRegisterClick} // Register icon
-            style={{ cursor: 'pointer' }}
-          />
-        </div>
+        <div 
+  className={styles['auth-icons']} 
+  style={{ marginLeft: '-8px' }}  // Change 10px to your preferred value
+>
+  <FaSignInAlt
+    className="text-white"
+    style={{
+      fontSize: 'clamp(0.8rem, 1.5vw, 1.2rem)', 
+      cursor: 'pointer',
+    }}
+    onClick={handleLoginClick}
+  />
+  <FaUserPlus
+    className="text-white"
+    style={{
+      fontSize: 'clamp(0.8rem, 1.5vw, 1.2rem)', 
+      cursor: 'pointer',
+    }}
+    onClick={handleRegisterClick}
+  />
+</div>
+
+
       </header>
 
       {/* Hero Section */}
       <section id="home" className={styles['hero-section']}>
-        <div className={styles['hero-overlay']}></div> {/* Apply the hero overlay style */}
+        <div className={styles['hero-overlay']}></div> 
         <div className={styles['hero-content']}>
-          <h1>Your Path to a Clearer Vision, Starts Here.</h1>
+        <h1 className="text-[clamp(1.5rem, 6vw, 3rem)] text-center">
+          Your Path to a Clearer Vision, Starts Here.
+        </h1>
+
+
+
 
           <button className={styles['hero-button']} onClick={handleLoginClick}>
             Log In
