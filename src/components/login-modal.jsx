@@ -10,8 +10,8 @@ import {
   signInWithPopup,
   googleProvider,
   loginWithEmail,
+  loginWithGoogle,
 } from "../config/firebase";
-import { loginWithGoogle } from "@/config/firebase";
 
 const Modal = ({ isOpen, onClose }) => {
   const [email, setEmail] = useState("");
@@ -40,9 +40,9 @@ const Modal = ({ isOpen, onClose }) => {
   const handleGoogleLogin = async () => {
     // Handle Google login logic here
     try {
-      await loginWithGoogle();
+      const validatedRole = await loginWithGoogle(userType);
       const route =
-        userType === "Patient" ? "/patient-homepage" : "/clinic-homepage";
+        validatedRole === "Patient" ? "/patient-homepage" : "/clinic-homepage";
       router.push(route);
     } catch (error) {
       alert(error.message);

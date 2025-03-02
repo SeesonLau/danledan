@@ -90,10 +90,35 @@ export const loginWithEmail = async (email, password, userType) => {
   }
 };
 
-export const loginWithGoogle = async () => {
+export const loginWithGoogle = async (userType) => {
   try {
     const userCredential = await signInWithPopup(auth, googleProvider);
-    return userCredential.user;
+    const user = userCredential.user;
+
+    // Check if user exists in Firestore
+    const userDocRef = doc(db, "users", user.uid);
+    const userDoc = await getDoc(userDocRef);
+
+    if (!userDoc.exists()) {
+      throw new Error("User data not found. Please register first.");
+    }
+
+    const userData = userDoc.data();
+    const userRoles = Array.isArray(userData.role)
+      ? userData.role
+      : [userData.role];
+
+    if (
+      !userRoles
+        .map((role) => role.toLowerCase())
+        .includes(userType.toLowerCase())
+    ) {
+      throw new Error(
+        `You do not have a "${userType}" profile. Please select the correct role.`
+      );
+    }
+
+    return userType; // Return the role for navigation
   } catch (error) {
     throw error;
   }
