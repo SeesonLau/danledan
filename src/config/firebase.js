@@ -3,6 +3,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  fetchSignInMethodsForEmail,
   signInWithPopup,
   GoogleAuthProvider,
 } from "firebase/auth";
@@ -13,6 +14,7 @@ import {
   setDoc,
   getDoc,
   updateDoc,
+  arrayUnion,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -121,5 +123,80 @@ export const loginWithGoogle = async (userType) => {
     return userType; // Return the role for navigation
   } catch (error) {
     throw error;
+  }
+};
+
+//for signup
+export const registerWithEmail = async (
+  firstName,
+  lastName,
+  email,
+  password,
+  role,
+  licenseNumber = null
+) => {
+  try {
+    // Create user in Firebase Authentication
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const user = userCredential.user;
+
+    // Save user details in "users" collection
+    await setDoc(doc(db, "users", user.uid), {
+      email,
+      role,
+    });
+
+    // Determine the collection based on role
+    const roleCollection = role === "Patient" ? "patients" : "clinics";
+
+    // Clinic users need to store the licenseNumber
+    const userData = {
+      firstName,
+      lastName,
+      email,
+    };
+
+    if (role === "Clinic") {
+      userData.licenseNumber = licenseNumber; // Add licenseNumber for clinics
+    }
+
+    // Save user details in role-specific collection
+    await setDoc(doc(db, roleCollection, user.uid), userData);
+
+    return { success: true, message: "Registration successful!" };
+  } catch (error) {
+    return { success: false, message: error.message };
+  }
+};
+
+//read functions
+export const getFullName = async (userId, userType) => {
+  try {
+    if (!userId) throw new Error("No user ID provided.");
+    if (!userType) throw new Error("User type is required.");
+
+    // Determine the collection based on user type
+    const collection = userType === "Clinic" ? "clinics" : "patients";
+    const userRef = doc(db, collection, userId);
+    const userDoc = await getDoc(userRef);
+
+    if (userDoc.exists()) {
+      const userData = userDoc.data();
+      const firstName = userData.firstName?.trim() || "Unknown";
+      const lastName =
+        userData.lastName?.trim() ||
+        (userType === "Clinic" ? "Doctor" : "Patient");
+
+      return `${firstName} ${lastName}`;
+    } else {
+      throw new Error("User data not found.");
+    }
+  } catch (error) {
+    console.error("Error fetching user name:", error);
+    return userType === "Clinic" ? "Unknown Doctor" : "Unknown Patient";
   }
 };
