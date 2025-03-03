@@ -8,10 +8,13 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import LoginModal from "@/components/login-modal";
 import RegisterModal from "@/components/signup-modal";
+import { auth } from "@/config/firebase";
 
 const HomePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
+
+  console.log(auth?.currentUser?.email);
 
   const handleRegisterClick = () => {
     setIsModalOpen("register"); // please change to sign up once the modal is constructed

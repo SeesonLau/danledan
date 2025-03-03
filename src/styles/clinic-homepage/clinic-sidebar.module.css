@@ -1,74 +1,74 @@
-
 /* BEGINNING OF THE SIDEBAR CSS */
 .clinicsidebar {
-    width: 60px;
-    height: 100vh;
-    background: #2596be;
-    color: transparent;
-    overflow: hidden;
-    transition: width 0.5s ease-in-out; /* Smooth transition for width */
-  }
-  
-  /*
+  width: 60px;
+  height: 100vh;
+  background: #2596be;
+  color: transparent;
+  overflow: hidden;
+  transition: width 0.5s ease-in-out; /* Smooth transition for width */
+}
+
+/*
   .clinicsidebar:hover{
     width: 150px;
   }  */
-  
-  .cliniclogodiv {
-    color: white;
+
+.cliniclogodiv {
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  background-color: #2596be;
+  text-align: center;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.clinicicondiv {
+  height: 30%;
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out; /* Smooth effect */
+}
+
+.clinicicondiv:hover {
+  background-color: white;
+  color: #2596be;
+  transform: scale(1.1); /* Slight zoom effect on hover */
+}
+
+.cliniclogodiv1 {
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  background-color: #2596be;
+  text-align: center;
+  white-space: nowrap;
+  padding: 10%;
+}
+
+.cliniclogodiv1 img {
+  width: 50px;
+  height: auto;
+  transition: none;
+}
+
+@media (max-width: 768px) {
+  .clinicsidebar {
+    width: 100vh; /* Full width on smaller screens */
+    height: 60px; /* Height for the top sidebar */
+    top: 0; /* Align at the top */
+    left: 0; /* Stretch to the full width */
+    right: 0;
+    bottom: auto; /* Remove the default bottom value */
     display: flex;
-    align-items: center;
-    justify-content: center; 
-    height: 100px;
-    background-color: #2596be;
-    text-align: center;
-    white-space: nowrap;
   }
-  
-  .clinicicondiv {
-    height: 30%;
-    width: 90%;
-    display: flex;
-    align-items: center; 
-    justify-content: center;
-    border-radius: 10px;
-    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out; /* Smooth effect */
-  }
-  
-  .clinicicondiv:hover {
-    background-color: white;
-    color: #2596be;
-    transform: scale(1.1); /* Slight zoom effect on hover */
-  }
-  
-  .cliniclogodiv1 {
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100px;
-    background-color: #2596be;
-    text-align: center;
-    white-space: nowrap;
-    padding: 10%;
-  }
-  
-  
-  .cliniclogodiv1 img {
-    width: 50px;
-    height: auto; 
-    transition: none;
-  }
-  
-  @media (max-width: 768px) {
-    .clinicsidebar {
-      width: 100vh; /* Full width on smaller screens */
-      height: 60px; /* Height for the top sidebar */
-      top: 0; /* Align at the top */
-      left: 0; /* Stretch to the full width */
-      right: 0;
-      bottom: auto; /* Remove the default bottom value */
-      display: flex;
-    }
-  }
-  /* END OF THE SIDEBAR CSS */
+}
+
+/* END OF THE SIDEBAR CSS */

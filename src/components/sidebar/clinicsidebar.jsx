@@ -1,20 +1,39 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import { useRef } from "react";
 import "@fontsource/montserrat";
-import dynamic from 'next/dynamic';  // Import dynamic from Next.js
+import dynamic from "next/dynamic"; // Import dynamic from Next.js
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faHouse, faCalendar, faNotesMedical, faGear, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
-import styles from '@/styles/clinic-homepage/clinic-sidebar.module.css';
-import Link from 'next/link';
+import {
+  faUser,
+  faHouse,
+  faCalendar,
+  faNotesMedical,
+  faGear,
+  faRightFromBracket,
+} from "@fortawesome/free-solid-svg-icons";
+import styles from "@/styles/clinic-homepage/clinic-sidebar.module.css";
+import Link from "next/link";
+import { logout } from "@/config/firebase";
+import { useRouter } from "next/router";
 
-function ClinicSidebar () {
+function ClinicSidebar() {
+  const router = useRouter();
 
-    return (
+  const handleLogout = async () => {
+    try {
+      await logout();
+      router.push("/"); // Redirect to the homepage after logout
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+
+  return (
     <div>
-        <aside className={styles.clinicsidebar}>
-            <ul>
+      <aside className={styles.clinicsidebar}>
+        <ul>
           <div className={styles.cliniclogodiv1}>
-             <img src="/landing-page-iamge/opto2.png" alt="Clinic Logo" />
+            <img src="/landing-page-iamge/opto2.png" alt="Clinic Logo" />
           </div>
 
           <Link href="/clinic-homepage" passHref>
@@ -24,7 +43,7 @@ function ClinicSidebar () {
               </div>
             </div>
           </Link>
-          
+
           <Link href="/clinic/clinic-appointments" passHref>
             <div className={styles.cliniclogodiv}>
               <div className={styles.clinicicondiv}>
@@ -36,7 +55,7 @@ function ClinicSidebar () {
           <Link href="/clinic/clinic-ehr" passHref>
             <div className={styles.cliniclogodiv}>
               <div className={styles.clinicicondiv}>
-                <FontAwesomeIcon icon={faNotesMedical}/>
+                <FontAwesomeIcon icon={faNotesMedical} />
               </div>
             </div>
           </Link>
@@ -44,24 +63,20 @@ function ClinicSidebar () {
           <Link href="/clinic/clinic-settings" passHref>
             <div className={styles.cliniclogodiv}>
               <div className={styles.clinicicondiv}>
-                <FontAwesomeIcon icon={faGear}/> 
+                <FontAwesomeIcon icon={faGear} />
               </div>
             </div>
           </Link>
 
-          <Link href="/" passHref>
-            <div className={styles.cliniclogodiv}>
-              <div className={styles.clinicicondiv}>
-                <FontAwesomeIcon icon={faRightFromBracket}/>            
-              </div>
+          <button onClick={handleLogout} className={styles.cliniclogodiv}>
+            <div className={styles.clinicicondiv}>
+              <FontAwesomeIcon icon={faRightFromBracket} />
             </div>
-          </Link>
-
+          </button>
         </ul>
       </aside>
     </div>
   );
-};
-
+}
 
 export default ClinicSidebar;

@@ -6,6 +6,7 @@ import {
   fetchSignInMethodsForEmail,
   signInWithPopup,
   GoogleAuthProvider,
+  signOut,
 } from "firebase/auth";
 
 import {
@@ -44,6 +45,15 @@ export {
   getDoc,
   doc,
   setDoc,
+};
+
+//for logout
+export const logout = async () => {
+  try {
+    await signOut(auth);
+  } catch (err) {
+    throw err;
+  }
 };
 
 //for login
@@ -186,14 +196,14 @@ export const getFullName = async (userId, userType) => {
 
     if (userDoc.exists()) {
       const userData = userDoc.data();
-      const firstName = userData.firstName?.trim() || "Unknown";
+      const firstName = userData?.firstName?.trim() || "Unknown";
       const lastName =
-        userData.lastName?.trim() ||
+        userData?.lastName?.trim() ||
         (userType === "Clinic" ? "Doctor" : "Patient");
 
       return `${firstName} ${lastName}`;
     } else {
-      throw new Error("User data not found.");
+      //throw new Error("User data not found.");
     }
   } catch (error) {
     console.error("Error fetching user name:", error);

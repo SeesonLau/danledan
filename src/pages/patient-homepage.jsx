@@ -43,6 +43,8 @@ const PatientHomePage = () => {
   const [clickCount, setClickCount] = useState(0);
   const [timer, setTimer] = useState(null);
 
+  console.log(auth?.currentUser?.email);
+
   const handleProfileClick = () => {
     if (clickCount + 1 === 3) {
       window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"; // Rickroll after 3rd click
