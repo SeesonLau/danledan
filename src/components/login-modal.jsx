@@ -13,7 +13,7 @@ import {
   loginWithGoogle,
 } from "../config/firebase";
 
-const Modal = ({ isOpen, onClose }) => {
+const Modal = ({ isOpen, onClose, onSwitch }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -130,7 +130,13 @@ const Modal = ({ isOpen, onClose }) => {
 
         <div className={styles["register-text"]}>
           if you don't have an account,{" "}
-          <span className={styles["register-link"]}>Register Here!</span>
+          <span
+            className={styles["register-link"]}
+            isOpen={false}
+            onClick={onSwitch}
+          >
+            Register Here!
+          </span>
         </div>
       </div>
     </div>

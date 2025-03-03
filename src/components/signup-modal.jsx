@@ -6,7 +6,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import styles from "../styles/signup-modal.module.css";
 import { registerWithEmail } from "@/config/firebase";
 
-const RegisterModal = ({ isOpen, onClose, onSwitchToLogin }) => {
+const RegisterModal = ({ isOpen, onClose, onSwitch }) => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -188,7 +188,7 @@ const RegisterModal = ({ isOpen, onClose, onSwitchToLogin }) => {
 
         <div className={styles["register-text"]}>
           if you have an account,{" "}
-          <span className={styles["register-link"]} onClick={onSwitchToLogin}>
+          <span className={styles["register-link"]} onClick={onSwitch}>
             Login Here!
           </span>
         </div>
