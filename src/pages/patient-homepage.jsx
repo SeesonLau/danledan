@@ -90,7 +90,7 @@ const handleProfileClick = () => {
 
     <div className={styles.patientcontainer}>
       {/* Sidebar */}
-      <PatientSidebar />
+      <PatientSidebar/>
 
       {/*main content */}
       <main className={styles.patientmaincontent}>
