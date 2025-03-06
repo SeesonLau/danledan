@@ -37,9 +37,8 @@ const patientNotifications = [
 ];
 
 const PatientHomePage = () => {
-  {
-    /*EASTER EGG LOGIC*/
-  }
+
+  /*EASTER EGG LOGIC*/
   const [clickCount, setClickCount] = useState(0);
   const [timer, setTimer] = useState(null);
 
@@ -61,14 +60,10 @@ const PatientHomePage = () => {
       setTimer(newTimer);
     }
   };
+  /*END OF EASTER EGG LOGIC*/
 
-  {
-    /*END OF EASTER EGG LOGIC*/
-  }
 
-  {
-    /*USER AND CLINIC LOCATION LOGIC */
-  }
+  /*USER AND CLINIC LOCATION LOGIC */
   const [userPosition, setUserPosition] = useState([
     10.294187716769942, 123.88035066423207,
   ]); // Default position (clinic)
@@ -92,9 +87,7 @@ const PatientHomePage = () => {
 
   const clinicposition = [10.294187716769942, 123.88035066423207];
 
-  {
-    /*MARKER ICON LOGIC IN MAP FOR CSS BECAUSE MARKER FROM LIBRARY IS BUGGED*/
-  }
+  /*MARKER ICON LOGIC IN MAP FOR CSS BECAUSE MARKER FROM LIBRARY IS BUGGED*/
   const customIcon = L.icon({
     iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
     iconSize: [25, 41], // Default Leaflet icon size
@@ -103,20 +96,13 @@ const PatientHomePage = () => {
     shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
     shadowSize: [41, 41],
   });
+  /* END OF USER AND CLINIC LOCATION LOGIC */
 
-  {
-    /* END OF USER AND CLINIC LOCATION LOGIC */
-  }
-
-  {
-    /*FILTER LOGIC IN THE NOTIFICATION*/
-  }
+  /*FILTER LOGIC IN THE NOTIFICATION*/
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("Today");
   const options = ["Today", "Yesterday", "This Week", "This Month"];
-  {
-    /*END OF FILTER LOGIC IN THE NOTIFICATION*/
-  }
+  /*END OF FILTER LOGIC IN THE NOTIFICATION*/
 
   //for Display Name
   // State to hold user's name

@@ -2,16 +2,15 @@ import { useState, useEffect } from "react";
 import { useRef } from "react";
 import styles from "../styles/clinic-homepage/clinic-homepage.module.css";
 import "@fontsource/montserrat";
-import dynamic from "next/dynamic"; // Import dynamic from Next.js
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-import ClinicSidebar from "../components/sidebar/clinicsidebar.jsx"; // Adjust the path if needed
 import ClinicLayout from "@/components/clinic-layout";
 import { auth, getFullName } from "../config/firebase";
 
-{
-  /*OVERFLOWING PURPOSES DO YOUR BACKEND HERE BROSKI*/
-}
+const todayVisit = 100;
+const oldpVisit = 50;
+const newpVisit = 50;
+
 const patientNotifications = [
   { id: 1, name: "i love joy arenas", time: "5:30pm" },
   { id: 2, name: "i love joy arenas", time: "5:30pm" },
@@ -69,15 +68,12 @@ const ClinicHome = () => {
     }
   }, []);
 
-  {
-    /*FILTER LOGIC IN THE PATIENT LIST*/
-  }
+  
+  /*FILTER LOGIC IN THE PATIENT LIST*/
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("Today");
   const options = ["Today", "Yesterday", "This Week", "This Month"];
-  {
-    /*END OF FILTER LOGIC IN THE PATIENT LIST*/
-  }
+  /*END OF FILTER LOGIC IN THE PATIENT LIST*/
 
   //for Display Name
   // State to hold user's name
@@ -95,8 +91,8 @@ const ClinicHome = () => {
   }, []);
 
   return (
-    <ClinicLayout>
       <div className={styles.cliniccontainer}>
+        <ClinicLayout/>
         <main className={styles.maincontent}>
           {/* First div layer */}
           <div className={styles.firstdiv}>
@@ -117,7 +113,6 @@ const ClinicHome = () => {
               <div className={styles.userprofileicondiv2}>
                 <p className={styles.userprofileicontext1}>Dr. {fullName}</p>
                 <p className={styles.userprofileicontext2}>
-                  {/*i assume all doctors here are already optometrist so dont change */}
                   Optometrist
                 </p>
               </div>
@@ -127,8 +122,7 @@ const ClinicHome = () => {
             <div className={styles.mapcontainer}>
               <h3 className={styles.maptitle}>Visits for Today</h3>
               <h3 className={styles.mapvisits}>
-                {/*Visits for today LOGIC here*/}
-                100
+                {todayVisit}
               </h3>
 
               <div className={styles.mapsquarediv}>
@@ -141,7 +135,7 @@ const ClinicHome = () => {
                   <div className={styles.newoldpatientnumber}>
                     <p className={styles.newoldpatientnumbertitle}>
                       {/*BACKEND HERE FOR HOW MANY NEW PATIENTS WE HAVE*/}
-                      100
+                      {newpVisit}
                     </p>
                   </div>
                 </div>
@@ -155,7 +149,7 @@ const ClinicHome = () => {
                   <div className={styles.newoldpatientnumber}>
                     <p className={styles.newoldpatientnumbertitle}>
                       {/*BACKEND HERE FOR HOW MANY NEW PATIENTS WE HAVE*/}
-                      100
+                      {oldpVisit}
                     </p>
                   </div>
                 </div>
@@ -231,7 +225,6 @@ const ClinicHome = () => {
           </div>
         </main>
       </div>
-    </ClinicLayout>
   );
 };
 

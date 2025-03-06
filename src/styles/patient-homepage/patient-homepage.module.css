@@ -41,7 +41,7 @@ color:#0D54AC;
 display: block;
 -webkit-text-stroke: 1px #0D54AC; 
 text-transform: uppercase; 
-letter-spacing: 10px;
+letter-spacing: 1px;
 }
 
 .userprofilecontainer {
