@@ -34,14 +34,14 @@
 }
 
 .hellobar {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 30px;
-    font-weight: 900;
-    color:#0D54AC;
-    display: block;
-    -webkit-text-stroke: 1px #0D54AC; 
-    text-transform: uppercase; 
-    letter-spacing: 1px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 30px;
+  font-weight: 900;
+  color:#0D54AC;
+  display: block;
+  -webkit-text-stroke: 1px #0D54AC; 
+  text-transform: uppercase; 
+  letter-spacing: 10px;
 }
  
 .userprofilecontainer {

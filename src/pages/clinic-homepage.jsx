@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useRef } from "react";
 import styles from '../styles/clinic-homepage/clinic-homepage.module.css';
 import "@fontsource/montserrat";
-import dynamic from 'next/dynamic';  // Import dynamic from Next.js
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import ClinicSidebar from '../components/sidebar/clinicsidebar.jsx'; // Adjust the path if needed
@@ -171,7 +170,9 @@ const ClinicHome = () => {
             <div className={styles.notifpatientbuttondiv}>
              {/* Button */}
               <button className={styles.notifpatientbutton} onClick={() => setIsOpen(!isOpen)}>
-                <p className={styles.notifpatientbuttontext}>{selected} &#x2335;</p>
+                <p className={styles.notifpatientbuttontext}>
+                  {selected} &#x2335;
+                </p>
               </button>
 
               {/* Dropdown Menu */}
@@ -179,7 +180,7 @@ const ClinicHome = () => {
                <li key={option} className={styles.dropdownItem} onClick={() => {
                 setSelected(option);
                 setIsOpen(false); }}>
-              {option}
+                {option}
               </li>
                ))}
               </ul>
@@ -196,19 +197,23 @@ const ClinicHome = () => {
                 <div className={styles.patientnotifpicdiv}>
                   <div className={styles.patientnotifpic}>
                     {/* Profile icon or backend image */}
-                    <FontAwesomeIcon icon={faUser} className={styles.clinicpicIcon} />
+                    <FontAwesomeIcon icon={faUser} className={styles.clinicpicIcon}/>
                   </div>  
                 </div>
 
                 {/* Patient Name */}
                 <div className={styles.clinicpatientnamediv}>
-                  <p className={styles.clinicpatientname}>{patient.name}</p>
+                  <p className={styles.clinicpatientname}>
+                    {patient.name}
+                  </p>
                 </div>
 
                 {/* Appointment Time */}
                 <div className={styles.clinicpatienttimediv}>
                   <div className={styles.clinicpatienttimecontainer}>
-                    <p className={styles.clinicpatienttime}>{patient.time}</p>
+                    <p className={styles.clinicpatienttime}>
+                      {patient.time}
+                    </p>
                   </div>
                 </div>
 

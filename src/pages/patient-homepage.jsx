@@ -1,9 +1,9 @@
-import PatientSidebar from '../components/sidebar/patientsidebar'; // Adjust the path if needed
 import styles from '../styles/patient-homepage/patient-homepage.module.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { useState, useEffect } from "react";
+import PatientSidebar from '../components/sidebar/patientsidebar'; // Adjust the path if needed
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
@@ -29,23 +29,22 @@ const PatientHomePage = () => {
   const [clickCount, setClickCount] = useState(0);
   const [timer, setTimer] = useState(null);
 
-const handleProfileClick = () => {
-  if (clickCount + 1 === 3) {
-    window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"; // Rickroll after 3rd click
-  } else {
-    setClickCount((prev) => prev + 1);
+  const handleProfileClick = () => {
+    if (clickCount + 1 === 3) {
+      window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"; // Rickroll after 3rd click
+    } else {
+      setClickCount((prev) => prev + 1);
     
-    // Clear previous timer and set a new one
-    if (timer) clearTimeout(timer);
+      // Clear previous timer and set a new one
+      if (timer) clearTimeout(timer);
     
-    const newTimer = setTimeout(() => {
-      setClickCount(0);
-    }, 5000); // Reset after 5 seconds
+      const newTimer = setTimeout(() => {
+        setClickCount(0);
+      }, 5000); // Reset after 5 seconds
 
-    setTimer(newTimer);
-  }
-};
-
+      setTimer(newTimer);
+    }
+  };
   {/*END OF EASTER EGG LOGIC*/}
   
   {/*USER AND CLINIC LOCATION LOGIC */}
@@ -145,7 +144,9 @@ const handleProfileClick = () => {
             <div className={styles.notifpatientbuttondiv}>
              {/* Button */}
               <button className={styles.notifpatientbutton} onClick={() => setIsOpen(!isOpen)}>
-                <p className={styles.notifpatientbuttontext}>{selected} &#x2335;</p>
+                <p className={styles.notifpatientbuttontext}>
+                  {selected} &#x2335;
+                </p>
               </button>
 
               {/* Dropdown Menu */}
@@ -172,13 +173,17 @@ const handleProfileClick = () => {
 
                 {/* Patient Name */}
                 <div className={styles.clinicpatientnamediv}>
-                  <p className={styles.clinicpatientname}>{patient.name}</p>
+                  <p className={styles.clinicpatientname}>
+                    {patient.name}
+                  </p>
                 </div>
 
                 {/* Appointment Time */}
                 <div className={styles.clinicpatienttimediv}>
                   <div className={styles.clinicpatienttimecontainer}>
-                    <p className={styles.clinicpatienttime}>{patient.time}</p>
+                    <p className={styles.clinicpatienttime}>
+                      {patient.time}
+                    </p>
                   </div>
                 </div>
 
