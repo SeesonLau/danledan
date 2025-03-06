@@ -31,7 +31,6 @@
   height: calc(100vh - 35px); /* Adjust height based on viewport */
   position: relative;
   margin-bottom: 20px; /* Matching bottom margin */
-  background-color: red;
 }
 
 .hellobar {
@@ -53,7 +52,7 @@
   max-width: 95%; /* Prevents the container from exceeding this width */
   border-radius: 10px;
   margin-bottom: 10px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
   position: relative;
   overflow: hidden; /* Ensure the shine effect doesn't overflow the container */
   transition: transform 0.3s ease;
@@ -162,7 +161,7 @@
   max-width: 95%; /* Prevents the container from exceeding this width */
   border-radius: 10px;
   margin-bottom: 10px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
   position: relative;
   overflow: hidden; /* Ensure the shine effect doesn't overflow the container */
   transition: transform 0.3s ease;
@@ -193,18 +192,19 @@
 
 .seconddiv {
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   flex: 1;
-  min-width: 400px; /* Prevents breaking */
+  min-width: 400px;
   max-width: 650px;
-  width: 100%; /* Ensures responsiveness */
-  height: calc(100vh - 35px); /* Limits height to prevent touching the bottom */
+  width: 100%;
+  height: calc(100vh - 40px);
   background-color: #E3F2FD;
   border: solid 1px #2563EB;
   border-radius: 10px;
-  position: relative; /* Avoids sticky issues */
-  margin-bottom: 20px; /* Prevents touching the bottom */
-  overflow: visible; /* Prevents content overflow */
+  position: relative;
+  margin-bottom: 20px;
+  overflow: hidden;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
 }
 
 @media (max-width: 1024px) {
@@ -322,9 +322,9 @@
 /* BEGINNING OF THE NOTIF WRAPPER gikapoy nako haha */
 .notifwrapper {
   display: block;
-  flex-grow: 1; /* Allows it to expand dynamically */
-  min-height: 490px; /* Ensures a minimum height */
-  max-height: 100%; /* Prevents excessive growth */
+  flex-grow: 1; 
+  min-height: 490px; 
+  max-height: 100%; 
   overflow-y: auto; /* Enables scrolling only when needed */
   scroll-snap-type: y mandatory;
   width: 100%;

@@ -8,6 +8,18 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import ClinicSidebar from '../components/sidebar/clinicsidebar.jsx'; // Adjust the path if needed
 import ClinicLayout from "@/components/clinic-layout";
 
+{/*Doctor's Name logic*/}
+const drName = ["Dr. Quack Quack"];
+
+{/*Visits today logic*/}
+const visitstoday = 100;
+
+{/*New patients logic*/}
+const newpatient = 50;
+
+{/*Old patients logic*/}
+const oldpatient = 50;
+
 {/*OVERFLOWING PURPOSES DO YOUR BACKEND HERE BROSKI*/}
 const patientNotifications = [
   { id: 1, name: "i love joy arenas", time: "5:30pm" },
@@ -24,6 +36,7 @@ const patientNotifications = [
 
 const ClinicHome = () => {
   
+  {/*Easter Egg logic*/}
   const [clickCount, setClickCount] = useState(0);
   const [timer, setTimer] = useState(null);
 
@@ -43,8 +56,9 @@ const ClinicHome = () => {
     setTimer(newTimer);
     }
   };
+  {/*End Easter Egg logic*/}
 
-
+  {/*Voice Logic*/}
   const hasSpoken = useRef(false); // Prevents double execution
   useEffect(() => {
     if (!hasSpoken.current) {
@@ -67,6 +81,7 @@ const ClinicHome = () => {
       hasSpoken.current = true; // Mark it as spoken
     }
   }, []);
+  {/*End voice Logic*/}
 
   {/*FILTER LOGIC IN THE PATIENT LIST*/}
   const [isOpen, setIsOpen] = useState(false);
@@ -75,8 +90,9 @@ const ClinicHome = () => {
   {/*END OF FILTER LOGIC IN THE PATIENT LIST*/}
   
   return (
-    <ClinicLayout>
+    
     <div className={styles.cliniccontainer}>
+      <ClinicLayout/>
       <main className={styles.maincontent}>
         
         {/* First div layer */}
@@ -96,8 +112,7 @@ const ClinicHome = () => {
             
             <div className={styles.userprofileicondiv2}>
               <p className={styles.userprofileicontext1}>
-                {/*Doctor Name Logic here */}
-                Dr. Quack Quack
+                {drName}
               </p>
               <p className={styles.userprofileicontext2}>
                 {/*i assume all doctors here are already optometrist so dont change */}
@@ -111,7 +126,7 @@ const ClinicHome = () => {
             <h3 className={styles.maptitle}>Visits for Today</h3>
             <h3 className={styles.mapvisits}>
               {/*Visits for today LOGIC here*/}
-              100
+              {visitstoday}
             </h3>
             
             <div className={styles.mapsquarediv}>
@@ -125,8 +140,7 @@ const ClinicHome = () => {
                 </div>
                 <div className={styles.newoldpatientnumber}>
                   <p className={styles.newoldpatientnumbertitle}>
-                    {/*BACKEND HERE FOR HOW MANY NEW PATIENTS WE HAVE*/}
-                    100
+                    {newpatient}
                   </p>
                 </div>
               </div>
@@ -141,8 +155,7 @@ const ClinicHome = () => {
                 </div>
                 <div className={styles.newoldpatientnumber}>
                   <p className={styles.newoldpatientnumbertitle}>
-                    {/*BACKEND HERE FOR HOW MANY NEW PATIENTS WE HAVE*/}
-                    100
+                    {oldpatient}
                   </p>
                 </div>
               </div>
@@ -205,7 +218,6 @@ const ClinicHome = () => {
         </div>
       </main>
     </div>
-    </ClinicLayout>
   );
 };
 

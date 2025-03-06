@@ -7,6 +7,8 @@ import { useState, useEffect } from "react";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
+const patientName = ["Gregory House"];
+
 {/*OVERFLOWING PURPOSES DO YOUR BACKEND HERE BROSKI*/}
 const patientNotifications = [
   { id: 1, name: "Meeting with Eye Doctor at Mercado, Lapu-Lapu", time: "5:30pm" },
@@ -107,14 +109,13 @@ const handleProfileClick = () => {
               <div className={styles.userprofileicon}>   
                 {/* Do your Profile Picture of the patient backend here replace below icon, unless no profile use this icon below*/}
                 <FontAwesomeIcon icon={faUser} className={styles.userIcon}/>
-              {/*  <img src="/landing-page-iamge/house.jpg" alt="Profile" className={styles.userIcon} /> */}
+                {/*<img src="/landing-page-iamge/house.jpg" alt="Profile" className={styles.userIcon}/>*/}
               </div>
             </div>
             
             <div className={styles.userprofileicondiv2}>
               <p className={styles.userprofileicontext1}>
-                {/*patient Name Logic here */}
-                Gregory House
+                {patientName}
               </p>
               <p className={styles.userprofileicontext2}>
                 {/*i assume all patient are patients so dont change */}
