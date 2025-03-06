@@ -1,4 +1,3 @@
-
 /* BEGINNING OF THE SIDEBAR CSS */
 .clinicsidebar {
     width: 60px;
@@ -6,13 +5,12 @@
     background: #2596be;
     color: transparent;
     overflow: hidden;
-    transition: width 0.5s ease-in-out; /* Smooth transition for width */
+    transition: width 0.3s ease-in-out; /* Smooth transition for width */
   }
   
-  /*
   .clinicsidebar:hover{
     width: 150px;
-  }  */
+  }  
   
   .cliniclogodiv {
     color: white;
@@ -72,3 +70,21 @@
     }
   }
   /* END OF THE SIDEBAR CSS */
+  .buttonText {
+    display: none;
+    margin-left: 10px;
+    font-size: 16px;
+    font-family: "Montserrat", sans-serif;
+    transform: translateX(-10px);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.clinicsidebar:hover .clinicicondiv {
+    justify-content: flex-start;
+    padding-left: 20px;
+}
+
+.clinicsidebar:hover .buttonText {
+    display: inline-block;
+    transform: translateX(0);
+}

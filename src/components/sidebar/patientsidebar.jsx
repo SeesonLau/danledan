@@ -14,41 +14,46 @@ function PatientSidebar () {
           
           <Link href="/patient-homepage" passHref>
             <div className={styles.cliniclogodiv}>
-              <div className={styles.clinicicondiv}>
+              <button className={styles.clinicicondiv}>
                   <FontAwesomeIcon icon={faHouse} />
-              </div>
+                  <span className={styles.buttonText}>Home</span>
+              </button>
             </div>
           </Link>
 
           <Link href="/patient/patient-appointments" passHref>
             <div className={styles.cliniclogodiv}>
-              <div className={styles.clinicicondiv}>
+              <button className={styles.clinicicondiv}>
                 <FontAwesomeIcon icon={faCalendar} />
-              </div>
+                <span className={styles.buttonText}>APPT</span>
+              </button>
             </div>
           </Link>
 
           <Link href="/patient/patient-ehr" passHref>
             <div className={styles.cliniclogodiv}>
-              <div className={styles.clinicicondiv}>
+              <button className={styles.clinicicondiv}>
                 <FontAwesomeIcon icon={faNotesMedical}/>
-              </div>
+                <span className={styles.buttonText}>EHR</span>
+              </button>
             </div>
           </Link>
 
           <Link href="/patient/patient-settings" passHref>
           <div className={styles.cliniclogodiv}>
-              <div className={styles.clinicicondiv}>
-                <FontAwesomeIcon icon={faGear}/> 
-              </div>
+              <button className={styles.clinicicondiv}>
+                <FontAwesomeIcon icon={faGear}/>
+                <span className={styles.buttonText}>Settings</span>
+              </button>
             </div>
           </Link>
 
           <Link href="/" passHref>
             <div className={styles.cliniclogodiv}>
-              <div className={styles.clinicicondiv}>
-                <FontAwesomeIcon icon={faRightFromBracket}/>            
-              </div>
+              <button className={styles.clinicicondiv}>
+                <FontAwesomeIcon icon={faRightFromBracket}/>      
+                <span className={styles.buttonText}>Log-out</span>      
+              </button>
             </div>
           </Link>
 

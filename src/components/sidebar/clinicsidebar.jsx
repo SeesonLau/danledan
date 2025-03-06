@@ -18,6 +18,7 @@ function ClinicSidebar () {
             <div className={styles.cliniclogodiv}>
               <div className={styles.clinicicondiv}>
                 <FontAwesomeIcon icon={faHouse} />
+                <span className={styles.buttonText}>Home</span>
               </div>
             </div>
           </Link>
@@ -25,7 +26,8 @@ function ClinicSidebar () {
           <Link href="/clinic/clinic-appointments" passHref>
             <div className={styles.cliniclogodiv}>
               <div className={styles.clinicicondiv}>
-                <FontAwesomeIcon icon={faCalendar} />
+                <FontAwesomeIcon icon={faCalendar}/>
+                <span className={styles.buttonText}>APPT</span>
               </div>
             </div>
           </Link>
@@ -34,6 +36,7 @@ function ClinicSidebar () {
             <div className={styles.cliniclogodiv}>
               <div className={styles.clinicicondiv}>
                 <FontAwesomeIcon icon={faNotesMedical}/>
+                <span className={styles.buttonText}>EHR</span>
               </div>
             </div>
           </Link>
@@ -42,6 +45,7 @@ function ClinicSidebar () {
             <div className={styles.cliniclogodiv}>
               <div className={styles.clinicicondiv}>
                 <FontAwesomeIcon icon={faGear}/> 
+                <span className={styles.buttonText}>Settings</span>
               </div>
             </div>
           </Link>
@@ -49,7 +53,8 @@ function ClinicSidebar () {
           <Link href="/" passHref>
             <div className={styles.cliniclogodiv}>
               <div className={styles.clinicicondiv}>
-                <FontAwesomeIcon icon={faRightFromBracket}/>            
+                <FontAwesomeIcon icon={faRightFromBracket}/>    
+                <span className={styles.buttonText}>Log-out</span>        
               </div>
             </div>
           </Link>
