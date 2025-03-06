@@ -1,7 +1,4 @@
-import { useState, useEffect } from "react";
-import { useRef } from "react";
 import "@fontsource/montserrat";
-import dynamic from "next/dynamic"; // Import dynamic from Next.js
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
@@ -38,16 +35,22 @@ function ClinicSidebar() {
 
           <Link href="/clinic-homepage" passHref>
             <div className={styles.cliniclogodiv}>
-              <div className={styles.clinicicondiv}>
+              <button className={styles.clinicicondiv}>
                 <FontAwesomeIcon icon={faHouse} />
-              </div>
+                <span className={styles.buttonText}>
+                  Home
+                </span>
+              </button>
             </div>
           </Link>
 
           <Link href="/clinic/clinic-appointments" passHref>
             <div className={styles.cliniclogodiv}>
               <div className={styles.clinicicondiv}>
-                <FontAwesomeIcon icon={faCalendar} />
+                <FontAwesomeIcon icon={faCalendar}/>
+                <span className={styles.buttonText}>
+                  APPT.
+                </span>
               </div>
             </div>
           </Link>
@@ -56,6 +59,9 @@ function ClinicSidebar() {
             <div className={styles.cliniclogodiv}>
               <div className={styles.clinicicondiv}>
                 <FontAwesomeIcon icon={faNotesMedical} />
+                <span className={styles.buttonText}>
+                  EHR
+                </span>
               </div>
             </div>
           </Link>
@@ -64,15 +70,22 @@ function ClinicSidebar() {
             <div className={styles.cliniclogodiv}>
               <div className={styles.clinicicondiv}>
                 <FontAwesomeIcon icon={faGear} />
+                <span className={styles.buttonText}>
+                  Settings
+                </span>
               </div>
             </div>
           </Link>
 
-          <button onClick={handleLogout} className={styles.cliniclogodiv}>
+          <div onClick={handleLogout} className={styles.cliniclogodiv}>
             <div className={styles.clinicicondiv}>
               <FontAwesomeIcon icon={faRightFromBracket} />
+              <span className={styles.buttonText}>
+                Log-out
+              </span>
             </div>
-          </button>
+          </div>
+          
         </ul>
       </aside>
     </div>
