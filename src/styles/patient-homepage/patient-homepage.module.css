@@ -28,18 +28,10 @@
   min-width: 400px; 
   max-width: 50%;
   width: 100%;
-  height: calc(100vh - 40px); /* Adjust height based on viewport */
-  border-radius: 10px;
+  height: calc(100vh - 35px); /* Adjust height based on viewport */
   position: relative;
   margin-bottom: 20px; /* Matching bottom margin */
-}
-
-
-@media (max-width: 1024px) {
-  .patientfirstdiv {
-    min-height: auto; /* Allows it to expand naturally */
-    max-height: none; /* Removes the fixed limit */
-  }
+  background-color: red;
 }
 
 .hellobar {
@@ -56,7 +48,7 @@
 .userprofilecontainer {
   display: inline-flex;
   background: linear-gradient(to right, rgb(164, 220, 246), rgb(124, 133, 250));
-  height: 250px;
+  height: 40%;
   width: 100%; /* Use full width of the parent container */
   max-width: 95%; /* Prevents the container from exceeding this width */
   border-radius: 10px;
@@ -165,7 +157,7 @@
 .mapcontainer{
   display: inline-flex;
   background: rgb(124, 133, 250);
-  height: 250px;
+  height: 50%;
   width: 100%; /* Use full width of the parent container */
   max-width: 95%; /* Prevents the container from exceeding this width */
   border-radius: 10px;
@@ -174,11 +166,34 @@
   position: relative;
   overflow: hidden; /* Ensure the shine effect doesn't overflow the container */
   transition: transform 0.3s ease;
+  bottom: 0; /* Locks it to the bottom of the parent div */
+  left: 0; /* Ensure it stretches full width inside the parent */
+}
+
+@media (max-width: 1024px) {
+  .patientfirstdiv {
+    height: auto;
+    max-width: 100%; 
+    min-width: unset; 
+    padding-bottom: 20px; 
+  }
+
+  .userprofilecontainer {
+    height: auto; /* Allow it to shrink */
+    min-height: 250px; /* Ensure it's visible */
+    justify-content: center;
+    align-items: center;
+  }
+
+  .mapcontainer {
+    height: 40vh; /* Set a fixed height in mobile mode */
+    min-height: 250px; /* Prevent it from disappearing */
+  }
 }
 
 .seconddiv {
   display: flex;
-  flex-direction: column; /* Ensures children expand properly */
+  flex-direction: column; 
   flex: 1;
   min-width: 400px; /* Prevents breaking */
   max-width: 650px;
@@ -189,31 +204,26 @@
   border-radius: 10px;
   position: relative; /* Avoids sticky issues */
   margin-bottom: 20px; /* Prevents touching the bottom */
-  overflow: hidden; /* Prevents content overflow */
+  overflow: visible; /* Prevents content overflow */
 }
 
 @media (max-width: 1024px) {
   .patientseconddiv {
-    margin-top: 20px; /* Adds space so it doesn’t overlap firstdiv */
-    height: auto; /* Allows natural height */
-    max-height: none; /* Removes height restriction */
-  }
-
-  .patientfirstdiv {
-    min-height: auto; /* Allows firstdiv to expand */
-    max-height: none;
+    margin-top: 20px;
+    height: 22px; 
+    overflow-y: auto; 
+    padding-bottom: 20px; 
   }
 
   .patientmaincontent {
-    flex-direction: column; /* Stack them vertically */
-    overflow-y: auto; /* Allows scrolling */
+    flex-direction: column; 
+    overflow: auto; 
     height: auto;
   }
 }
 
 .notiftext {
   display: flex; /* Keeps it as a block-level element */
-  display: flex;
   width: 100%;
 }
 
@@ -335,6 +345,7 @@
 
 .notifwrapper::-webkit-scrollbar {
   width: 6px; /* Thin scrollbar */
+  border-radius: 10px;
 }
 
 .notifwrapper::-webkit-scrollbar-track {
