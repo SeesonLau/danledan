@@ -8,28 +8,26 @@
   transition: width 0.5s ease-in-out; /* Smooth transition for width */
 }
 
-/*
-  .clinicsidebar:hover{
-    width: 150px;
-  }  */
+.clinicsidebar:hover{
+  width: 150px;
+}  
 
 .cliniclogodiv {
   color: white;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center; 
   height: 100px;
   background-color: #2596be;
   text-align: center;
   white-space: nowrap;
-  width: 100%;
 }
 
 .clinicicondiv {
   height: 30%;
   width: 90%;
   display: flex;
-  align-items: center;
+  align-items: center; 
   justify-content: center;
   border-radius: 10px;
   transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out; /* Smooth effect */
@@ -53,9 +51,10 @@
   padding: 10%;
 }
 
+
 .cliniclogodiv1 img {
   width: 50px;
-  height: auto;
+  height: auto; 
   transition: none;
 }
 
@@ -102,4 +101,23 @@
   color: white;
   cursor: pointer;
   border-radius: 5px;
+}
+
+.buttonText {
+  display: none;
+  margin-left: 10px;
+  font-size: 16px;
+  font-family: "Montserrat", sans-serif;
+  transform: translateX(-10px);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.clinicsidebar:hover .clinicicondiv {
+  justify-content: flex-start;
+  padding-left: 20px;
+}
+
+.clinicsidebar:hover .buttonText {
+  display: inline-block;
+  transform: translateX(0);
 }
