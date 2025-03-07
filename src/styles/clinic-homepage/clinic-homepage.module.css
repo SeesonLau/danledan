@@ -25,6 +25,14 @@
   letter-spacing: 1px;
 }
 
+@media (max-width: 1024px){
+  .hellobar{
+    justify-content: center;
+    text-align: center;
+    font-size: 2em;
+  }
+}
+
 .maincontent {
   flex: 1;
   padding: 20px;
@@ -44,16 +52,6 @@
   border-radius: 10px;
   position: relative;
   margin-bottom: 20px; /* Matching bottom margin */
-}
-
-/* Only apply changes when zoomed in (small screens) */
-@media (max-width: 1024px) {
-  .firstdiv {
-      height: auto;
-      max-width: 100%; 
-      min-width: unset; 
-      padding-bottom: 20px; 
-  }
 }
 
 .userprofilecontainer {
@@ -117,6 +115,8 @@
     min-height: 250px; /* Ensure it's visible */
     justify-content: center;
     align-items: center;
+    width: 100%;
+    max-width: 100%;
   }
 }
 
@@ -159,7 +159,12 @@
   font-size: 30px;
   text-align: left; 
   margin: 0; 
-  
+}
+
+@media (max-width: 1024px) {
+  .userprofileicontext1{
+    font-size: 20px;
+  }
 }
 
 .userprofileicontext2{
@@ -174,11 +179,13 @@
 }
 
 .mapcontainer {
-  width: 530px;
+  width: 95%;
   height: 240px;
   text-align: center;
   padding-top: 5px;
   flex: 1;
+  background-color: red;
+  overflow: hidden;
 }
 
 .maptitle, .mapvisits {
@@ -209,6 +216,20 @@
   margin-top: 5px;
 }
 
+@media (max-width: 1024px) {
+  .mapcontainer{
+    width: 100%;
+  }
+  .maptitle, .mapvisits {
+    width: 100%;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0;
+  }
+}
+
 .mapvisits {
   font-size: 50px;
 }
@@ -236,15 +257,17 @@
   display: flex;  
   justify-content: flex-start;
   align-items: center; 
-  gap: 10px; 
   height: 140px;
   width: 100%;
   border-radius: 30px;
   overflow: visible;
   padding-bottom: 0px;
+  overflow: auto;
 }
 
 .mapsquare1, .mapsquare2 {
+  justify-content: center;
+  align-items: center;
   text-transform: uppercase;
   letter-spacing: 1px;
   height: 100px;
@@ -256,13 +279,17 @@
   overflow: hidden; 
   transition: transform 0.3s ease;
 }
+@media (max-width: 1024px) {
+  .mapsquarediv{
+    justify-content: center;
+  }
+  .mapsquare1, .mapsquare2{
+    width: 50%;
+  }
+}
 
 .mapsquare1 {
   margin-right: 10px;
-}
-
-.mapsquare1:hover, .mapsquare2:hover {
-  transform: scale(1.05);
 }
 
 .mapsquare1::before, .mapsquare2::before {
@@ -305,7 +332,7 @@
   text-transform: uppercase;
   letter-spacing: 1px; 
   height: 40px;
-  width: 220px;
+  width: 100%;
   display: block;
   font-family: 'Poppins', sans-serif;
 }
@@ -324,9 +351,16 @@
   padding-top: 5px;
 }
 
+@media (max-width: 1024px) {
+  .newoldpatienttitle{
+    font-size: 12px;
+    align-items: start;
+  }
+}
+
 .newoldpatientnumber{
   height: 60px;
-  width: 220px;
+  width: 100%;
   display: block;
   font-family: 'Poppins', sans-serif;
 }
@@ -336,10 +370,17 @@
   font-size: 40px;
   color: black;
   display: flex;
-  top: 8px;
   left: 16px;
   height: 100%; /* Ensures it takes up the full height of the div */
   padding-left: 20px;
+}
+@media (max-width: 1024px) {
+  .newoldpatientnumbertitle{
+    font-size: 50px;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .seconddiv {
@@ -359,17 +400,19 @@
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
 }
 
-/* Adjust for mobile screens */
 @media (max-width: 1024px) {
-  .seconddiv {
-    margin-top: 20px; /* Adds space so it doesn’t overlap firstdiv */
-    height: auto; /* Allows natural height */
-    max-height: none; /* Removes height restriction */
+  .firstdiv {
+    height: auto;
+    max-width: 100%;
+    min-width: unset;
+    padding-bottom: 20px;
   }
 
-  .firstdiv {
-    min-height: auto; /* Allows firstdiv to expand */
-    max-height: none;
+  .seconddiv {
+    height: auto; 
+    max-width: 100%; 
+    min-width: unset; 
+    padding-bottom: 20px; 
   }
 
   .maincontent {
@@ -381,7 +424,6 @@
 
 .notiftext {
   display: flex; /* Keeps it as a block-level element */
-  display: flex;
   width: 100%;
 }
 
@@ -398,6 +440,15 @@
   padding-left: 20px;
   text-transform: uppercase; /* Makes it look cleaner */
   letter-spacing: 1px; /* Adds slight spacing for elegance */
+}
+
+@media (max-width: 1024px){
+  .notifpatienttext{
+  font-size: 20px;
+  justify-content: left;
+  height:100%;
+  margin-top: 5px;
+  }
 }
 
 .notifpatientbuttondiv {
@@ -578,7 +629,6 @@
   flex-direction: column; /* Stack items vertically */
   justify-content: center;
   align-items: center;
-  border-radius: 30px;
   width: 33.3%;
   height: 100%;
   padding: 10px; 
@@ -597,6 +647,14 @@
   text-align: center;
   word-break: break-word; 
   max-width: 100%;
+}
+@media (max-width: 1024px){
+  .clinicpatientname{
+    font-size: 10px;
+    justify-content: start;
+    text-align: start;
+    align-items: start;
+  }
 }
 
 

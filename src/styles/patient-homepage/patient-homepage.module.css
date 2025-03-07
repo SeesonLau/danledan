@@ -1,10 +1,10 @@
 .patientcontainer{
   display: flex;
-height: 100vh;
-background-color: #f9f9f9;
-flex-wrap: wrap; /* Ensures proper wrapping */
-align-items: flex-start; /* Keeps items aligned at the top */
-overflow: hidden;
+  height: 100vh;
+  background-color: #f9f9f9;
+  flex-wrap: wrap; /* Ensures proper wrapping */
+  align-items: flex-start; /* Keeps items aligned at the top */
+  overflow: hidden;
 }
 
 @media (max-width: 1024px) { /* Adjust the breakpoint as needed */
@@ -43,6 +43,15 @@ display: block;
 text-transform: uppercase; 
 letter-spacing: 1px;
 }
+
+@media (max-width: 1024px){
+  .hellobar{
+    justify-content: center;
+    text-align: center;
+    font-size: 2em;
+  }
+}
+
 
 .userprofilecontainer {
 display: inline-flex;
@@ -139,7 +148,12 @@ transition: transform 0.3s ease;
   font-size: 30px;
   text-align: left; 
   margin: 0; 
-  
+}
+
+@media (max-width: 1024px) {
+  .userprofileicontext1{
+    font-size: 20px;
+  }
 }
 
 .userprofileicontext2{
@@ -170,23 +184,19 @@ left: 0; /* Ensure it stretches full width inside the parent */
 }
 
 @media (max-width: 1024px) {
-.patientfirstdiv {
-  height: auto;
-  max-width: 100%; 
-  min-width: unset; 
-  padding-bottom: 20px; 
-}
-
 .userprofilecontainer {
   height: auto; /* Allow it to shrink */
   min-height: 250px; /* Ensure it's visible */
   justify-content: center;
   align-items: center;
+  max-width: 100%;
 }
 
 .mapcontainer {
   height: 40vh; /* Set a fixed height in mobile mode */
   min-height: 250px; /* Prevent it from disappearing */
+  max-width: 100%;
+  width: 100%;
 }
 }
 
@@ -208,18 +218,26 @@ box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
 }
 
 @media (max-width: 1024px) {
-.patientseconddiv {
-  margin-top: 20px;
-  height: 22px; 
-  overflow-y: auto; 
-  padding-bottom: 20px; 
-}
+  .patientfirstdiv {
+    height: auto;
+    max-width: 100%; 
+    min-width: unset; 
+    padding-bottom: 0; 
+    margin-bottom: 5px;
+  }
+  
+  .seconddiv {
+    height: auto; 
+    max-width: 100%; 
+    min-width: unset; 
+    padding-bottom: 20px; 
+  }
 
-.patientmaincontent {
-  flex-direction: column; 
-  overflow: auto; 
-  height: auto;
-}
+ .patientmaincontent {
+    flex-direction: column; 
+    overflow: auto; 
+    height: auto;
+  }
 }
 
 .notiftext {
@@ -228,18 +246,27 @@ width: 100%;
 }
 
 .notifpatienttext{
-padding: 0;
-height: 100%;
-width: 1000px;
-display: flex;
-font-family: 'Montserrat', sans-serif;
-font-size: 30px;
-color: #0D54AC;
-font-weight: bold;
-text-align: start; /* Centers the text horizontally */
-padding-left: 20px;
-text-transform: uppercase; /* Makes it look cleaner */
-letter-spacing: 1px; /* Adds slight spacing for elegance */
+  padding: 0;
+  height: 100%;
+  width: 1000px;
+  display: flex;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 30px;
+  color: #0D54AC;
+  font-weight: bold;
+  text-align: start; /* Centers the text horizontally */
+  padding-left: 20px;
+  text-transform: uppercase; /* Makes it look cleaner */
+  letter-spacing: 1px; /* Adds slight spacing for elegance */
+}
+
+@media (max-width: 1024px){
+  .notifpatienttext{
+  font-size: 20px;
+  justify-content: left;
+  height:100%;
+  margin-top: 5px;
+  }
 }
 
 .notifpatientbuttondiv {
@@ -422,7 +449,6 @@ display: flex;
 flex-direction: column; /* Stack items vertically */
 justify-content: center;
 align-items: center;
-border-radius: 30px;
 width: 33.3%;
 height: 100%;
 padding: 10px; 
@@ -441,6 +467,14 @@ font-size: 15px;
 text-align: center;
 word-break: break-word; 
 max-width: 100%;
+}
+@media (max-width: 1024px){
+  .clinicpatientname{
+    font-size: 10px;
+    justify-content: start;
+    text-align: start;
+    align-items: start;
+  }
 }
 
 .clinicpatienttimediv {
