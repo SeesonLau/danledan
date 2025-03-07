@@ -17,8 +17,9 @@
   display: flex;
   align-items: center;
   justify-content: center; 
-  height: 100px;
+  height: 18vh;
   background-color: #2596be;
+  background-color: red;
   text-align: center;
   white-space: nowrap;
 }
@@ -44,18 +45,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100px;
+  height: 80px; 
   background-color: #2596be;
-  text-align: center;
-  white-space: nowrap;
-  padding: 10%;
+  padding: 1rem; 
+  position: relative; 
+  gap: 12px;
+  min-width: fit-content; 
 }
 
-
 .cliniclogodiv1 img {
-  width: 50px;
-  height: auto; 
-  transition: none;
+  width: 30px;
+  height: 80px;
+  flex-shrink: 0; 
+  object-fit: contain;
 }
 
 @media (max-width: 768px) {
@@ -71,6 +73,7 @@
 }
 /* END OF THE SIDEBAR CSS */
 
+/*Expanding sidebar CSS */
 .buttonText {
   display: none;
   margin-left: 10px;

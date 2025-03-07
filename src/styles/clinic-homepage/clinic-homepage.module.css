@@ -2,6 +2,7 @@
 .cliniccontainer {
   display: flex;
   height: 100vh;
+  width: 100%;
   background-color: #f9f9f9;
   flex-wrap: wrap; /* Ensures proper wrapping */
   align-items: flex-start; /* Keeps items aligned at the top */
@@ -11,6 +12,8 @@
 @media (max-width: 1024px) { /* Adjust the breakpoint as needed */
   .cliniccontainer {
     overflow: auto; /* Allows scrolling when minimized */
+    overflow-x: hidden;
+    width: 100%;
   }
 }
 
