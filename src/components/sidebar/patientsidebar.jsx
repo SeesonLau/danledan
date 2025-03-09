@@ -6,6 +6,7 @@ import {
   faNotesMedical,
   faGear,
   faRightFromBracket,
+  faBars
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "@/styles/patient-homepage/patient-sidebar.module.css";
 import Link from "next/link";
@@ -31,6 +32,48 @@ function PatientSidebar() {
             {" "}
             <img src="/landing-page-iamge/opto2.png" alt="Clinic Logo" />
           </div>
+
+          {/*Mobile Mode*/}
+          <div className={styles.mobilesidebarcontainer}>             
+            <Link href="/patient-homepage" passHref legacyBehavior>
+              <div className={styles.mobilebuttoncontainer}>
+                <button className={styles.mobilebutton}>
+                  <FontAwesomeIcon icon={faHouse} />
+                </button>
+              </div>
+            </Link>
+
+            <Link href="/patient/patient-appointments" passHref legacyBehavior>
+            <div className={styles.mobilebuttoncontainer}>
+              <button className={styles.mobilebutton}>
+                <FontAwesomeIcon icon={faCalendar} />
+              </button>
+            </div>
+            </Link>
+
+            <Link href="/patient/patient-ehr" passHref legacyBehavior>
+            <div className={styles.mobilebuttoncontainer}>
+              <button className={styles.mobilebutton}>
+                <FontAwesomeIcon icon={faNotesMedical} />
+              </button>
+            </div>
+            </Link>
+
+            <Link href="/patient/patient-settings" passHref legacyBehavior>
+              <div className={styles.mobilebuttoncontainer}>
+                <button className={styles.mobilebutton}>
+                  <FontAwesomeIcon icon={faGear} />
+                </button>
+              </div>
+            </Link>
+
+            <div className={styles.mobilebuttoncontainer} onClick={handleLogout}>
+              <button className={styles.mobilebutton}>
+                <FontAwesomeIcon icon={faRightFromBracket}/>
+              </button>
+            </div>
+          </div>
+          {/*Mobile Mode*/}
 
           <Link href="/patient-homepage" passHref>
             <div className={styles.cliniclogodiv}>

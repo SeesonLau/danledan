@@ -7,6 +7,6 @@ export default function ClinicAppointments() {
                        <h1 style={{ fontSize: '2.5rem', marginBottom: '20px' }}>Appointsments</h1>
                        <p style={{ fontSize: '1.5rem' }}>Manage your appointments here.</p>
                    </div>
-               </ClinicLayout>
+        </ClinicLayout>
       );
 }

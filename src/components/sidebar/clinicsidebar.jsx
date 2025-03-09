@@ -1,7 +1,6 @@
 import "@fontsource/montserrat";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faUser,
   faHouse,
   faCalendar,
   faNotesMedical,
@@ -32,12 +31,54 @@ function ClinicSidebar() {
           <div className={styles.cliniclogodiv1}>
             <img src="/landing-page-iamge/opto2.png" alt="Clinic Logo" />
           </div>
+          
+          {/*Mobile Mode*/}
+          <div className={styles.mobilesidebarcontainer}>
+            <Link href="/clinic-homepage" passHref legacyBehavior>
+            <div className={styles.mobilebuttoncontainer}>
+                <button className={styles.mobilebutton}>
+                  <FontAwesomeIcon icon={faHouse} />
+                </button>
+            </div>
+            </Link>
+
+            <Link href="/clinic/clinic-appointments" passHref legacyBehavior>
+            <div className={styles.mobilebuttoncontainer}>
+              <button className={styles.mobilebutton}>
+                <FontAwesomeIcon icon={faCalendar} />
+              </button>
+            </div>
+            </Link>
+
+            <Link href="/clinic/clinic-ehr" passHref legacyBehavior>
+            <div className={styles.mobilebuttoncontainer}>
+              <button className={styles.mobilebutton}>
+                <FontAwesomeIcon icon={faNotesMedical} />
+              </button>
+            </div>
+            </Link>
+
+            <Link href="/clinic/clinic-settings" passHref legacyBehavior>
+              <div className={styles.mobilebuttoncontainer}>
+                <button className={styles.mobilebutton}>
+                  <FontAwesomeIcon icon={faGear} />
+                </button>
+              </div>
+            </Link>
+
+            <div className={styles.mobilebuttoncontainer} onClick={handleLogout}>
+              <button className={styles.mobilebutton}>
+                <FontAwesomeIcon icon={faRightFromBracket}/>
+              </button>
+            </div>
+          </div>
+          {/*Mobile Mode*/}
 
           <Link href="/clinic-homepage" passHref>
             <div className={styles.cliniclogodiv}>
               <button className={styles.clinicicondiv}>
                 <FontAwesomeIcon icon={faHouse} />
-                <span className={styles.buttonText}>
+                  <span className={styles.buttonText}>
                   Home
                 </span>
               </button>

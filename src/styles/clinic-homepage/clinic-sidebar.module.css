@@ -4,13 +4,13 @@
   height: 100vh;
   background: #2596be;
   color: transparent;
-  overflow: hidden;
+  overflow: hidden; /* Allow dropdown to escape container */
   transition: width 0.5s ease-in-out; /* Smooth transition for width */
 }
 
 .clinicsidebar:hover{
   width: 150px;
-}
+} 
 
 .cliniclogodiv {
   color: white;
@@ -19,9 +19,9 @@
   justify-content: center; 
   height: 18vh;
   background-color: #2596be;
-  background-color: red;
   text-align: center;
   white-space: nowrap;
+  transition: background-color 0.3s ease-in-out, transform 0.5s ease-in-out; /* Smooth effect */
 }
 
 .clinicicondiv {
@@ -31,7 +31,7 @@
   align-items: center; 
   justify-content: center;
   border-radius: 10px;
-  transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out; /* Smooth effect */
+  transition: background-color 0.3s ease-in-out, transform 0.5s ease-in-out; /* Smooth effect */
 }
 
 .clinicicondiv:hover {
@@ -62,22 +62,62 @@
 
 @media (max-width: 1024px) {
   .clinicsidebar {
-    width: 100vh; /* Full width on smaller screens */
-    height: 50px; /* Height for the top sidebar */
-    top: 0; /* Align at the top */
-    left: 0; /* Stretch to the full width */
-    right: 0;
-    bottom: auto; /* Remove the default bottom value */
+    width: 100vw !important;
+    height: 60px;
+    position: relative; 
+    top: 0;
+    transition: none !important;
     display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    padding-left: 5px;
+    padding-right: 5px;
+    z-index: 1000; 
+    overflow: visible; /* Let dropdown escape the container */
   }
-  .clinicsidebar:hover{
-    width: 0;
+
+  .clinicsidebar:hover {
+    width: 100vw !important;
   }
-  .cliniclogodiv1 {
-    width: 100%;
+
+  .cliniclogodiv1, .cliniclogodiv, .clinicicondiv {
+    display: none !important;
+  }
+
+  .buttonText {
+    display: none !important;
+  }
+}
+
+.mobilecliniclogo, .mobilebutton, .mobilesidebarcontainer{
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .mobilesidebarcontainer{
+    display: flex;
+    width: calc(100vw - 10px);
+    height: 50px;
+    overflow: visible; /* Let dropdown escape the container */
+  }
+  .mobilebuttoncontainer {
+    display: flex;
+    width: 25%;
     height: 100%;
-    flex-shrink: 0; 
-    object-fit: contain;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    position: relative; /* Ensures dropdown aligns correctly */
+  }
+
+  .mobilebutton {
+    display: flex;
+    width: 25px;
+    height: 25px;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    position: relative;
   }
 }
 /* END OF THE SIDEBAR CSS */
