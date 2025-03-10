@@ -1,0 +1,34 @@
+.cliniccontainer {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    background-color: #f9f9f9;
+    flex-wrap: wrap; /* Ensures proper wrapping */
+    align-items: flex-start; /* Keeps items aligned at the top */
+    overflow: hidden;
+  }
+  
+  .maincontent {
+    flex: 1;
+    padding: 20px;
+    background-color: lightblue;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; 
+    height: 100%;
+    width: 100%;
+  }
+  
+  @media (max-width: 1024px) { /* Adjust the breakpoint as needed */
+    .cliniccontainer {
+      overflow: auto; /* Allows scrolling when minimized */
+      overflow-x: hidden;
+      width: 100%;
+    }
+  .maincontent {
+    flex-direction: column; /* Stack them vertically */
+    overflow-y: auto; /* Allows scrolling */
+    height: 100%; /*replace with auto*/
+    }
+  }
+  
