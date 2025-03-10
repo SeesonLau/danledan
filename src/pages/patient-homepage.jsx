@@ -1,4 +1,4 @@
-import PatientSidebar from "../components/sidebar/patientsidebar"; // Adjust the path if needed
+import PatientLayout from "@/components/patient-layout";
 import styles from "../styles/patient-homepage/patient-homepage.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
@@ -122,7 +122,7 @@ const PatientHomePage = () => {
   return (
     <div className={styles.patientcontainer}>
       {/* Sidebar */}
-      <PatientSidebar />
+      <PatientLayout/>
 
       {/*main content */}
       <main className={styles.patientmaincontent}>
