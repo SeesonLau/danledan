@@ -1,0 +1,11 @@
+.layoutContainer {
+    display: flex;
+    width: 100%;
+    min-height: 100vh; /* Ensures it takes full viewport height */
+}
+
+.mainContent {
+    flex: 1;
+    padding: 1rem; /* Prevents content from sticking to edges */
+    overflow: auto; /* Ensures child elements manage their own overflow */
+}
