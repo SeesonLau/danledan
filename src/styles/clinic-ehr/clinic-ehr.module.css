@@ -67,20 +67,15 @@
   max-width: 50%;
   width: 100%;
   height: calc(100vh - 40px);
-  background-color: #E3F2FD;
-  border: solid 1px #2563EB;
-  border-radius: 10px;
   position: relative;
   margin-bottom: 20px;
-  overflow: hidden;
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
 }
 
 @media (max-width: 1024px) {
   .ehrContainer {
     height: auto;
     max-width: 100%;
-    min-width: 650px;
+    min-width: 500px;
     padding-bottom: 20px; 
     
   }
@@ -423,4 +418,83 @@ line-height: 150%;
 
 .saveButton1:active {
   transform: scale(0.95);
+}
+
+
+.tableContainer {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 100px;
+  border: 1px solid #000;
+  background: #E0EFF9;
+  text-align: center;
+  color: var(--Color-Blue-Blue-600, #4183CF);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #4183CF
+}
+
+.thead {
+  background-color: #b0d4f1;
+  color: #004085;
+  text-align: center;
+}
+
+.th, .td {
+  padding: 8px;
+
+}
+
+/* Table Row Clickable Effect */
+.tr {
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.tr:hover {
+  background-color: #A2D2EE;;
+}
+
+/* Action Buttons */
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  
+}
+
+.button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #004085;
+}
+
+.button:hover {
+  color: #002752;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .table {
+    font-size: 14px;
+  }
+
+  .th, .td {
+    padding: 6px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .table {
+    font-size: 12px;
+  }
+
+  .th, .td {
+    padding: 4px;
+  }
 }
