@@ -38,7 +38,7 @@
 
 .maincontent {
   flex: 1;
-  padding: 20px;
+  padding: 2%;  
   background-color: lightblue;
   display: flex;
   flex-wrap: wrap;
@@ -47,29 +47,16 @@
   gap: 20px;
 }
 
-.firstdiv {
+.firstdiv, .seconddiv {
   flex: 1;
-  min-width: 400px; 
-  max-width: 50%;
+  min-width: 40%;
+  max-width: 100%;
   width: 100%;
-  height: calc(100vh - 40px); /* Adjust height based on viewport */
+  height: auto; /* Allow height to adjust dynamically */
   border-radius: 10px;
   position: relative;
-  margin-bottom: 20px; /* Matching bottom margin */
-
 }
 
-.seconddiv {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  min-width: 400px;
-  max-width: 50%;
-  width: 100%;
-  height: calc(100vh - 40px);
-  position: relative;
-  margin-bottom: 20px;
-}
 
 @media (max-width: 1024px) {
   .ehrContainer {
@@ -187,8 +174,16 @@
   display: flex;
   flex-direction: row; 
   justify-content: flex-start; 
+}
+
+.horizontalFormat2 {
+  display: flex;
+  flex-direction: row; 
+  justify-content: flex-start; 
+  gap: 1rem;
   
 }
+
 .verticalFormat {
   display: flex;
   flex-direction: column; 
@@ -301,7 +296,7 @@
   width:50%;
   text-align: center;
   border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
-  padding: 10px;
+  padding: 0.785rem;
 }
 .feeslabelCard {
   width:50%;
@@ -375,10 +370,11 @@
 .remarksContainer {
   display: flex;
   flex-direction: column;
-  width: 150%;
+  width: 100%;
   position: relative;
   height: 100%;
-  padding-right:  5px;
+  padding-right:  0.7;
+  padding-bottom: 1rem;
 }
 
 .feesText{

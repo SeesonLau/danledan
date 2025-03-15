@@ -27,6 +27,19 @@
   color: var(--Color-Blue-Blue-500, #559DDC);
 }
 
+.ehrTextboxContent4 {
+  padding: 0.7em 1em;
+  border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
+  border-radius: 5px;
+  background: var(--Color-Blue-Blue-100, #E0EFF9);
+  width: 100%; 
+  font-size: 0.8rem; 
+  font-family: Montserrat, sans-serif;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--Color-Blue-Blue-500, #559DDC);
+}
+
 /* ✅ Media Query for Smaller Screens */
 @media (max-width: 768px) {
   .ehrTextbox {
@@ -62,13 +75,13 @@
 
 /* ✅ Media Query for Better Responsiveness of ehrTextbox2 */
 @media (max-width: 768px) {
-  .ehrTextbox2, .ehrTextbox3 {
+  .ehrTextbox2, .ehrTextbox3, .ehrTextbox4 {
     max-width: 100%; /* Expand to full width on small screens */
     height: auto; /* Allow height to adjust dynamically */
     flex-direction: column; /* Stack elements vertically */
   }
 
-  .ehrTextboxLabel2, .ehrTextboxLabel3 {
+  .ehrTextboxLabel2, .ehrTextboxLabel3, .ehrTextboxLabel4 {
     font-size: 14px; /* Adjust font size */
   }
 }
@@ -91,14 +104,30 @@
 }
 
 
-/* Base Styles */
+.ehrTextbox4 {
+  display: flex;
+  flex-direction: column;
+  width: 100%; 
+  max-width: 400px;
+  max-height: 100px;
+}
+
+.ehrTextboxLabel4 {
+  color: var(--Color-Blue-Blue-800, #325B9B);
+  font-family: Montserrat, sans-serif;
+  font-size: 1rem; 
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center; 
+}
+
 .ehrTextbox5 {
   display: flex;
   flex-direction: column;
   width: 100%;
   max-width: 650px;
   min-width: 300px;
-  height: auto; /* Expands with content */
+  height: auto; 
   margin-top: 1.25rem; /* ~20px */
   margin-left: 1.875rem; /* ~30px */
 }
@@ -113,27 +142,25 @@
 }
 
 .ehrTextarea5 {
-
-  max-width: 650px;
+  max-width: 7%00;
   min-width: 300px;
-  height: 10rem;
+  height: 15rem;
   border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
   color: var(--Color-Blue-Blue-800, #325B9B);
   border-radius: 5px;
   background: var(--Color-Blue-Blue-100, #E0EFF9);
   font-family: Montserrat, sans-serif;
-  font-size: 1rem; /* ~16px */
+  font-size: 1.5rem; /* ~16px */
   padding: 0.625rem; /* ~10px */
-  resize: none; /* Prevent resizing if not required */
+  resize: none; 
 }
 
-/* Responsive Adjustments */
 @media (max-width: 768px) {
   .ehrTextbox5 {
     max-width: 100%;
     margin-left: 0;
     margin-right: 0;
-    padding: 0 1rem; /* Add horizontal padding */
+    padding: 0 1rem; 
   }
   
   .ehrTextarea5 {
@@ -142,14 +169,14 @@
   }
 }
 
-/* Extra Small Screens */
+
 @media (max-width: 480px) {
   .ehrTextboxLabel5 {
-    font-size: 1rem; /* Slightly smaller label font */
+    font-size: 1rem;
   }
   
   .ehrTextarea5 {
-    font-size: 0.75rem; /* ~12px */
+    font-size: 0.75rem; 
     padding: 0.5rem;
   }
 }
