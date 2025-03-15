@@ -5,6 +5,7 @@ import { MdAccountCircle } from "react-icons/md";
 import { EHRTextbox } from "@/components/ehr-textbox";
 import { EHR2Textbox } from "@/components/ehr-textbox";
 import { EHR3Textbox } from "@/components/ehr-textbox";
+import { EHR4Textbox } from "@/components/ehr-textbox";
 import { EHR5Textbox } from "@/components/ehr-textbox";
 import SaveButton from '@/components/save-button';
 import { FaEye, FaDownload, FaPrint } from "react-icons/fa";
@@ -170,7 +171,8 @@ const ClinicEHR = () => {
 
    const handleChange = (setter) => (e) => setter(e.target.value);
    
-   const patients = [ // - - TEMPORARY
+   //-PLACEHOLDER
+   const patients = [
     { caseNo: "0001", name: "John Doe", lastVisit: "15/02/2025", diagnosis: "Myopia", prescription: "-2.00 / -1.50" },
     { caseNo: "0002", name: "Jane Smith", lastVisit: "20/02/2025", diagnosis: "Hyperopia", prescription: "+1.50 / +1.00" },
     { caseNo: "0003", name: "Michael Johnson", lastVisit: "10/03/2025", diagnosis: "Astigmatism", prescription: "-1.25 / -0.75" },
@@ -193,7 +195,7 @@ const ClinicEHR = () => {
     { caseNo: "0020", name: "Amelia Scott", lastVisit: "08/08/2026", diagnosis: "Hyperopia", prescription: "+1.50 / +1.25" },
   ];
 
-  // Function to handle row click - TEMPORARY
+  // Function to handle row click -   //-PLACEHOLDER
   const viewPatient = (patient) => {
     if (patient.caseNo === "0001") {
       setCaseno(patient.caseNo);
@@ -273,16 +275,17 @@ const ClinicEHR = () => {
                             </div>
                             <div className={styles.profileColumn}>
                                 <EHRTextbox label="Case No." value={caseno} onChange={handleChange(setCaseno)} />
+                                <EHRTextbox label="Patient Name" value={name} onChange={handleChange(setPatientname)} />
+                                
                                 <EHRTextbox label="Address" value={address} onChange={handleChange(setAddress)} />
-                                <EHRTextbox label="Phone No." value={phone} onChange={handleChange(setPhonenumber)} />
                             </div>
                         </div>
 
                         <div className={styles.div2}> 
                             <div className={styles.profileRow}>
                                 <div className={styles.profileColumn}>
-                                    <EHRTextbox label="Patient Name" value={name} onChange={handleChange(setPatientname)} />
                                     <EHRTextbox label="Age" value={age} onChange={handleChange(setAge)} />
+                                    <EHRTextbox label="Phone No." value={phone} onChange={handleChange(setPhonenumber)} />
                                     <EHRTextbox label="Occupation" value={occupation} onChange={handleChange(setOccupation)} />
                                 </div>
 
@@ -369,18 +372,18 @@ const ClinicEHR = () => {
                                 </div>  
                                 <div className={styles.glassesContainer}>
                                     <div className={styles.glassesCard}>
-                                        <div className={styles.horizontalFormat}>
-                                            <EHR2Textbox label="P.D." value={pd} onChange={handleChange(setPD)} />
+                                        <div className={styles.horizontalFormat2}>
+                                            <EHR4Textbox label="P.D." value={pd} onChange={handleChange(setPD)} />
                                             <EHR2Textbox label="DBL" value={dbl} onChange={handleChange(setDBL)} />
                                         </div>
                                     </div>
                                     <div className={styles.glassesCard}>
-                                        <EHR2Textbox label="SIZE" value={size1} onChange={handleChange(setSize1)} />
+                                        <EHR4Textbox label="SIZE" value={size1} onChange={handleChange(setSize1)} />
                                     </div>
                                     <div className={styles.glassesCard}>
-                                        <div className={styles.horizontalFormat}>
-                                            <EHR2Textbox label="BIFOCALS" value={bifocals} onChange={handleChange(setBifocals)} />
-                                            <EHR2Textbox label="LENS" value={lens} onChange={handleChange(setLens)} />
+                                        <div className={styles.horizontalFormat2}>
+                                            <EHR4Textbox label="BIFOCALS" value={bifocals} onChange={handleChange(setBifocals)} />
+                                            <EHR4Textbox label="LENS" value={lens} onChange={handleChange(setLens)} />
                                         </div>
                                     </div>
                                     <div className={styles.glassesCard}>

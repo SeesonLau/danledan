@@ -279,15 +279,15 @@ const PatientEHR  = () => {
                             <div className={styles.profileColumn}>
                                 <EHRTextbox label="Case No." value={caseno} onChange={() => {}} />
                                 <EHRTextbox label="Address" value={address} onChange={() => {}} />
-                                <EHRTextbox label="Phone No." value={phone} onChange={() => {}} />
+                                <EHRTextbox label="Patient Name" value={name} onChange={() => {}} />
                             </div>
                         </div>
 
                         <div className={styles.div2}> 
                             <div className={styles.profileRow}>
                                 <div className={styles.profileColumn}>
-                                    <EHRTextbox label="Patient Name" value={name} onChange={() => {}} />
                                     <EHRTextbox label="Age" value={age} onChange={() => {}} />
+                                    <EHRTextbox label="Phone No." value={phone} onChange={() => {}} />
                                     <EHRTextbox label="Occupation" value={occupation} onChange={() => {}} />
                                 </div>
 
