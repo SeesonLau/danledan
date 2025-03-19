@@ -11,7 +11,15 @@ import {
   googleProvider,
   loginWithEmail,
   loginWithGoogle,
+  logout,
 } from "../config/firebase";
+
+//for 2nd role
+export let reregisterInfo = null;
+
+export const setReregisterInfo = (value) => {
+  reregisterInfo = value;
+};
 
 const Modal = ({ isOpen, onClose, onSwitch }) => {
   const [email, setEmail] = useState("");
@@ -29,9 +37,24 @@ const Modal = ({ isOpen, onClose, onSwitch }) => {
     }
     try {
       const validatedRole = await loginWithEmail(email, password, userType);
-      const route =
-        userType === "Patient" ? "/patient-homepage" : "/clinic-homepage";
-      router.push(route);
+      if (!validatedRole.success) {
+        const confirmation = window.confirm(
+          `You do not have a "${userType}" profile. Do you want to create one?`
+        );
+        if (confirmation) {
+          onSwitch();
+          console.log(`1 ${validatedRole.userData}`);
+          setReregisterInfo(validatedRole);
+          console.log(`2 ${reregisterInfo.role}`);
+        } else {
+          alert(`Please select the correct role.`);
+          await logout();
+        }
+      } else {
+        const route =
+          userType === "Patient" ? "/patient-homepage" : "/clinic-homepage";
+        router.push(route);
+      }
     } catch (error) {
       alert(error.message);
     }
@@ -40,10 +63,17 @@ const Modal = ({ isOpen, onClose, onSwitch }) => {
   const handleGoogleLogin = async () => {
     // Handle Google login logic here
     try {
-      const validatedRole = await loginWithGoogle(userType);
-      const route =
-        validatedRole === "Patient" ? "/patient-homepage" : "/clinic-homepage";
-      router.push(route);
+      const confirmation = window.confirm(
+        `Logging in as ${userType} using Google`
+      );
+      if (confirmation) {
+        const validatedRole = await loginWithGoogle(userType);
+        const route =
+          validatedRole === "Patient"
+            ? "/patient-homepage"
+            : "/clinic-homepage";
+        router.push(route);
+      }
     } catch (error) {
       alert(error.message);
     }

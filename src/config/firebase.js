@@ -84,13 +84,22 @@ export const loginWithEmail = async (email, password, userType) => {
     const lowerUserRoles = userRoles.map((role) => role.toLowerCase());
     const selectedRole = userType.toLowerCase();
 
+    const roleDoc = await getDoc(
+      doc(db, selectedRole === "clinic" ? "patients" : "clinics", user.uid)
+    );
+    const userInfo = roleDoc.data();
+
     if (!lowerUserRoles.includes(selectedRole)) {
-      throw new Error(
-        `You do not have a "${userType}" profile. Please select the correct role.`
-      );
+      //console.log(`3 ${userInfo.email}`);
+      return {
+        success: false,
+        userData: userInfo,
+        role: selectedRole,
+        uid: user.uid,
+      };
     }
 
-    return userType; // Return the selected role for routing
+    return { success: true, userType }; // Return the selected role for routing
   } catch (error) {
     if (error.code === "auth/user-not-found") {
       throw new Error("User does not exist.");
@@ -104,34 +113,45 @@ export const loginWithEmail = async (email, password, userType) => {
 
 export const loginWithGoogle = async (userType) => {
   try {
+    // Sign in with Google
     const userCredential = await signInWithPopup(auth, googleProvider);
+    if (!userCredential) {
+      throw new Error("Authentication failed. Please try again.");
+    }
+
     const user = userCredential.user;
+    if (!user || !user.email) {
+      throw new Error("Invalid user data. Please try again.");
+    }
 
     // Check if user exists in Firestore
     const userDocRef = doc(db, "users", user.uid);
     const userDoc = await getDoc(userDocRef);
 
     if (!userDoc.exists()) {
-      throw new Error("User data not found. Please register first.");
+      throw new Error("User data not found.");
     }
 
     const userData = userDoc.data();
+
+    // Ensure userRoles is always an array (handles both single role and multiple roles)
     const userRoles = Array.isArray(userData.role)
       ? userData.role
       : [userData.role];
 
-    if (
-      !userRoles
-        .map((role) => role.toLowerCase())
-        .includes(userType.toLowerCase())
-    ) {
+    // Convert both stored roles and selected role to lowercase for case-insensitive comparison
+    const lowerUserRoles = userRoles.map((role) => role.toLowerCase());
+    const selectedRole = userType.toLowerCase();
+
+    if (!lowerUserRoles.includes(selectedRole)) {
       throw new Error(
         `You do not have a "${userType}" profile. Please select the correct role.`
       );
     }
 
-    return userType; // Return the role for navigation
+    return userType; // Return the selected role for routing
   } catch (error) {
+    console.error("Google Login Error:", error);
     throw error;
   }
 };
@@ -143,9 +163,23 @@ export const registerWithEmail = async (
   email,
   password,
   role,
-  licenseNumber = null
+  licenseNumber = null,
+  isSecondRole = false,
+  uid = null
 ) => {
   try {
+    //for Second Role
+    if (isSecondRole) {
+      alert("1");
+      const userData = { email, firstName, lastName };
+      const secondAccount = await addSecondRole(
+        uid,
+        userData,
+        role,
+        role === "Clinic" ? licenseNumber : null
+      );
+      return { sucess: secondAccount.success, message: secondAccount.message };
+    }
     // Create user in Firebase Authentication
     const userCredential = await createUserWithEmailAndPassword(
       auth,
@@ -178,6 +212,125 @@ export const registerWithEmail = async (
     await setDoc(doc(db, roleCollection, user.uid), userData);
 
     return { success: true, message: "Registration successful!" };
+  } catch (error) {
+    return { success: false, message: error.message };
+  }
+};
+
+export const addSecondRole = async (
+  uid,
+  userData,
+  userType,
+  licenseNumber = null
+) => {
+  if (!uid || !userData || !userType) {
+    throw new Error("Missing required parameters");
+  }
+
+  try {
+    const userRef = doc(db, "users", uid);
+    const userSnap = await getDoc(userRef);
+
+    if (!userSnap.exists()) {
+      throw new Error("User does not exist");
+    }
+
+    let existingRole = userSnap.data().role;
+
+    if (!existingRole) {
+      existingRole = [];
+    } else if (typeof existingRole === "string") {
+      existingRole = [existingRole]; // Convert string to array
+    }
+
+    // Update the role field to ensure it keeps the original value
+    await updateDoc(userRef, {
+      role: arrayUnion(...existingRole, userType), // Ensure all roles are kept
+    });
+
+    // Define collection name based on userType
+    const collectionName = userType === "Clinic" ? "clinics" : "patients";
+    const roleRef = doc(db, collectionName, uid);
+
+    // Create a new document in the role collection
+    const newUserData = {
+      email: userData.email,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+    };
+
+    if (userType === "Clinic" && licenseNumber) {
+      newUserData.licenseNumber = licenseNumber;
+    }
+
+    await setDoc(roleRef, newUserData);
+
+    return { success: true, message: `You now have ${userType} account.` };
+  } catch (error) {
+    return { success: false, message: error.message };
+  }
+};
+
+export const registerWithGoogle = async (role, licenseNumber = null) => {
+  try {
+    const userCredential = await signInWithPopup(auth, googleProvider);
+    const user = userCredential.user;
+
+    // Extract user details
+    const { displayName, email, uid } = user;
+    const [firstName, ...lastNameArray] = displayName.split(" ");
+    const lastName = lastNameArray.join(" ") || "";
+
+    // Save user details in "users" collection
+    await setDoc(doc(db, "users", uid), {
+      email,
+      role,
+    });
+
+    // Determine the collection based on role
+    const roleCollection = role === "Patient" ? "patients" : "clinics";
+
+    // Prepare user data
+    const userData = {
+      firstName,
+      lastName,
+      email,
+    };
+
+    if (role === "Clinic") {
+      userData.licenseNumber = licenseNumber; // Add licenseNumber for clinics
+    }
+
+    // Save user details in role-specific collection
+    await setDoc(doc(db, roleCollection, uid), userData);
+
+    return {
+      success: true,
+      message: "Google sign-in successful!",
+      userData,
+      uid,
+    };
+  } catch (error) {
+    return { success: false, message: error.message };
+  }
+};
+
+export const updateUserInfo = async (uid, userType, licenseNumber) => {
+  try {
+    if (userType !== "Clinic") {
+      return {
+        success: false,
+        message: "Only Clinic users can have a license number.",
+      };
+    }
+
+    const clinicRef = doc(db, "clinics", uid);
+
+    await updateDoc(clinicRef, {
+      licenseNumber: licenseNumber,
+    });
+
+    return { success: true, message: "License number updated successfully!" };
   } catch (error) {
     return { success: false, message: error.message };
   }
