@@ -143,14 +143,32 @@ export const loginWithGoogle = async (userType) => {
     const lowerUserRoles = userRoles.map((role) => role.toLowerCase());
     const selectedRole = userType.toLowerCase();
 
+    const roleDoc = await getDoc(
+      doc(db, selectedRole === "clinic" ? "patients" : "clinics", user.uid)
+    );
+    const userInfo = roleDoc.data();
+
     if (!lowerUserRoles.includes(selectedRole)) {
-      throw new Error(
-        `You do not have a "${userType}" profile. Please select the correct role.`
-      );
+      return {
+        success: false,
+        userData: userInfo,
+        role: selectedRole,
+        uid: user.uid,
+      };
     }
 
     return userType; // Return the selected role for routing
   } catch (error) {
+    if (
+      error.code === "auth/cancelled-popup-request" ||
+      error.code === "auth/popup-closed-by-user"
+    ) {
+      console.warn("User closed the popup before completing sign-in.");
+      auth.signOut();
+      //alert("Google sign-in was canceled. Please try again.");
+      //googleProvider = new GoogleAuthProvider();
+      return null;
+    }
     console.error("Google Login Error:", error);
     throw error;
   }
@@ -165,7 +183,7 @@ export const registerWithEmail = async (
   role,
   licenseNumber = null,
   isSecondRole = false,
-  uid = null
+  uid
 ) => {
   try {
     //for Second Role
@@ -178,7 +196,8 @@ export const registerWithEmail = async (
         role,
         role === "Clinic" ? licenseNumber : null
       );
-      return { sucess: secondAccount.success, message: secondAccount.message };
+      alert(secondAccount.success);
+      return { success: secondAccount.success, message: secondAccount.message };
     }
     // Create user in Firebase Authentication
     const userCredential = await createUserWithEmailAndPassword(
@@ -217,12 +236,7 @@ export const registerWithEmail = async (
   }
 };
 
-export const addSecondRole = async (
-  uid,
-  userData,
-  userType,
-  licenseNumber = null
-) => {
+export const addSecondRole = async (uid, userData, userType, licenseNumber) => {
   if (!uid || !userData || !userType) {
     throw new Error("Missing required parameters");
   }

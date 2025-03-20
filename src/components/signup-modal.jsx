@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import CloseIcon from "@mui/icons-material/Close";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -21,7 +21,9 @@ const RegisterModal = ({ isOpen, onClose, onSwitch }) => {
     licenseNumber: "",
   });
   const [showPassword, setShowPassword] = useState(false);
-  const [userType, setUserType] = useState("Patient");
+  const [userType, setUserType] = useState(
+    reregisterInfo && reregisterInfo?.role === "clinic" ? "Clinic" : "Patient"
+  );
   const router = useRouter();
 
   if (!isOpen) return null;
@@ -45,11 +47,13 @@ const RegisterModal = ({ isOpen, onClose, onSwitch }) => {
   //for 2nd role registration
   const [isSecondRole, setIsSecondRole] = useState(false);
 
-  console.log(reregisterInfo);
+  //console.log(reregisterInfo);
+  const isInitialRender = useRef(true);
+
   useEffect(() => {
     if (reregisterInfo) {
       setIsSecondRole(true);
-      setUserType(reregisterInfo.role === "clinic" ? "Clinic" : "Patient");
+      //setUserType(reregisterInfo.role === "clinic" ? "Clinic" : "Patient");
       setFormData({
         firstName: reregisterInfo.userData.firstName,
         lastName: reregisterInfo.userData.lastName,
@@ -57,7 +61,25 @@ const RegisterModal = ({ isOpen, onClose, onSwitch }) => {
         password: "*****************", // Masked password
       });
     }
+    isInitialRender.current = true;
   }, [reregisterInfo]); // Runs only when reregisterInfo changes
+
+  useEffect(() => {
+    if (isInitialRender.current) {
+      isInitialRender.current = false;
+      return;
+    }
+    if (reregisterInfo) {
+      setIsSecondRole(false);
+      setReregisterInfo(null);
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+      });
+    }
+  }, [userType]); // Runs only when userType changes *needs change*
 
   const handleSignUp = async () => {
     let result = null;
@@ -92,13 +114,15 @@ const RegisterModal = ({ isOpen, onClose, onSwitch }) => {
         userType,
         userType === "Clinic" ? formData.licenseNumber : undefined, // Pass licenseNumber only for clinics
         isSecondRole ? true : false,
-        reregisterInfo.uid ? reregisterInfo.uid : null
+        reregisterInfo ? reregisterInfo?.uid : null
       );
+      //alert(reregisterInfo?.uid);
     }
-
+    //alert(result.success);
     if (result.success) {
       setIsSecondRole(false);
       setReregisterInfo(null);
+      //alert(userType);
       const route =
         userType === "Patient" ? "/patient-homepage" : "/clinic-homepage";
       router.push(route);
@@ -109,6 +133,12 @@ const RegisterModal = ({ isOpen, onClose, onSwitch }) => {
 
   const handleGoogleSignUp = async () => {
     try {
+      if (isSecondRole) {
+        handleSignUp();
+        setIsSecondRole(false);
+        setReregisterInfo(null);
+        return;
+      }
       const confirmation = window.confirm(
         `Creating a ${
           userType === "Patient" ? "Patient" : "Clinic"
@@ -116,6 +146,9 @@ const RegisterModal = ({ isOpen, onClose, onSwitch }) => {
       );
       if (confirmation) {
         const result = await registerWithGoogle(userType);
+        if (!result) {
+          return;
+        }
         if (result.success) {
           if (userType === "Clinic") {
             const user = result?.userData;

@@ -36,6 +36,7 @@ const Modal = ({ isOpen, onClose, onSwitch }) => {
       return;
     }
     try {
+      const confirmation = window.confirm(`Logging in as ${userType}`);
       const validatedRole = await loginWithEmail(email, password, userType);
       if (!validatedRole.success) {
         const confirmation = window.confirm(
@@ -62,16 +63,31 @@ const Modal = ({ isOpen, onClose, onSwitch }) => {
 
   const handleGoogleLogin = async () => {
     // Handle Google login logic here
+    //new-------------------------------------------
     try {
       const confirmation = window.confirm(
         `Logging in as ${userType} using Google`
       );
-      if (confirmation) {
-        const validatedRole = await loginWithGoogle(userType);
+      const validatedRole = await loginWithGoogle(userType);
+      if (!validatedRole) {
+        return null;
+      }
+      if (!validatedRole.success) {
+        const confirmation = window.confirm(
+          `You do not have a "${userType}" profile. Do you want to create one?`
+        );
+        if (confirmation) {
+          onSwitch();
+          console.log(`1 ${validatedRole.userData}`);
+          setReregisterInfo(validatedRole);
+          console.log(`2 ${reregisterInfo.role}`);
+        } else {
+          alert(`Please select the correct role.`);
+          await logout();
+        }
+      } else {
         const route =
-          validatedRole === "Patient"
-            ? "/patient-homepage"
-            : "/clinic-homepage";
+          userType === "Patient" ? "/patient-homepage" : "/clinic-homepage";
         router.push(route);
       }
     } catch (error) {
