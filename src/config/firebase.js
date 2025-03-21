@@ -90,7 +90,6 @@ export const loginWithEmail = async (email, password, userType) => {
     const userInfo = roleDoc.data();
 
     if (!lowerUserRoles.includes(selectedRole)) {
-      //console.log(`3 ${userInfo.email}`);
       return {
         success: false,
         userData: userInfo,
@@ -157,7 +156,7 @@ export const loginWithGoogle = async (userType) => {
       };
     }
 
-    return userType; // Return the selected role for routing
+    return { success: true, userType }; // Return the selected role for routing
   } catch (error) {
     if (
       error.code === "auth/cancelled-popup-request" ||
