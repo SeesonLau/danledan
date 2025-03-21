@@ -9,6 +9,7 @@ import { useState } from "react";
 import LoginModal from "@/components/login-modal";
 import RegisterModal from "@/components/signup-modal";
 import { auth } from "@/config/firebase";
+import { reregisterInfo, setReregisterInfo } from "@/components/login-modal";
 
 const HomePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,6 +27,7 @@ const HomePage = () => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    setReregisterInfo(null);
   };
 
   // scrolling effect
