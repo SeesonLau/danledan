@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { auth, getFullName } from "../config/firebase";
+import { useAuth } from "@/config/AuthContext";
 
 {
   /*OVERFLOWING PURPOSES DO YOUR BACKEND HERE BROSKI*/
@@ -37,7 +38,6 @@ const patientNotifications = [
 ];
 
 const PatientHomePage = () => {
-
   /*EASTER EGG LOGIC*/
   const [clickCount, setClickCount] = useState(0);
   const [timer, setTimer] = useState(null);
@@ -61,7 +61,6 @@ const PatientHomePage = () => {
     }
   };
   /*END OF EASTER EGG LOGIC*/
-
 
   /*USER AND CLINIC LOCATION LOGIC */
   const [userPosition, setUserPosition] = useState([
@@ -122,7 +121,7 @@ const PatientHomePage = () => {
   return (
     <div className={styles.patientcontainer}>
       {/* Sidebar */}
-      <PatientLayout/>
+      <PatientLayout />
 
       {/*main content */}
       <main className={styles.patientmaincontent}>

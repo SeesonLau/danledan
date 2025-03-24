@@ -5,15 +5,26 @@ import styles from "../styles/landing-page/index.module.css";
 import AboutUs from "@/components/landing-page/aboutus";
 import OurTeam from "@/components/landing-page/ourteam";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LoginModal from "@/components/login-modal";
 import RegisterModal from "@/components/signup-modal";
 import { auth } from "@/config/firebase";
 import { reregisterInfo, setReregisterInfo } from "@/components/login-modal";
+import { useAuth } from "@/config/AuthContext";
 
 const HomePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
+
+  //
+  const { user, loading } = useAuth();
+  useEffect(() => {
+    if (loading) return; // Wait until Firebase finishes checking auth status
+    if (!user) return; // If no user, stay on the landing page (DON'T redirect)
+  }, [user, loading]);
+
+  //if (loading) return <h1>Loading...</h1>;
+  //return null; // Prevent flickering before redirecting
 
   console.log(auth?.currentUser?.email);
 
