@@ -4,8 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { useState, useEffect } from "react";
-import "leaflet/dist/leaflet.css";
-import L from "leaflet";
 import { auth, getFullName } from "../config/firebase";
 
 {
@@ -61,42 +59,6 @@ const PatientHomePage = () => {
     }
   };
   /*END OF EASTER EGG LOGIC*/
-
-
-  /*USER AND CLINIC LOCATION LOGIC */
-  const [userPosition, setUserPosition] = useState([
-    10.294187716769942, 123.88035066423207,
-  ]); // Default position (clinic)
-
-  useEffect(() => {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          const newPosition = [pos.coords.latitude, pos.coords.longitude];
-          setUserPosition(newPosition);
-        },
-        (error) => {
-          console.error("Error fetching location:", error);
-        },
-        { enableHighAccuracy: true } // This forces the browser to get a more precise location
-      );
-    } else {
-      console.error("Geolocation is not supported by this browser.");
-    }
-  }, []);
-
-  const clinicposition = [10.294187716769942, 123.88035066423207];
-
-  /*MARKER ICON LOGIC IN MAP FOR CSS BECAUSE MARKER FROM LIBRARY IS BUGGED*/
-  const customIcon = L.icon({
-    iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
-    iconSize: [25, 41], // Default Leaflet icon size
-    iconAnchor: [12, 41], // Ensures the point of the marker is correctly positioned
-    popupAnchor: [1, -34],
-    shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
-    shadowSize: [41, 41],
-  });
-  /* END OF USER AND CLINIC LOCATION LOGIC */
 
   /*FILTER LOGIC IN THE NOTIFICATION*/
   const [isOpen, setIsOpen] = useState(false);
@@ -154,19 +116,7 @@ const PatientHomePage = () => {
 
           {/*Profile Info Container*/}
           <div className={styles.mapcontainer}>
-            <MapContainer
-              center={userPosition}
-              zoom={15}
-              style={{ height: "100%", width: "100%", borderRadius: "10px" }}
-            >
-              <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-              <Marker position={clinicposition} icon={customIcon}>
-                <Popup>Clinic Location</Popup>
-              </Marker>
-              <Marker position={userPosition} icon={customIcon}>
-                <Popup>Your Location</Popup>
-              </Marker>
-            </MapContainer>
+            
           </div>
         </div>
 
