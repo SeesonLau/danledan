@@ -1,0 +1,685 @@
+/* Layout.css */
+.cliniccontainer {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    background-color: #f9f9f9;
+    flex-wrap: wrap; /* Ensures proper wrapping */
+    align-items: flex-start; /* Keeps items aligned at the top */
+    overflow: hidden;
+  }
+  
+  @media (max-width: 1024px) { /* Adjust the breakpoint as needed */
+    .cliniccontainer {
+      overflow: auto; /* Allows scrolling when minimized */
+      overflow-x: hidden;
+      width: 100%;
+    }
+  }
+  
+  .hellobar {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 30px;
+    font-weight: 900;
+    color:#0D54AC;
+    display: block;
+    -webkit-text-stroke: 1px #0D54AC; 
+    text-transform: uppercase; 
+    letter-spacing: 1px;
+  }
+  
+  @media (max-width: 1024px){
+    .hellobar{
+      justify-content: center;
+      text-align: center;
+      font-size: 2em;
+    }
+  }
+  
+  .maincontent {
+    flex: 1;
+    padding: 20px;
+    background-color: lightblue;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; 
+    height: 100vh;
+  }
+  
+  .firstdiv {
+    flex: 1;
+    min-width: 400px; 
+    max-width: 50%;
+    width: 100%;
+    height: calc(100vh - 40px); /* Adjust height based on viewport */
+    border-radius: 10px;
+    position: relative;
+    margin-bottom: 20px; /* Matching bottom margin */
+  }
+  
+  .userprofilecontainer {
+    display: inline-flex;
+    background: linear-gradient(to right, rgb(164, 220, 246), rgb(124, 133, 250));
+    height: 40%;
+    width: 100%; /* Use full width of the parent container */
+    max-width: 95%; /* Prevents the container from exceeding this width */
+    border-radius: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+    position: relative;
+    overflow: hidden; /* Ensure the shine effect doesn't overflow the container */
+    transition: transform 0.3s ease;
+  }
+  
+  .userprofilecontainer:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+  }
+  
+  .userprofilecontainer::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.5) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(25deg);
+    transition: opacity 0.3s ease;
+    opacity: 0;
+  }
+  
+  .userprofilecontainer:hover::before {
+    opacity: 1;
+    animation: shine 0.75s forwards;
+  }
+  
+  @keyframes shine {
+    0% {
+      transform: translateX(-100%) rotate(25deg);
+    }
+    100% {
+      transform: translateX(100%) rotate(25deg);
+    }
+  }
+  
+  .userprofilecontainer:active {
+    transform: scale(1.0); 
+  }
+  
+  @media (max-width: 1024px) {
+    .userprofilecontainer {
+      height: auto; /* Allow it to shrink */
+      min-height: 250px; /* Ensure it's visible */
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+  
+  .userprofileicondiv1 {
+    width: 200px;
+    height: 100%;
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+  }
+  
+  .userprofileicon {
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+  }
+  
+  .userIcon {
+    width: 80%;  
+    height: 80%;
+    color: #0D54AC;
+  }
+  
+  .userprofileicondiv2 {
+    width: 330px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .userprofileicontext1{
+    color: #0D54AC;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 30px;
+    text-align: left; 
+    margin: 0; 
+  }
+  
+  @media (max-width: 1024px) {
+    .userprofileicontext1{
+      font-size: 20px;
+    }
+  }
+  
+  .userprofileicontext2{
+    color: white;
+    font: 20px;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+    text-align: left;
+    margin: 0;
+    text-transform: uppercase; 
+    letter-spacing: 1px;
+  }
+  
+  .mapcontainer {
+    width: 95%;
+    height: 240px;
+    text-align: center;
+    padding-top: 5px;
+    flex: 1;
+    overflow: hidden;
+  }
+  
+  .maptitle, .mapvisits {
+    font-family: 'Poppins', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+    text-align: left;
+    padding-left: 20px;
+    background: linear-gradient(90deg, #4b6cb7, #182848);
+    background-clip: text;
+    color: transparent;
+    transition: transform 0.5s ease, text-shadow 0.5s ease;
+  }
+  
+  /* Always active hover effect for maptitle */
+  .maptitle {
+    transform: scale(1.05); /* Always applied */
+  }
+  
+  /* Underline effect always visible for maptitle */
+  .maptitle::after {
+    content: '';
+    display: block;
+    width: 100%; /* Always full width */
+    height: 2px;
+    background: #4b6cb7;
+    margin-top: 5px;
+  }
+  
+  @media (max-width: 1024px) {
+    .mapcontainer{
+      width: 100%;
+    }
+    .maptitle, .mapvisits {
+      width: 100%;
+      overflow: hidden;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0;
+    }
+  }
+  
+  .mapvisits {
+    font-size: 50px;
+  }
+  
+  /* Hover effect for .mapvisits only */
+  .mapvisits:hover {
+    transform: scale(1.05);
+  }
+  
+  .mapvisits::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: #4b6cb7;
+    transition: width 0.5s;
+    margin-top: 5px;
+  }
+  
+  .mapvisits:hover::after {
+    width: 100%;
+  }
+  
+  .mapsquarediv {
+    display: flex;  
+    justify-content: flex-start;
+    align-items: center; 
+    height: 140px;
+    width: 100%;
+    border-radius: 30px;
+    overflow: visible;
+    padding-bottom: 0px;
+    overflow: auto;
+  }
+  
+  .mapsquare1, .mapsquare2 {
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    height: 100px;
+    width: 40%;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.55);
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+    position: relative;
+    overflow: hidden; 
+    transition: transform 0.3s ease;
+  }
+  @media (max-width: 1024px) {
+    .mapsquarediv{
+      justify-content: center;
+    }
+    .mapsquare1, .mapsquare2{
+      width: 50%;
+    }
+  }
+  
+  .mapsquare1 {
+    margin-right: 10px;
+  }
+  
+  .mapsquare1::before, .mapsquare2::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      to right,
+      rgba(0, 0, 255, 0) 0%,
+      rgba(0, 0, 255, 0.5) 50%,
+      rgba(0, 0, 255, 0) 100%
+    );
+    transform: rotate(25deg);
+    transition: opacity 0.3s ease;
+    opacity: 0;
+  }
+  
+  .mapsquare1:hover::before, .mapsquare2:hover::before {
+    opacity: 1;
+    animation: shine 0.75s forwards;
+  }
+  
+  @keyframes shine {
+    0% {
+      transform: translateX(-100%) rotate(25deg);
+    }
+    100% {
+      transform: translateX(100%) rotate(25deg);
+    }
+  }
+  
+  .mapsquare1:active, .mapsquare2:active {
+    transform: scale(1.0);
+  }
+  
+  .newoldpatient{
+    text-transform: uppercase;
+    letter-spacing: 1px; 
+    height: 40px;
+    width: 100%;
+    display: block;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .newoldpatienttitle {
+    text-transform: uppercase;
+    letter-spacing: 1px; 
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    height: 100%;
+    padding-left: 20px;
+    padding-top: 5px;
+  }
+  
+  @media (max-width: 1024px) {
+    .newoldpatienttitle{
+      font-size: 12px;
+      align-items: start;
+    }
+  }
+  
+  .newoldpatientnumber{
+    height: 60px;
+    width: 100%;
+    display: block;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .newoldpatientnumbertitle{
+    font-family: 'Poppins', sans-serif;
+    font-size: 40px;
+    color: black;
+    display: flex;
+    left: 16px;
+    height: 100%; /* Ensures it takes up the full height of the div */
+    padding-left: 20px;
+  }
+  @media (max-width: 1024px) {
+    .newoldpatientnumbertitle{
+      font-size: 50px;
+      padding: 0;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  
+  .seconddiv {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 400px;
+    max-width: 800px;
+    width: 100%;
+    height: calc(100vh - 40px);
+    background-color: #E3F2FD;
+    border: solid 1px #2563EB;
+    border-radius: 10px;
+    position: relative;
+    margin-bottom: 20px;
+    overflow: hidden;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+  }
+  
+  @media (max-width: 1024px) {
+    .firstdiv {
+      height: auto;
+      max-width: 100%;
+      min-width: unset;
+    }
+  
+    .seconddiv {
+      height: auto; 
+      max-width: 100%; 
+      min-width: unset; 
+      padding-bottom: 20px; 
+    }
+  
+    .maincontent {
+      flex-direction: column; /* Stack them vertically */
+      overflow-y: auto; /* Allows scrolling */
+      height: auto;
+      padding-top: 10px;
+    }
+  }
+  
+  .notiftext {
+    display: flex; /* Keeps it as a block-level element */
+    width: 100%;
+  }
+  
+  .notifpatienttext{
+    padding: 0;
+    height: 100%;
+    width: 1000px;
+    display: flex;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 30px;
+    color: #0D54AC;
+    font-weight: bold;
+    text-align: start; /* Centers the text horizontally */
+    padding-left: 20px;
+    text-transform: uppercase; /* Makes it look cleaner */
+    letter-spacing: 1px; /* Adds slight spacing for elegance */
+  }
+  
+  @media (max-width: 1024px){
+    .notifpatienttext{
+    font-size: 20px;
+    justify-content: left;
+    height:100%;
+    margin-top: 5px;
+    }
+  }
+  
+  .notifpatientbuttondiv {
+    height: 45px;
+    width: 200px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    position: relative; /* Ensures dropdown stays inside this container */
+  }
+  
+  .notifpatientbutton {
+    height: 35px;
+    width: 80px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    background: none;
+    position: relative; /* Needed for dropdown positioning */
+  }
+  
+  .notifpatientbutton:hover {
+    background-color: white;
+    transition: 0.5s;
+    border: 1px solid #ccc;
+  }
+  
+  .notifpatientbuttontext {
+    width: 80px;
+    text-align: center;
+    padding: 5px;
+    color: black;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  /* Dropdown Styles */
+  .dropdownMenu {
+    position: absolute;
+    top: 100%; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    width: 80px; 
+    background: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    z-index: 10;
+    padding: 0;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .dropdownItem {
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: black;
+    cursor: pointer;
+    background: white;
+    border-radius: 5px;
+  }
+  
+  .dropdownItem:last-child {
+    border-bottom: none;
+  }
+  
+  .dropdownItem:hover {
+    background-color: white;
+  }
+  
+  /* BEGINNING OF THE NOTIF WRAPPER gikapoy nako haha */
+  .notifwrapper {
+    display: block;
+    flex-grow: 1; 
+    min-height: 490px; 
+    max-height: 100%; 
+    overflow-y: auto; 
+    scroll-snap-type: y mandatory;
+    width: 100%;
+  
+    /* Scrollbar Styles */
+    scrollbar-width: thin; /* For Firefox */
+    scrollbar-color: #ddd #f5f5f5; 
+  }
+  
+  @media (max-width: 1024px) { /* Adjust for smaller screens */
+    .notifwrapper {
+      height: auto; 
+      min-height: 490px; /* Prevents shrinking */
+      max-height: none; /* Removes height restrictions */
+      overflow-y: auto; /* Ensures scrolling if content overflows */
+    }
+  }
+  
+  .notifwrapper::-webkit-scrollbar {
+    width: 6px; /* Thin scrollbar */
+  }
+  
+  .notifwrapper::-webkit-scrollbar-track {
+    background: #f5f5f5; /* Soft light background */
+    border-radius: 10px;
+  }
+  
+  .notifwrapper::-webkit-scrollbar-thumb {
+    background: #ddd; /* Light gray thumb */
+    border-radius: 10px;
+    transition: background 0.3s ease-in-out;
+  }
+  
+  .notifwrapper::-webkit-scrollbar-thumb:hover {
+    background: #bbb; /* Slightly darker gray on hover for subtle effect */
+  }
+  /* END OF THE NOTIF WRAPPER*/
+  
+  .notifmessage {
+    scroll-snap-align: center;
+    width: 100%;
+    height: 57px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: flex-start; 
+    align-items: center;
+    border-radius: 20px;
+    color: black; /* Default text color */
+  }
+  
+  .notifmessage:last-child {
+    margin-bottom: 0; 
+  }
+  
+  .notifmessage:hover {
+    background: linear-gradient(to right, rgb(164, 220, 246), rgb(124, 133, 250));
+    transition: background 0.3s ease-in;
+    color: white; /* Change text color */
+  }
+  
+  /* Ensure all child elements also turn white */
+  .notifmessage:hover * {
+    color: white;
+  }
+  
+  .patientnotifpicdiv {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    border-radius: 30px;
+    width: 33.3%;
+    height: 100%;
+  }
+  
+  .patientnotifpic {
+    display: flex;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .clinicpicIcon{
+    width: 80%; 
+    height: 80%;
+    color: #0D54AC; 
+    top: 50%;
+    left: 50%;
+  }
+  
+  .clinicpatientnamediv {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    justify-content: center;
+    align-items: center;
+    width: 33.3%;
+    height: 100%;
+    padding: 10px; 
+    overflow: hidden; 
+    text-align: center; 
+  }
+  
+  .clinicpatientname {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    text-align: center;
+    word-break: break-word; 
+    max-width: 100%;
+  }
+  @media (max-width: 1024px){
+    .clinicpatientname{
+      font-size: 10px;
+      justify-content: start;
+      text-align: start;
+      align-items: start;
+    }
+  }
+  
+  
+  .clinicpatienttimediv {
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+    width: 33.3%;
+    height: 100%;
+  }
+  
+  .clinicpatienttimecontainer{
+    display: flex;
+    height: 30px;
+    width: 80px;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(246, 32, 136, 0.15);
+  }
+  
+  .clinicpatienttime{
+    color: #cd0566;
+  }
+  

@@ -1,0 +1,144 @@
+/* BEGINNING OF THE SIDEBAR CSS */
+.clinicsidebar {
+    width: 60px;
+    height: 100vh;
+    background: #2596be;
+    color: transparent;
+    overflow: hidden; /* Allow dropdown to escape container */
+    transition: width 0.5s ease-in-out; /* Smooth transition for width */
+  }
+  
+  .clinicsidebar:hover{
+    width: 150px;
+  } 
+  
+  .cliniclogodiv {
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    height: 18vh;
+    background-color: #2596be;
+    text-align: center;
+    white-space: nowrap;
+    transition: background-color 0.3s ease-in-out, transform 0.5s ease-in-out; /* Smooth effect */
+  }
+  
+  .clinicicondiv {
+    height: 30%;
+    width: 90%;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    border-radius: 10px;
+    transition: background-color 0.3s ease-in-out, transform 0.5s ease-in-out; /* Smooth effect */
+  }
+  
+  .clinicicondiv:hover {
+    background-color: white;
+    color: #2596be;
+    transform: scale(1.1); /* Slight zoom effect on hover */
+  }
+  
+  .cliniclogodiv1 {
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px; 
+    background-color: #2596be;
+    padding: 1rem; 
+    position: relative; 
+    gap: 12px;
+    min-width: fit-content; 
+  }
+  
+  .cliniclogodiv1 img {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0; 
+    object-fit: contain;
+  }
+  
+  @media (max-width: 1024px) {
+    .clinicsidebar {
+      width: 100vw !important;
+      height: 60px;
+      position: relative; 
+      top: 0;
+      transition: none !important;
+      display: flex;
+      justify-content: space-between; 
+      align-items: center;
+      padding-left: 5px;
+      padding-right: 5px;
+      z-index: 1000; 
+      overflow: visible; /* Let dropdown escape the container */
+    }
+  
+    .clinicsidebar:hover {
+      width: 100vw !important;
+    }
+  
+    .cliniclogodiv1, .cliniclogodiv, .clinicicondiv {
+      display: none !important;
+    }
+  
+    .buttonText {
+      display: none !important;
+    }
+  }
+  
+  .mobilecliniclogo, .mobilebutton, .mobilesidebarcontainer{
+    display: none;
+  }
+  
+  @media (max-width: 1024px) {
+    .mobilesidebarcontainer{
+      display: flex;
+      width: calc(100vw - 10px);
+      height: 50px;
+      overflow: visible; /* Let dropdown escape the container */
+    }
+    .mobilebuttoncontainer {
+      display: flex;
+      width: 25%;
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      position: relative; /* Ensures dropdown aligns correctly */
+    }
+  
+    .mobilebutton {
+      display: flex;
+      width: 25px;
+      height: 25px;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      position: relative;
+    }
+  }
+  /* END OF THE SIDEBAR CSS */
+  
+  /*Expanding sidebar CSS */
+  .buttonText {
+    display: none;
+    margin-left: 10px;
+    font-size: 16px;
+    font-family: "Montserrat", sans-serif;
+    transform: translateX(-10px);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  }
+  
+  .clinicsidebar:hover .clinicicondiv {
+    justify-content: flex-start;
+    padding-left: 20px;
+  }
+  
+  .clinicsidebar:hover .buttonText {
+    display: inline-block;
+    transform: translateX(0);
+  }
+  
