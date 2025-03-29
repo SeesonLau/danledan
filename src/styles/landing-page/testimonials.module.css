@@ -1,0 +1,155 @@
+/* Testimonials Section */
+.testimonials {
+    position: relative; /* Positioning to layer the overlay properly */
+    background-image: url('../../../public/landing-page-iamge/testimonials.jpg'); /* Background image */
+    background-size: cover; /* Ensure the image covers the entire section */
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 4rem 2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #ffffff;
+    overflow: hidden; /* Prevent overflow issues */
+}
+
+/* Overlay for Testimonials */
+.testimonials-overlay {
+    position: absolute; /* Cover the entire section */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 119, 182, 0.7); /* Match the gradient overlay style */
+    z-index: 1;
+}
+
+/* Testimonials Header */
+.testimonials-header {
+    text-align: center;
+    margin-bottom: 2.5rem; /* Space between the header and testimonial cards */
+    z-index: 2; /* Ensure it appears above the overlay */
+}
+
+.testimonials-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.testimonials-subtitle {
+    font-size: 1.2rem;
+    font-style: italic;
+    margin-bottom: 2.5rem;
+}
+
+/* Testimonial Container */
+.testimonial-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    max-width: 1100px; /* Limit the width */
+    z-index: 2; /* Ensure cards appear above the overlay */
+}
+
+/* Testimonial Card */
+.testimonial-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(200, 229, 252, 0.8); /* Transparent card background */
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    padding: 2rem;
+    width: 100%; /* Adjust card width */
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    transition: transform 0.3s ease; /* Smooth transition for sliding */
+  
+}
+
+/* Navigation Arrows */
+.nav-arrow {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #ffffff;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3; /* Above overlay and card */
+}
+
+.left-arrow {
+    left: -3rem;
+}
+
+.right-arrow {
+    right: -3rem;
+}
+
+.nav-arrow:hover {
+    color: #c8e5fc;
+}
+
+/* Testimonial Content */
+.testimonial-content {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-direction: row;
+    justify-content: center;
+    color: #333333;
+}
+
+.testimonial-image img {
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 5px solid #42c0ff;
+}
+
+.testimonial-text {
+    text-align: center;
+    max-width: 400px;
+}
+
+.testimonial-quote {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.testimonial-author {
+    font-weight: bold;
+    font-style: italic;
+    color: #666666;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .testimonial-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .nav-arrow {
+        display: none; /* Hide arrows on smaller screens */
+    }
+
+    .testimonial-card {
+        width: 90%; /* Adjust card width */
+    }
+
+    .testimonial-image img {
+        width: 150px;
+        height: 150px;
+    }
+}
