@@ -1,0 +1,496 @@
+.component-example {
+  display: flex; /* Use flexbox for centering */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically if height is set */
+  height: 100vh; /* Take full viewport height for vertical centering */
+  text-align: center; /* Center text */
+}
+
+.App {
+  text-align: center;
+  
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.Login-header {
+  display: flex;
+  width: 1440px;
+  height: 85px;
+  padding: 0px 50px;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  background: #DDECFF;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+/* Homepage Header */
+.home-page-header {
+  display: flex; /* Use flexbox layout */
+  justify-content: space-between; /* Space between the logo and buttons */
+  align-items: center; /* Vertically center the content */
+  padding: 1rem 2rem; /* Padding for spacing */
+  background: rgba(0, 0, 0, 0.4); /* Transparent background with slight opacity */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  position: sticky; /* Make the header stick at the top of the page */
+  top: 0;
+  z-index: 1000; /* Ensure the header stays on top of other content */
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo {
+  background-image: url('../../../public/landing-page-iamge/opto2.png');
+  background-size: contain;
+  background-position: center;
+  height: 50px; /* Adjust height */
+  width: 50px;  /* Adjust width */
+  margin-right: 10px;
+  border: none;
+  padding: 0;
+  background-repeat: no-repeat; /* Avoid repeating the image */
+}
+
+  /* Logo Title Adjustments for Responsiveness */
+  .logo-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: white;
+    display: inline-block; /* Ensure it's inline-block for hiding */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  /* Hide logo text on small screens */
+  @media (max-width: 620px) {
+    .logo-title {
+      opacity: 0;
+      visibility: hidden;
+      width: 0; /* Prevent text from taking up space */
+      height: 0;
+    }
+  }
+
+/* Flexbox for the Auth buttons */
+.auth-buttons {
+  display: flex; /* Arrange buttons in a row */
+  gap: 1rem; /* Space between the buttons */
+}
+
+/* Styling for the buttons */
+.glass-button {
+  padding: 1rem 2rem; /* Ensure equal padding for consistent button size */
+  border: none;
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.2); /* Semi-transparent white background */
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  backdrop-filter: blur(8px); /* Frosted glass effect */
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  display: inline-block;
+  min-width: 120px; /* Minimum width for buttons */
+  text-align: center;
+}
+
+/* Hover effect for buttons */
+.glass-button:hover {
+  background: rgba(255, 255, 255, 0.4);
+  transform: translateY(-3px);
+}
+
+/* Show buttons and hide icons for screens > 620px */
+@media (min-width: 621px) {
+  .auth-buttons {
+    display: flex; /* Show buttons */
+  }
+
+  .auth-icons {
+    display: none; /* Hide icons */
+  }
+}
+
+/* Show icons and hide buttons for screens <= 620px */
+@media (max-width: 620px) {
+  .auth-buttons {
+    display: none; /* Hide buttons */
+  }
+
+  .auth-icons {
+    display: flex; /* Show icons */
+    gap: 3rem; /* Space between the icons */
+  }
+
+  /* Adjust the logo size on smaller screens */
+  .logo-title {
+    font-size: 1.5rem; /* Reduce logo size on smaller screens */
+  }
+}
+
+/* Media Query for screens smaller than 425px */
+@media (max-width: 425px) {
+  .home-page-header {
+    justify-content: space-between; /* Ensure elements are spaced evenly */
+    padding: 1rem; /* Reduce padding on smaller screens */
+  }
+
+  /* Ensure icons are still visible in very small screens */
+  .auth-icons {
+    display: flex; /* Show icons */
+    gap: 1rem;
+  }
+}
+/* Hero Section */
+.hero-section {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: url('../../../public/landing-page-iamge/optoimage.jpg') no-repeat center center/cover;
+}
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 123, 255, 0.5);
+  z-index: 1;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  color: white;
+}
+.hero-content h1 {
+  font-size: clamp(1.5rem, 6vw, 3rem); /* Adjust font size based on viewport width */
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.hero-button {
+  padding: clamp(0.8rem, 2vw, 1.5rem) clamp(1.5rem, 4vw, 2rem);
+  background-color: #28a745; /* Green button */
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+}
+
+.hero-button:hover {
+  background-color: #218838; /* Darker green */
+  transform: scale(1.05);
+}
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  margin: 0 1rem;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #28a745; /* Green color on hover */
+  transform: translateY(-2px);
+}
+
+/* Shared styles for scrollable sections */
+.scrollable-section {
+  padding: 4rem 2rem;
+  text-align: center;
+  margin: 2rem auto;
+  max-width: 800px;
+  color: white; /* Consistent text color */
+}
+
+.scrollable-section h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.scrollable-section p,
+.scrollable-section ul {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.scrollable-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.scrollable-section li {
+  margin-bottom: 0.5rem;
+}
+
+.scrollable-section p {
+  margin-bottom: 1.5rem;
+}
+
+/* About Section */
+.about-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  height: 50vh; /* Set to 50% of the viewport height */
+  color: white;
+}
+
+.about-section h2 {
+  font-size: clamp(1.5rem, 5vw, 3rem); /* Dynamically scales text size based on the viewport width */
+  margin-bottom: 1rem;
+}
+
+.about-section p {
+  font-size: clamp(1rem, 3vw, 1.5rem); /* Dynamically scales text size */
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+/* Contact Section */
+.contact-section {
+  padding: 4rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contact-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  width: 100%;
+  gap: 2rem;
+}
+
+.contact-left, .contact-right {
+  flex: 1;
+}
+
+.contact-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center-align the logo and phrase */
+  text-align: center;  /* Ensure the phrase is centered */
+}
+
+.cogo {
+  margin-bottom: 1rem;
+  background-image: url('../../../public/landing-page-iamge/opto2.png');
+  background-size: contain;
+  background-position: center;
+  height: 150px; /* Adjust height */
+  width: 150px;  /* Adjust width */
+  border: none;
+  padding: 0;
+  background-repeat: no-repeat; /* Avoid repeating the image */
+}
+
+
+.contact-phrase {
+  font-size: 1.5rem;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.contact-right {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center; /* Center-align the text */
+}
+
+.contact-right h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #0077b6;
+}
+
+.contact-right p {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  color: #555555;
+}
+
+.contact-right ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.contact-right li {
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  color: #333333;
+}
+
+.contact-right li strong {
+  color: #0077b6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .contact-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .contact-left, .contact-right {
+    flex: unset;
+    width: 100%;
+  }
+
+  .contact-right {
+    margin-top: 2rem;
+  }
+}
+
+
+/* About Section */
+.about-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  height: 60vh; /* Increased to 60% of the viewport height */
+  color: white;
+}
+
+
+.nav-links {
+  display: flex;
+  gap: 16px;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #000;
+}
+
+.link .icon {
+  display: none; /* Initially hide icons */
+  margin-right: 8px;
+}
+
+.link .text {
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .link .icon {
+    display: block; /* Show icons */
+  }
+
+  .link .text {
+    display: none; /* Hide text */
+  }
+}
+
+/* For screens as small as 320px */
+@media (min-width: 320px) and (max-width: 620px) {
+.auth-icons {
+  display: flex;
+  justify-content: center; /* Center the icons */
+  align-items: center; /* Align them vertically */
+  gap: 1rem; /* Reduce gap between icons */
+  flex-wrap: wrap; /* Allow wrapping to prevent overflow */
+}
+
+.auth-icons .icon {
+  font-size: 1.2rem; /* Adjust icon size for visibility */
+}
+
+.nav-links a {
+  font-size: 0.8rem; /* Smaller text for navigation */
+  margin: 0 0.5rem; /* Reduce margin */
+}
+
+.home-page-header {
+  padding: 0.5rem 1rem; /* Adjust padding */
+}
+
+.logo {
+  height: 30px; /* Smaller logo */
+  width: 30px; /* Smaller logo */
+}
+
+.logo-title {
+  font-size: 1.2rem; /* Reduce text size */
+}
+}
+
+.iconSvg {
+width: 1.5em; /* Base size */
+height: 1.5em;
+transition: transform 0.2s ease; /* Smooth resizing */
+}
+
+@media (max-width: 768px) {
+.iconSvg {
+  width: 1.2em;
+  height: 1.2em;
+}
+}
+
+@media (max-width: 480px) {
+.iconSvg {
+  width: 1em;
+  height: 1em;
+}
+}
