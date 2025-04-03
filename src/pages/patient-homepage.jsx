@@ -2,7 +2,6 @@ import PatientLayout from "@/components/patient-layout";
 import styles from "../styles/patient-homepage/patient-homepage.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { useState, useEffect } from "react";
 import { auth, getFullName } from "../config/firebase";
 
