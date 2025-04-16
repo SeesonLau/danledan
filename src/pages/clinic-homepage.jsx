@@ -1,16 +1,25 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import { useRef } from "react";
-import styles from "../styles/clinic-homepage/clinic-homepage.module.css";
+import styles from '../styles/clinic-homepage/clinic-homepage.module.css';
 import "@fontsource/montserrat";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import ClinicSidebar from '../components/sidebar/clinicsidebar.jsx'; // Adjust the path if needed
 import ClinicLayout from "@/components/clinic-layout";
-import { auth, getFullName } from "../config/firebase";
 
-const todayVisit = 100;
-const oldpVisit = 50;
-const newpVisit = 50;
+{/*Doctor's Name logic*/}
+const drName = ["Dr. Quack Quack"];
 
+{/*Visits today logic*/}
+const visitstoday = 100;
+
+{/*New patients logic*/}
+const newpatient = 50;
+
+{/*Old patients logic*/}
+const oldpatient = 50;
+
+{/*OVERFLOWING PURPOSES DO YOUR BACKEND HERE BROSKI*/}
 const patientNotifications = [
   { id: 1, name: "i love joy arenas", time: "5:30pm" },
   { id: 2, name: "i love joy arenas", time: "5:30pm" },
@@ -22,29 +31,33 @@ const patientNotifications = [
   { id: 8, name: "Dawson Alegarbes", time: "5:30pm" },
   { id: 9, name: "Dan Adlawan", time: "5:30pm" },
   { id: 10, name: "Joy Arenas", time: "5:30pm" },
-];
+]; 
 
 const ClinicHome = () => {
+  
+  {/*Easter Egg logic*/}
   const [clickCount, setClickCount] = useState(0);
   const [timer, setTimer] = useState(null);
 
   const handleProfileClick = () => {
     if (clickCount + 1 === 3) {
-      window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"; // Rickroll after 3rd click
+     window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"; // Rickroll after 3rd click
     } else {
-      setClickCount((prev) => prev + 1);
-
+     setClickCount((prev) => prev + 1);
+    
       // Clear previous timer and set a new one
-      if (timer) clearTimeout(timer);
+    if (timer) clearTimeout(timer);
+    
+    const newTimer = setTimeout(() => {
+      setClickCount(0);
+    }, 5000); // Reset after 5 seconds
 
-      const newTimer = setTimeout(() => {
-        setClickCount(0);
-      }, 5000); // Reset after 5 seconds
-
-      setTimer(newTimer);
+    setTimer(newTimer);
     }
   };
+  {/*End Easter Egg logic*/}
 
+  {/*Voice Logic*/}
   const hasSpoken = useRef(false); // Prevents double execution
   useEffect(() => {
     if (!hasSpoken.current) {
@@ -67,164 +80,149 @@ const ClinicHome = () => {
       hasSpoken.current = true; // Mark it as spoken
     }
   }, []);
+  {/*End voice Logic*/}
 
-  
-  /*FILTER LOGIC IN THE PATIENT LIST*/
+  {/*FILTER LOGIC IN THE PATIENT LIST*/}
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("Today");
   const options = ["Today", "Yesterday", "This Week", "This Month"];
-  /*END OF FILTER LOGIC IN THE PATIENT LIST*/
-
-  //for Display Name
-  // State to hold user's name
-  const [fullName, setFullName] = useState("Loading...");
-  // Fetch patient's first and last name from Firebase
-  useEffect(() => {
-    const fetchUserName = async () => {
-      if (auth.currentUser) {
-        const name = await getFullName(auth.currentUser.uid, "Clinic"); // Specify "Clinic"
-        setFullName(name);
-      }
-    };
-
-    fetchUserName();
-  }, []);
-
+  {/*END OF FILTER LOGIC IN THE PATIENT LIST*/}
+  
   return (
-      <div className={styles.cliniccontainer}>
-        <ClinicLayout/>
-        <main className={styles.maincontent}>
-          {/* First div layer */}
-          <div className={styles.firstdiv}>
-            <h1 className={styles.hellobar}>Welcome!</h1>
+    
+    <div className={styles.cliniccontainer}>
+      <ClinicLayout/>
+      <main className={styles.maincontent}>
+        
+        {/* First div layer */}
+        <div className={styles.firstdiv}>
+          <h1 className={styles.hellobar}>
+           Welcome!
+          </h1>
 
-            {/* User Container */}
-            <div
-              className={styles.userprofilecontainer}
-              onClick={handleProfileClick}
-            >
-              <div className={styles.userprofileicondiv1}>
-                <div className={styles.userprofileicon}>
-                  {/* Do your Profile Picture of the doctor backend here */}
-                  <FontAwesomeIcon icon={faUser} className={styles.userIcon} />
-                </div>
-              </div>
-
-              <div className={styles.userprofileicondiv2}>
-                <p className={styles.userprofileicontext1}>Dr. {fullName}</p>
-                <p className={styles.userprofileicontext2}>
-                  Optometrist
-                </p>
+          {/* User Container */}
+          <div className={styles.userprofilecontainer} onClick={handleProfileClick}>
+            <div className={styles.userprofileicondiv1}>
+              <div className={styles.userprofileicon}>
+                {/* Do your Profile Picture of the doctor backend here */}   
+                <FontAwesomeIcon icon={faUser} className={styles.userIcon}/>
               </div>
             </div>
-
-            {/* Map Container */}
-            <div className={styles.mapcontainer}>
-              <h3 className={styles.maptitle}>Visits for Today</h3>
-              <h3 className={styles.mapvisits}>
-                {todayVisit}
-              </h3>
-
-              <div className={styles.mapsquarediv}>
-                {/*New Patients Box */}
-                <div className={styles.mapsquare1}>
-                  <div className={styles.newoldpatient}>
-                    {/*Title Here*/}
-                    <p className={styles.newoldpatienttitle}>New Patients</p>
-                  </div>
-                  <div className={styles.newoldpatientnumber}>
-                    <p className={styles.newoldpatientnumbertitle}>
-                      {/*BACKEND HERE FOR HOW MANY NEW PATIENTS WE HAVE*/}
-                      {newpVisit}
-                    </p>
-                  </div>
-                </div>
-
-                {/*Old Patients Box */}
-                <div className={styles.mapsquare2}>
-                  <div className={styles.newoldpatient}>
-                    {/*Title Here*/}
-                    <p className={styles.newoldpatienttitle}>Old Patients</p>
-                  </div>
-                  <div className={styles.newoldpatientnumber}>
-                    <p className={styles.newoldpatientnumbertitle}>
-                      {/*BACKEND HERE FOR HOW MANY NEW PATIENTS WE HAVE*/}
-                      {oldpVisit}
-                    </p>
-                  </div>
-                </div>
-              </div>
+            
+            <div className={styles.userprofileicondiv2}>
+              <p className={styles.userprofileicontext1}>
+                {drName}
+              </p>
+              <p className={styles.userprofileicontext2}>
+                {/*i assume all doctors here are already optometrist so dont change */}
+                Optometrist
+              </p>
             </div>
           </div>
 
-          {/* Second div layer */}
-          <div className={styles.seconddiv}>
-            <div className={styles.notiftext}>
-              <p className={styles.notifpatienttext}>Patient List</p>
-              <div className={styles.notifpatientbuttondiv}>
-                {/* Button */}
-                <button
-                  className={styles.notifpatientbutton}
-                  onClick={() => setIsOpen(!isOpen)}
-                >
-                  <p className={styles.notifpatientbuttontext}>
-                    {selected} &#x2335;
+          {/* Map Container */}
+          <div className={styles.mapcontainer}>
+            <h3 className={styles.maptitle}>Visits for Today</h3>
+            <h3 className={styles.mapvisits}>
+              {/*Visits for today LOGIC here*/}
+              {visitstoday}
+            </h3>
+            
+            <div className={styles.mapsquarediv}>
+              {/*New Patients Box */}
+              <div className={styles.mapsquare1}>
+                <div className={styles.newoldpatient}>
+                  {/*Title Here*/}
+                  <p className={styles.newoldpatienttitle}>
+                    New Patients
                   </p>
-                </button>
-
-                {/* Dropdown Menu */}
-                {isOpen && (
-                  <ul className={styles.dropdownMenu}>
-                    {" "}
-                    {options.map((option) => (
-                      <li
-                        key={option}
-                        className={styles.dropdownItem}
-                        onClick={() => {
-                          setSelected(option);
-                          setIsOpen(false);
-                        }}
-                      >
-                        {option}
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                </div>
+                <div className={styles.newoldpatientnumber}>
+                  <p className={styles.newoldpatientnumbertitle}>
+                    {newpatient}
+                  </p>
+                </div>
+              </div>
+              
+              {/*Old Patients Box */}
+              <div className={styles.mapsquare2}>
+                <div className={styles.newoldpatient}>
+                  {/*Title Here*/}
+                  <p className={styles.newoldpatienttitle}>
+                    Old Patients
+                  </p>
+                </div>
+                <div className={styles.newoldpatientnumber}>
+                  <p className={styles.newoldpatientnumbertitle}>
+                    {oldpatient}
+                  </p>
+                </div>
               </div>
             </div>
+
+          </div>
+        </div>
+
+        {/* Second div layer */}
+        <div className={styles.seconddiv}>          
+          <div className={styles.notiftext}>
+            <p className={styles.notifpatienttext}>Patient List</p>
+            <div className={styles.notifpatientbuttondiv}>
+             {/* Button */}
+              <button className={styles.notifpatientbutton} onClick={() => setIsOpen(!isOpen)}>
+                <p className={styles.notifpatientbuttontext}>
+                  {selected} &#x2335;
+                </p>
+              </button>
+
+              {/* Dropdown Menu */}
+              {isOpen && ( <ul className={styles.dropdownMenu}> {options.map((option) => (
+               <li key={option} className={styles.dropdownItem} onClick={() => {
+                setSelected(option);
+                setIsOpen(false); }}>
+                {option}
+              </li>
+               ))}
+              </ul>
+              )}
+            </div>
+          </div>
 
             {/* Notification Messages */}
             <div className={styles.notifwrapper}>
               {patientNotifications.map((patient) => (
-                <div key={patient.id} className={styles.notifmessage}>
-                  {/* Profile Picture */}
-                  <div className={styles.patientnotifpicdiv}>
-                    <div className={styles.patientnotifpic}>
-                      {/* Profile icon or backend image */}
-                      <FontAwesomeIcon
-                        icon={faUser}
-                        className={styles.clinicpicIcon}
-                      />
-                    </div>
-                  </div>
+              <div key={patient.id} className={styles.notifmessage}>
 
-                  {/* Patient Name */}
-                  <div className={styles.clinicpatientnamediv}>
-                    <p className={styles.clinicpatientname}>{patient.name}</p>
-                  </div>
+                {/* Profile Picture */}
+                <div className={styles.patientnotifpicdiv}>
+                  <div className={styles.patientnotifpic}>
+                    {/* Profile icon or backend image */}
+                    <FontAwesomeIcon icon={faUser} className={styles.clinicpicIcon}/>
+                  </div>  
+                </div>
 
-                  {/* Appointment Time */}
-                  <div className={styles.clinicpatienttimediv}>
-                    <div className={styles.clinicpatienttimecontainer}>
-                      <p className={styles.clinicpatienttime}>{patient.time}</p>
-                    </div>
+                {/* Patient Name */}
+                <div className={styles.clinicpatientnamediv}>
+                  <p className={styles.clinicpatientname}>
+                    {patient.name}
+                  </p>
+                </div>
+
+                {/* Appointment Time */}
+                <div className={styles.clinicpatienttimediv}>
+                  <div className={styles.clinicpatienttimecontainer}>
+                    <p className={styles.clinicpatienttime}>
+                      {patient.time}
+                    </p>
                   </div>
                 </div>
-              ))}
+
             </div>
+            ))}
           </div>
-        </main>
-      </div>
+        </div>
+      </main>
+    </div>
   );
 };
 
