@@ -25,7 +25,7 @@ const patientNotifications = [
 ];
 
 const ClinicHome = () => {
-  //
+  /*
   const { user, loading } = useAuth();
   const router = useRouter();
 
@@ -39,6 +39,7 @@ const ClinicHome = () => {
   //if (loading) return <h1>Loading...</h1>; // Show a loading state while checking auth
   if (!user) return null;
   //
+  */
   const [clickCount, setClickCount] = useState(0);
   const [timer, setTimer] = useState(null);
 
