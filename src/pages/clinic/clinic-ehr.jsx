@@ -1,4 +1,4 @@
-/*
+
 import React, { useRef, useState, useEffect } from "react";
 import ClinicLayout from "@/components/clinic-layout";
 import styles from "../../styles/clinic-ehr/clinic-ehr.module.css";
@@ -30,7 +30,7 @@ const ClinicEHR = () => {
   if (!user) return null;
   //
   const profileImageUrl = null;
-
+/*
   const printRef = useRef();
 
   const importEHR = (event) => {
@@ -820,8 +820,7 @@ const ClinicEHR = () => {
         </div>
       </main>
     </div>
-  );
+  ); */
 };
 
 export default ClinicEHR;
-*/
