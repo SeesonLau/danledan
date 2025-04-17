@@ -1,3 +1,4 @@
+/*
 import React, { useRef, useState, useEffect } from "react";
 import ClinicLayout from "@/components/clinic-layout";
 import styles from "../../styles/clinic-ehr/clinic-ehr.module.css";
@@ -823,3 +824,4 @@ const ClinicEHR = () => {
 };
 
 export default ClinicEHR;
+*/
