@@ -73,7 +73,7 @@
 .nav-arrow {
     background: none;
     border: none;
-    font-size: 2rem;
+    font-size: 3rem;
     color: #ffffff;
     cursor: pointer;
     position: absolute;
@@ -83,11 +83,11 @@
 }
 
 .left-arrow {
-    left: -3rem;
+    left: -2rem;
 }
 
 .right-arrow {
-    right: -3rem;
+    right: -2rem;
 }
 
 .nav-arrow:hover {

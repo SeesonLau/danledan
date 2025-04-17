@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from '../../styles/landing-page/ourteam.module.css';
-import Image from 'next/image';  // Import next/image
+import Image from 'next/image';
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const teamMembers = [
@@ -14,64 +14,125 @@ const teamMembers = [
 
 const OurTeam = () => {
     const [startIndex, setStartIndex] = useState(0);
-    const visibleCards = 3;
+    const [visibleCards, setVisibleCards] = useState(3);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => {
+            const width = window.innerWidth;
+            if (width <= 480) {
+                setVisibleCards(1);
+                setIsMobile(true);
+            } else if (width <= 768) {
+                setVisibleCards(2);
+                setIsMobile(true);
+            } else {
+                setVisibleCards(3);
+                setIsMobile(false);
+            }
+        };
+
+        handleResize();
+        window.addEventListener('resize', handleResize);
+
+        // Auto-rotate on desktop
+        if (!isMobile) {
+            const interval = setInterval(() => {
+                handleNext();
+            }, 5000);
+            return () => {
+                clearInterval(interval);
+                window.removeEventListener('resize', handleResize);
+            };
+        }
+
+        return () => window.removeEventListener('resize', handleResize);
+    }, [isMobile, startIndex]);
 
     const handleNext = () => {
-        setStartIndex((prevIndex) => (prevIndex + 1) % teamMembers.length);
+        setStartIndex((prevIndex) => 
+            (prevIndex + 1) % (teamMembers.length - visibleCards + 1)
+        );
     };
 
     const handlePrev = () => {
         setStartIndex((prevIndex) =>
-            prevIndex === 0 ? teamMembers.length - 1 : prevIndex - 1
+            prevIndex === 0 ? teamMembers.length - visibleCards : prevIndex - 1
         );
     };
 
     const getVisibleTeam = () => {
-        const endIndex = (startIndex + visibleCards) % teamMembers.length;
-        if (startIndex < endIndex) {
-            return teamMembers.slice(startIndex, endIndex);
-        } else {
-            return [...teamMembers.slice(startIndex), ...teamMembers.slice(0, endIndex)];
-        }
+        return teamMembers.slice(startIndex, startIndex + visibleCards);
     };
 
     return (
         <section id="team" className={styles['ourteam-section']}>
             <div className={styles['ourteam-overlay']}></div>
-            <h2 className={styles['team-heading']}>Our Team</h2>
-            <p className={styles['team-subheading']}>
-                Meet the passionate team behind OptiCare, dedicated to revolutionizing eye care through innovation and technology!
-            </p>
+            <div className={styles['team-content']}>
+                <h2 className={styles['team-heading']}>Our <span className={styles.highlight}>Team</span></h2>
+                <p className={styles['team-subheading']}>
+                    Meet the passionate team behind OptiCare, dedicated to revolutionizing eye care through innovation and technology!
+                </p>
 
-            <div className={styles['team-carousel']}>
-                <button className={`${styles.arrow} ${styles['left-arrow']}`} onClick={handlePrev}>
-                    <FaChevronLeft />
-                </button>
+                <div className={styles['team-carousel-container']}>
+                    <div className={styles['team-carousel']}>
+                        {!isMobile && (
+                            <button 
+                                className={`${styles.arrow} ${styles['left-arrow']}`} 
+                                onClick={handlePrev}
+                                aria-label="Previous team member"
+                            >
+                                <FaChevronLeft />
+                            </button>
+                        )}
 
-                <div className={styles['team-cards-container']}>
-                    {getVisibleTeam().map((member) => (
-                        <div className={styles['team-card']} key={member.id}>
-                            <div className={styles['team-image-wrapper']}>
-                                {/* Use next/image for image optimization */}
-                                <Image 
-                                    src={member.image}  // Image path relative to the public folder
-                                    alt={member.name}
-                                    className={styles['team-image']}
-                                    width={280}  // Set image width (next/image requires width and height)
-                                    height={240} // Set image height
-                                />
-                            </div>
-                            <div className={styles['team-info']}>
-                                <div className={styles['team-role']}>{member.role}</div>
-                                <div className={styles['team-name']}>{member.name}</div>
+                        <div className={styles['team-cards-wrapper']}>
+                            <div className={styles['team-cards']}>
+                                {getVisibleTeam().map((member) => (
+                                    <div className={styles['team-card']} key={member.id}>
+                                        <div className={styles['team-image-wrapper']}>
+                                            <Image 
+                                                src={member.image}
+                                                alt={`Portrait of ${member.name}, ${member.role}`}
+                                                width={280}
+                                                height={240}
+                                                className={styles['team-image']}
+                                                priority={member.id <= 3}
+                                            />
+                                        </div>
+                                        <div className={styles['team-info']}>
+                                            <div className={styles['team-role']}>{member.role}</div>
+                                            <div className={styles['team-name']}>{member.name}</div>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
-                    ))}
+
+                        {!isMobile && (
+                            <button 
+                                className={`${styles.arrow} ${styles['right-arrow']}`} 
+                                onClick={handleNext}
+                                aria-label="Next team member"
+                            >
+                                <FaChevronRight />
+                            </button>
+                        )}
+                    </div>
                 </div>
 
-                <button className={`${styles.arrow} ${styles['right-arrow']}`} onClick={handleNext}>
-                    <FaChevronRight />
-                </button>
+                {isMobile && (
+                    <div className={styles['mobile-indicators']}>
+                        {teamMembers.map((_, idx) => (
+                            <button
+                                key={idx}
+                                className={`${styles.indicator} ${idx >= startIndex && idx < startIndex + visibleCards ? styles.active : ''}`}
+                                onClick={() => setStartIndex(Math.min(idx, teamMembers.length - visibleCards))}
+                                aria-label={`View team member ${idx + 1}`}
+                            />
+                        ))}
+                    </div>
+                )}
             </div>
         </section>
     );

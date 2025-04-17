@@ -443,7 +443,7 @@
 }
 
 /* For screens as small as 320px */
-@media (min-width: 320px) and (max-width: 620px) {
+@media (min-width: 320px) and (max-width: 700px) {
 .auth-icons {
   display: flex;
   justify-content: center; /* Center the icons */
