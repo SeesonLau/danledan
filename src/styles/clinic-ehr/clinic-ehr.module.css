@@ -85,7 +85,7 @@
   .ehrContainer {
     display: grid;
     grid-template-columns: 1fr 1fr; 
-    grid-template-rows: repeat(6, 1fr);
+    grid-template-rows: repeat(6, auto);
     width: 100%;
     border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
     gap: 0;
@@ -305,14 +305,21 @@
     padding: 10px;
   }
   
-  
-  .vSegmentContainer, .glassesContainer, .feesContainer, .saveContainer{
+   .glassesContainer, .feesContainer, .saveContainer{
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: 100%;
     position: relative;
     height: 100%;
   }
+  .vSegmentContainer{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+    height: 100%;
+  }
+  
   
   .vCard {
     width: 50%;
