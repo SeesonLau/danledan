@@ -26,7 +26,7 @@ const ClinicEHR = () => {
   if (user) console.log(user);
 
   //if (loading) return <h1>Loading...</h1>; // Show a loading state while checking auth
-  if (!user) return null;
+ // if (!user) return null; - MO ERROR TUNGOD ANI??
   //
   const profileImageUrl = null;
 
@@ -568,7 +568,9 @@ const ClinicEHR = () => {
                         padding: "10px",
                         color: "#559DDC",
                         textAlign: "center",
-                        width: "93%",
+                        width: "85%",
+                        border: "none",
+                        lineHeight: "2.3",
                       }}
                     />
                   </div>
@@ -595,6 +597,7 @@ const ClinicEHR = () => {
                       />
                     </div>
                   </div>
+                  
                   <div className={styles.glassesCard}>
                     <EHR4Textbox
                       label="SIZE"
@@ -617,7 +620,7 @@ const ClinicEHR = () => {
                     </div>
                   </div>
                   <div className={styles.glassesCard}>
-                    <EHR2Textbox
+                    <EHR4Textbox
                       label="SIZE"
                       value={size2}
                       onChange={handleChange(setSize2)}
@@ -639,12 +642,14 @@ const ClinicEHR = () => {
 
             <div className={styles.div6}>
               <div className={styles.horizontalFormat}>
-                <div className={styles.saveContainer}></div>
+                <div className={styles.saveContainer}>
+                <SaveButton label="Save" />
+                </div>
 
                 <div className={styles.feesContainer}>
                   <div className={styles.horizontalFormat}>
                     <div className={styles.feeslabelCard}>
-                      <h1 className={styles.feesText}>ANALYTICAL FEE</h1>
+                      <h1 className={styles.feesText2}>ANALYTICAL FEE</h1>
                     </div>
                     <div className={styles.feesCard}>
                       <input
@@ -657,14 +662,15 @@ const ClinicEHR = () => {
                           fontSize: "17px",
                           color: "#559DDC",
                           textAlign: "center",
-                          width: "93%",
+                          width: "85%",
+                          border: "none",
                         }}
                       />
                     </div>
                   </div>
                   <div className={styles.horizontalFormat}>
                     <div className={styles.feeslabelCard}>
-                      <h1 className={styles.feesText}>ORTHOPTIC FEE</h1>
+                      <h1 className={styles.feesText2}>ORTHOPTIC FEE</h1>
                     </div>
                     <div className={styles.feesCard}>
                       <input
@@ -677,7 +683,8 @@ const ClinicEHR = () => {
                           fontSize: "17px",
                           color: "#559DDC",
                           textAlign: "center",
-                          width: "93%",
+                          width: "85%",
+                          border: "none",
                         }}
                       />
                     </div>
@@ -697,7 +704,8 @@ const ClinicEHR = () => {
                           fontSize: "17px",
                           color: "#559DDC",
                           textAlign: "center",
-                          width: "93%",
+                          width: "85%",
+                          border: "none",
                         }}
                       />
                     </div>
@@ -717,7 +725,8 @@ const ClinicEHR = () => {
                           fontSize: "17px",
                           color: "#559DDC",
                           textAlign: "center",
-                          width: "93%",
+                          width: "85%",
+                          border: "none",
                         }}
                       />
                     </div>
@@ -736,7 +745,8 @@ const ClinicEHR = () => {
                           fontSize: "17px",
                           color: "#559DDC",
                           textAlign: "center",
-                          width: "93%",
+                          width: "85%",
+                          border: "none",
                         }}
                       />
                     </div>

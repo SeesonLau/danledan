@@ -27,7 +27,7 @@ const PatientEHR = () => {
   if (user) console.log(user);
 
   //if (loading) return <h1>Loading...</h1>; // Show a loading state while checking auth
-  if (!user) return null;
+ //  if (!user) return null; -SAME ISSUE MO ERROR BECAUSE OF THIS LINE IDK WHY
   //
   const profileImageUrl = null;
 
@@ -543,10 +543,11 @@ const PatientEHR = () => {
                       style={{
                         background: "transparent",
                         margin: "10px",
-                        padding: "10px",
+                        padding: "17px",
                         color: "#559DDC",
                         textAlign: "center",
-                        width: "93%",
+                        width: "85%",
+                          border: "none",
                       }}
                     />
                   </div>
@@ -622,7 +623,7 @@ const PatientEHR = () => {
                 <div className={styles.feesContainer}>
                   <div className={styles.horizontalFormat}>
                     <div className={styles.feeslabelCard}>
-                      <h1 className={styles.feesText}>ANALYTICAL FEE</h1>
+                      <h1 className={styles.feesText2}>ANALYTICAL FEE</h1>
                     </div>
                     <div className={styles.feesCard}>
                       <input
@@ -636,14 +637,15 @@ const PatientEHR = () => {
                           fontSize: "17px",
                           color: "#559DDC",
                           textAlign: "center",
-                          width: "93%",
+                          width: "85%",
+                          border: "none",
                         }}
                       />
                     </div>
                   </div>
                   <div className={styles.horizontalFormat}>
                     <div className={styles.feeslabelCard}>
-                      <h1 className={styles.feesText}>ORTHOPTIC FEE</h1>
+                      <h1 className={styles.feesText2}>ORTHOPTIC FEE</h1>
                     </div>
                     <div className={styles.feesCard}>
                       <input
@@ -657,7 +659,8 @@ const PatientEHR = () => {
                           fontSize: "17px",
                           color: "#559DDC",
                           textAlign: "center",
-                          width: "93%",
+                          width: "85%",
+                          border: "none",
                         }}
                       />
                     </div>
@@ -678,7 +681,8 @@ const PatientEHR = () => {
                           fontSize: "17px",
                           color: "#559DDC",
                           textAlign: "center",
-                          width: "93%",
+                          width: "85%",
+                          border: "none",
                         }}
                       />
                     </div>
@@ -699,7 +703,8 @@ const PatientEHR = () => {
                           fontSize: "17px",
                           color: "#559DDC",
                           textAlign: "center",
-                          width: "93%",
+                          width: "85%",
+                          border: "none",
                         }}
                       />
                     </div>
@@ -719,7 +724,8 @@ const PatientEHR = () => {
                           fontSize: "17px",
                           color: "#559DDC",
                           textAlign: "center",
-                          width: "93%",
+                          width: "85%",
+                          border: "none",
                         }}
                       />
                     </div>

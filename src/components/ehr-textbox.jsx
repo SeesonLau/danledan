@@ -37,7 +37,7 @@ export const EHR3Textbox = ({ label, value, onChange }) => {
         type="text"
         value={value}
         onChange={onChange}
-        className={styles.ehrTextboxContent}
+        className={styles.ehrTextboxContent3}
       />
     </div>
   );

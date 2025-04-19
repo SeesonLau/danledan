@@ -166,7 +166,6 @@
   .profileRow {
     display: flex;
     justify-content: row;
-    gap: 40px; 
     width: 100%;
   }
   
@@ -180,8 +179,7 @@
     display: flex;
     flex-direction: row; 
     justify-content: flex-start; 
-    gap: 1rem;
-    
+    gap: 2rem;
   }
   
   .verticalFormat {
@@ -285,11 +283,19 @@
     height: 100%;
   }
   
-  .oCard, .glassesCard{ 
+  .oCard { 
     height: 19.5%;
     padding: 15px;
     border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
   }
+  .glassesCard {
+    display: flex;
+    height: 19.5%;
+    padding: 1.1rem;
+    border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
+    justify-content: center;
+  } 
+    
   
   .feesCard {
     height: 19.5%;
@@ -305,13 +311,14 @@
     padding: 10px;
   }
   
-   .glassesContainer, .feesContainer, .saveContainer{
+   .glassesContainer, .feesContainer{
     display: flex;
     flex-direction: column;
     width: 100%;
     position: relative;
     height: 100%;
   }
+  
   .vSegmentContainer{
     display: flex;
     flex-direction: column;
@@ -380,8 +387,7 @@
     width: 100%;
     position: relative;
     height: 100%;
-    padding-right:  0.7;
-    padding-bottom: 1rem;
+    padding-bottom: 1.5rem;
   }
   
   .feesText{
@@ -391,27 +397,48 @@
   font-style: normal;
   font-weight: 700;
   line-height: 150%;  
-  
+  }
+
+  .feesText2{
+    color: var(--Color-Blue-Blue-700, #3871C1);
+   font-family: Montserrat;
+   font-size: 13px;
+   font-style: normal;
+   font-weight: 700;
+   line-height: 100%;  
+   
+   }
+   .saveContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Can stay if you want other content centered */
+    width: 100%;
+    position: relative; /* Required for absolute positioning */
+    height: 100; /* Or set a specific height like 300px if needed */
   }
   
+
   .saveButton1 {
     border: none;
     border-radius: 5px;
-    background: linear-gradient(90deg, #3871C1 2.5%, #79339A 100%);
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    background: linear-gradient(90deg, #3871C1 2.5%, #79339A 100%); 
     display: flex;
-    width: 68px;
-    height: 22px;
+    width: 10rem;
+    height: 3rem;
     justify-content: center;
     align-items: center;
     gap: 10px;
     flex-shrink: 0;
     color: white; /* Text color */
-    font-size: 12px;
+    font-size: 20;
     font-family: Montserrat, sans-serif;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
+    position: absolute;
+    
+  left: 20%;
+
   }
   
   .saveButton1:hover {
