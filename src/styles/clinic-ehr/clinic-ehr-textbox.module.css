@@ -1,7 +1,7 @@
 .ehrTextbox {
     display: flex;
     flex-direction: column;
-    width: 100%; 
+    width: 70%; 
     max-width: 400px;
   }
   
@@ -89,25 +89,39 @@
   .ehrTextbox3 {
     display: flex;
     flex-direction: column;
-    width: 100%; 
+    width: 70%; 
+    height: 100%;
     max-width: 400px;
-    max-height: 100px;
+    max-height: 50px;
+
   }
   
   .ehrTextboxLabel3 {
     color: var(--Color-Blue-Blue-800, #325B9B);
     font-family: Montserrat, sans-serif;
-    font-size: 0.75rem; /* Relative font size */
+    font-size: 0.7rem; /* Relative font size */
     font-weight: 600;
     line-height: 1.2;
-    text-align: center; 
+    text-align: left; 
   }
-  
+
+  .ehrTextboxContent3 {
+    padding: 0.7em 1em;
+    border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
+    border-radius: 5px;
+    background: var(--Color-Blue-Blue-100, #E0EFF9);
+    width: 70%; 
+    font-size: 0.9rem; 
+    font-family: Montserrat, sans-serif;
+    font-weight: 600;
+    line-height: 0.9;
+    color: var(--Color-Blue-Blue-500, #559DDC);
+  }
   
   .ehrTextbox4 {
     display: flex;
     flex-direction: column;
-    width: 100%; 
+    width: 40%; 
     max-width: 400px;
     max-height: 100px;
   }
@@ -117,8 +131,8 @@
     font-family: Montserrat, sans-serif;
     font-size: 1rem; 
     font-weight: 600;
-    line-height: 1.2;
-    text-align: center; 
+    line-height: 1;
+    text-align: left; 
   }
   
   
