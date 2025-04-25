@@ -395,14 +395,14 @@ const PatientEHR = () => {
                   value={caseno}
                   onChange={() => {}}
                 />
-                <EHRTextbox
-                  label="Address"
-                  value={address}
+                 <EHRTextbox
+                  label="Patient Name"
+                  value={name}
                   onChange={() => {}}
                 />
                 <EHRTextbox
-                  label="Patient Name"
-                  value={name}
+                  label="Address"
+                  value={address}
                   onChange={() => {}}
                 />
               </div>
@@ -737,6 +737,7 @@ const PatientEHR = () => {
         </div>
 
         <div className={styles.seconddiv}>
+          <h1 className={styles.header}>EHR History</h1>
           <div className={styles.tableContainer}>
             <table className={styles.table}>
               <thead className={styles.thead}>
