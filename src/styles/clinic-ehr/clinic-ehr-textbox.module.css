@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     width: 70%; 
-    max-width: 400px;
+
   }
   
   .ehrTextboxLabel {
@@ -15,17 +15,18 @@
   }
   
   .ehrTextboxContent {
-    padding: 0.7em 1em; /* Adjusted padding for better responsiveness */
+    padding: 0.7em 1em; 
     border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
     border-radius: 5px;
     background: var(--Color-Blue-Blue-100, #E0EFF9);
-    width: 100%; /* Takes full width of the parent */
-    font-size: 0.95rem; /* Slightly smaller font size */
+    width: 100%;
+    font-size: 0.95rem; 
     font-family: Montserrat, sans-serif;
     font-weight: 600;
     line-height: 1.5;
     color: var(--Color-Blue-Blue-500, #559DDC);
   }
+  
   
   .ehrTextboxContent4 {
     padding: 0.7em 1em;
@@ -60,7 +61,6 @@
     display: flex;
     align-items: flex-start;
     width: 100%;  /* Make it fully responsive */
-    max-width: 280px;  
     height: 40px;
   }
   
@@ -76,13 +76,13 @@
   /* ✅ Media Query for Better Responsiveness of ehrTextbox2 */
   @media (max-width: 768px) {
     .ehrTextbox2, .ehrTextbox3, .ehrTextbox4 {
-      max-width: 100%; /* Expand to full width on small screens */
-      height: auto; /* Allow height to adjust dynamically */
-      flex-direction: column; /* Stack elements vertically */
+      max-width: 90%; /* Expand to full width on small screens */
+      height: auto;
+      flex-direction: column;
     }
   
     .ehrTextboxLabel2, .ehrTextboxLabel3, .ehrTextboxLabel4 {
-      font-size: 14px; /* Adjust font size */
+      font-size: 14px; 
     }
   }
   
@@ -91,7 +91,6 @@
     flex-direction: column;
     width: 70%; 
     height: 100%;
-    max-width: 400px;
     max-height: 50px;
 
   }
@@ -99,7 +98,7 @@
   .ehrTextboxLabel3 {
     color: var(--Color-Blue-Blue-800, #325B9B);
     font-family: Montserrat, sans-serif;
-    font-size: 0.7rem; /* Relative font size */
+    font-size: 0.6rem;
     font-weight: 600;
     line-height: 1.2;
     text-align: left; 
@@ -121,8 +120,7 @@
   .ehrTextbox4 {
     display: flex;
     flex-direction: column;
-    width: 40%; 
-    max-width: 400px;
+    width: 35%;
     max-height: 100px;
   }
   
@@ -141,7 +139,6 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 550px;
     min-width: 300px;
     height: auto; /* Expands with content */
     margin-top: 1.25rem; /* ~20px */
@@ -158,7 +155,7 @@
   }
   
   .ehrTextarea5 {
-    max-width: 550px;
+    max-width: 530px;
     min-width: 300px;
     height: 15rem;
     border: 1px solid var(--Color-Blue-Blue-500, #559DDC);

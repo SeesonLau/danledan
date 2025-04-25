@@ -590,7 +590,7 @@ const ClinicEHR = () => {
                         value={pd}
                         onChange={handleChange(setPD)}
                       />
-                      <EHR2Textbox
+                      <EHR4Textbox
                         label="DBL"
                         value={dbl}
                         onChange={handleChange(setDBL)}
@@ -643,9 +643,8 @@ const ClinicEHR = () => {
             <div className={styles.div6}>
               <div className={styles.horizontalFormat}>
                 <div className={styles.saveContainer}>
-                <SaveButton label="Save" />
+                  <SaveButton label="Save" />
                 </div>
-
                 <div className={styles.feesContainer}>
                   <div className={styles.horizontalFormat}>
                     <div className={styles.feeslabelCard}>
@@ -758,6 +757,7 @@ const ClinicEHR = () => {
         </div>
 
         <div className={styles.seconddiv}>
+        <h1 className={styles.header}>Patient List</h1>
           <div className={styles.tableContainer}>
             <table className={styles.table}>
               <thead className={styles.thead}>
