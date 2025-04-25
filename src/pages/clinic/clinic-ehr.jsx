@@ -12,11 +12,19 @@ import { FaEye, FaDownload, FaPrint } from "react-icons/fa";
 import ExportEHR from "@/components/ehr-to-pdf";
 import { useAuth } from "@/config/AuthContext";
 import { useRouter } from "next/router";
+import { getDiagnosis } from "../../components/getDiagnosis"
 
 const ClinicEHR = () => {
   //
   const { user, loading } = useAuth();
   const router = useRouter();
+
+
+  const handleSaveClick = () => {
+    const diagnosis = getDiagnosis(distanceOD, distanceOS, nearOD, nearOS);
+    console.log("Diagnosis:", diagnosis);  // Log the diagnosis, or update state/UI as needed
+  };
+
 
   useEffect(() => {
     if (!loading && !user) {
@@ -643,7 +651,7 @@ const ClinicEHR = () => {
             <div className={styles.div6}>
               <div className={styles.horizontalFormat}>
                 <div className={styles.saveContainer}>
-                  <SaveButton label="Save" />
+                <SaveButton label="Save" onClick={handleSaveClick} />
                 </div>
                 <div className={styles.feesContainer}>
                   <div className={styles.horizontalFormat}>
