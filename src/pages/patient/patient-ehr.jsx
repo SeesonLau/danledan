@@ -1,4 +1,3 @@
-/*
 import React, { useRef, useState, useEffect } from "react";
 import PatientLayout from "@/components/patient-layout";
 import styles from "../../styles/clinic-ehr/clinic-ehr.module.css";
@@ -28,11 +27,11 @@ const PatientEHR = () => {
   if (user) console.log(user);
 
   //if (loading) return <h1>Loading...</h1>; // Show a loading state while checking auth
-  if (!user) return null;
+ //  if (!user) return null; -SAME ISSUE MO ERROR BECAUSE OF THIS LINE IDK WHY
   //
   const profileImageUrl = null;
 
-  /*
+  
   const printRef = useRef();
 
   const importEHR = (event) => {
@@ -396,14 +395,14 @@ const PatientEHR = () => {
                   value={caseno}
                   onChange={() => {}}
                 />
-                <EHRTextbox
-                  label="Address"
-                  value={address}
+                 <EHRTextbox
+                  label="Patient Name"
+                  value={name}
                   onChange={() => {}}
                 />
                 <EHRTextbox
-                  label="Patient Name"
-                  value={name}
+                  label="Address"
+                  value={address}
                   onChange={() => {}}
                 />
               </div>
@@ -544,10 +543,11 @@ const PatientEHR = () => {
                       style={{
                         background: "transparent",
                         margin: "10px",
-                        padding: "10px",
+                        padding: "17px",
                         color: "#559DDC",
                         textAlign: "center",
-                        width: "93%",
+                        width: "85%",
+                          border: "none",
                       }}
                     />
                   </div>
@@ -623,7 +623,7 @@ const PatientEHR = () => {
                 <div className={styles.feesContainer}>
                   <div className={styles.horizontalFormat}>
                     <div className={styles.feeslabelCard}>
-                      <h1 className={styles.feesText}>ANALYTICAL FEE</h1>
+                      <h1 className={styles.feesText2}>ANALYTICAL FEE</h1>
                     </div>
                     <div className={styles.feesCard}>
                       <input
@@ -637,14 +637,15 @@ const PatientEHR = () => {
                           fontSize: "17px",
                           color: "#559DDC",
                           textAlign: "center",
-                          width: "93%",
+                          width: "85%",
+                          border: "none",
                         }}
                       />
                     </div>
                   </div>
                   <div className={styles.horizontalFormat}>
                     <div className={styles.feeslabelCard}>
-                      <h1 className={styles.feesText}>ORTHOPTIC FEE</h1>
+                      <h1 className={styles.feesText2}>ORTHOPTIC FEE</h1>
                     </div>
                     <div className={styles.feesCard}>
                       <input
@@ -658,7 +659,8 @@ const PatientEHR = () => {
                           fontSize: "17px",
                           color: "#559DDC",
                           textAlign: "center",
-                          width: "93%",
+                          width: "85%",
+                          border: "none",
                         }}
                       />
                     </div>
@@ -679,7 +681,8 @@ const PatientEHR = () => {
                           fontSize: "17px",
                           color: "#559DDC",
                           textAlign: "center",
-                          width: "93%",
+                          width: "85%",
+                          border: "none",
                         }}
                       />
                     </div>
@@ -700,7 +703,8 @@ const PatientEHR = () => {
                           fontSize: "17px",
                           color: "#559DDC",
                           textAlign: "center",
-                          width: "93%",
+                          width: "85%",
+                          border: "none",
                         }}
                       />
                     </div>
@@ -720,7 +724,8 @@ const PatientEHR = () => {
                           fontSize: "17px",
                           color: "#559DDC",
                           textAlign: "center",
-                          width: "93%",
+                          width: "85%",
+                          border: "none",
                         }}
                       />
                     </div>
@@ -732,6 +737,7 @@ const PatientEHR = () => {
         </div>
 
         <div className={styles.seconddiv}>
+          <h1 className={styles.header}>EHR History</h1>
           <div className={styles.tableContainer}>
             <table className={styles.table}>
               <thead className={styles.thead}>
@@ -786,18 +792,3 @@ const PatientEHR = () => {
 };
 
 export default PatientEHR;
-*/
-
-
-// remove this after fix. temporary only
-import PatientLayout from "@/components/patient-layout";
-export default function PatientEHR() {
-    return (
-        <PatientLayout>
-                    <div style={{ textAlign: 'center', marginTop: '50px' }}>
-                        <h1 style={{ fontSize: '2.5rem', marginBottom: '20px' }}>PATIENT Electronic Health Records (EHR)</h1>
-                        <p style={{ fontSize: '1.5rem' }}>View and manage patient records.</p>
-                    </div>
-        </PatientLayout>
-    );
-}

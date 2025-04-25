@@ -1,4 +1,3 @@
-/*
 import React, { useRef, useState, useEffect } from "react";
 import ClinicLayout from "@/components/clinic-layout";
 import styles from "../../styles/clinic-ehr/clinic-ehr.module.css";
@@ -27,7 +26,7 @@ const ClinicEHR = () => {
   if (user) console.log(user);
 
   //if (loading) return <h1>Loading...</h1>; // Show a loading state while checking auth
-  if (!user) return null;
+ // if (!user) return null; - MO ERROR TUNGOD ANI??
   //
   const profileImageUrl = null;
 
@@ -569,7 +568,9 @@ const ClinicEHR = () => {
                         padding: "10px",
                         color: "#559DDC",
                         textAlign: "center",
-                        width: "93%",
+                        width: "85%",
+                        border: "none",
+                        lineHeight: "2.3",
                       }}
                     />
                   </div>
@@ -589,13 +590,14 @@ const ClinicEHR = () => {
                         value={pd}
                         onChange={handleChange(setPD)}
                       />
-                      <EHR2Textbox
+                      <EHR4Textbox
                         label="DBL"
                         value={dbl}
                         onChange={handleChange(setDBL)}
                       />
                     </div>
                   </div>
+                  
                   <div className={styles.glassesCard}>
                     <EHR4Textbox
                       label="SIZE"
@@ -618,7 +620,7 @@ const ClinicEHR = () => {
                     </div>
                   </div>
                   <div className={styles.glassesCard}>
-                    <EHR2Textbox
+                    <EHR4Textbox
                       label="SIZE"
                       value={size2}
                       onChange={handleChange(setSize2)}
@@ -640,12 +642,13 @@ const ClinicEHR = () => {
 
             <div className={styles.div6}>
               <div className={styles.horizontalFormat}>
-                <div className={styles.saveContainer}></div>
-
+                <div className={styles.saveContainer}>
+                  <SaveButton label="Save" />
+                </div>
                 <div className={styles.feesContainer}>
                   <div className={styles.horizontalFormat}>
                     <div className={styles.feeslabelCard}>
-                      <h1 className={styles.feesText}>ANALYTICAL FEE</h1>
+                      <h1 className={styles.feesText2}>ANALYTICAL FEE</h1>
                     </div>
                     <div className={styles.feesCard}>
                       <input
@@ -658,14 +661,15 @@ const ClinicEHR = () => {
                           fontSize: "17px",
                           color: "#559DDC",
                           textAlign: "center",
-                          width: "93%",
+                          width: "85%",
+                          border: "none",
                         }}
                       />
                     </div>
                   </div>
                   <div className={styles.horizontalFormat}>
                     <div className={styles.feeslabelCard}>
-                      <h1 className={styles.feesText}>ORTHOPTIC FEE</h1>
+                      <h1 className={styles.feesText2}>ORTHOPTIC FEE</h1>
                     </div>
                     <div className={styles.feesCard}>
                       <input
@@ -678,7 +682,8 @@ const ClinicEHR = () => {
                           fontSize: "17px",
                           color: "#559DDC",
                           textAlign: "center",
-                          width: "93%",
+                          width: "85%",
+                          border: "none",
                         }}
                       />
                     </div>
@@ -698,7 +703,8 @@ const ClinicEHR = () => {
                           fontSize: "17px",
                           color: "#559DDC",
                           textAlign: "center",
-                          width: "93%",
+                          width: "85%",
+                          border: "none",
                         }}
                       />
                     </div>
@@ -718,7 +724,8 @@ const ClinicEHR = () => {
                           fontSize: "17px",
                           color: "#559DDC",
                           textAlign: "center",
-                          width: "93%",
+                          width: "85%",
+                          border: "none",
                         }}
                       />
                     </div>
@@ -737,7 +744,8 @@ const ClinicEHR = () => {
                           fontSize: "17px",
                           color: "#559DDC",
                           textAlign: "center",
-                          width: "93%",
+                          width: "85%",
+                          border: "none",
                         }}
                       />
                     </div>
@@ -749,6 +757,7 @@ const ClinicEHR = () => {
         </div>
 
         <div className={styles.seconddiv}>
+        <h1 className={styles.header}>Patient List</h1>
           <div className={styles.tableContainer}>
             <table className={styles.table}>
               <thead className={styles.thead}>
@@ -824,17 +833,4 @@ const ClinicEHR = () => {
 };
 
 export default ClinicEHR;
-*/
 
-import ClinicLayout from "@/components/clinic-layout";
-
-export default function ClinicEHR() {
-    return (
-        <ClinicLayout>
-            <div style={{ textAlign: 'center', marginTop: '50px' }}>
-                <h1 style={{ fontSize: '2.5rem', marginBottom: '20px' }}>Electronic Health Records (EHR)</h1>
-                <p style={{ fontSize: '1.5rem' }}>View and manage patient records.</p>
-            </div>
-        </ClinicLayout>
-    );
-}
