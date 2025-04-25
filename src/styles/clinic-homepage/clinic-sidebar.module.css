@@ -6,6 +6,7 @@
     color: transparent;
     overflow: hidden; /* Allow dropdown to escape container */
     transition: width 0.5s ease-in-out; /* Smooth transition for width */
+    justify-content: center;
   }
   
   .clinicsidebar:hover{
@@ -18,26 +19,26 @@
     align-items: center;
     justify-content: center; 
     height: 18vh;
-    background-color: #2596be;
+    background-color: transparent;
     text-align: center;
     white-space: nowrap;
-    transition: background-color 0.3s ease-in-out, transform 0.5s ease-in-out; /* Smooth effect */
+    transition: background-color 0.3s ease-in-out, transform 0.5s ease-in-out;
   }
   
   .clinicicondiv {
-    height: 30%;
-    width: 90%;
+    height: auto; /* Let content determine height */
+    min-height: 50px; /* Ensures it has enough height to look balanced */
+    width: 80%;
     display: flex;
     align-items: center; 
     justify-content: center;
     border-radius: 10px;
-    transition: background-color 0.3s ease-in-out, transform 0.5s ease-in-out; /* Smooth effect */
+    transition: background-color 0.3s ease-in-out, transform 0.5s ease-in-out;
   }
   
   .clinicicondiv:hover {
     background-color: white;
     color: #2596be;
-    transform: scale(1.1); /* Slight zoom effect on hover */
   }
   
   .cliniclogodiv1 {
@@ -45,12 +46,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 80px; 
+    height: 50px; 
     background-color: #2596be;
-    padding: 1rem; 
     position: relative; 
-    gap: 12px;
-    min-width: fit-content; 
   }
   
   .cliniclogodiv1 img {
@@ -108,6 +106,7 @@
       align-items: center;
       cursor: pointer;
       position: relative; /* Ensures dropdown aligns correctly */
+      color: transparent;
     }
   
     .mobilebutton {
@@ -130,6 +129,7 @@
     font-family: "Montserrat", sans-serif;
     transform: translateX(-10px);
     transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    text-decoration: none;
   }
   
   .clinicsidebar:hover .clinicicondiv {

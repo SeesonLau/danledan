@@ -27,7 +27,6 @@ function PatientSidebar() {
 
   return (
       <aside className={styles.clinicsidebar}>
-        <ul>
           <div className={styles.cliniclogodiv1}>
             {" "}
             <img src="/landing-page-iamge/opto2.png" alt="Clinic Logo" />
@@ -37,52 +36,52 @@ function PatientSidebar() {
           <div className={styles.mobilesidebarcontainer}>             
             <Link href="/patient-homepage" passHref legacyBehavior>
               <div className={styles.mobilebuttoncontainer}>
-                <button className={styles.mobilebutton}>
+                <div className={styles.mobilebutton}>
                   <FontAwesomeIcon icon={faHouse} />
-                </button>
+                </div>
               </div>
             </Link>
 
             <Link href="/patient/patient-appointments" passHref legacyBehavior>
             <div className={styles.mobilebuttoncontainer}>
-              <button className={styles.mobilebutton}>
+              <div className={styles.mobilebutton}>
                 <FontAwesomeIcon icon={faCalendar} />
-              </button>
+              </div>
             </div>
             </Link>
 
             <Link href="/patient/patient-ehr" passHref legacyBehavior>
             <div className={styles.mobilebuttoncontainer}>
-              <button className={styles.mobilebutton}>
+              <div className={styles.mobilebutton}>
                 <FontAwesomeIcon icon={faNotesMedical} />
-              </button>
+              </div>
             </div>
             </Link>
 
             <Link href="/patient/patient-settings" passHref legacyBehavior>
               <div className={styles.mobilebuttoncontainer}>
-                <button className={styles.mobilebutton}>
+                <div className={styles.mobilebutton}>
                   <FontAwesomeIcon icon={faGear} />
-                </button>
+                </div>
               </div>
             </Link>
 
             <div className={styles.mobilebuttoncontainer} onClick={handleLogout}>
-              <button className={styles.mobilebutton}>
+              <div className={styles.mobilebutton}>
                 <FontAwesomeIcon icon={faRightFromBracket}/>
-              </button>
+              </div>
             </div>
           </div>
           {/*Mobile Mode*/}
 
           <Link href="/patient-homepage" passHref>
             <div className={styles.cliniclogodiv}>
-              <button className={styles.clinicicondiv}>
+              <div className={styles.clinicicondiv}>
                 <FontAwesomeIcon icon={faHouse} />
                 <span className={styles.buttonText}>
                   Home
                 </span>
-              </button>
+              </div>
             </div>
           </Link>
 
@@ -127,7 +126,6 @@ function PatientSidebar() {
               </span>
             </div>
           </div>
-        </ul>
       </aside>
   );
 }

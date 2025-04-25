@@ -134,36 +134,6 @@ const ClinicHome = () => {
           <div className={styles.mapcontainer}>
             <h3 className={styles.maptitle}>Visits for Today</h3>
             <h3 className={styles.mapvisits}>{todayVisit}</h3>
-
-            <div className={styles.mapsquarediv}>
-              {/*New Patients Box */}
-              <div className={styles.mapsquare1}>
-                <div className={styles.newoldpatient}>
-                  {/*Title Here*/}
-                  <p className={styles.newoldpatienttitle}>New Patients</p>
-                </div>
-                <div className={styles.newoldpatientnumber}>
-                  <p className={styles.newoldpatientnumbertitle}>
-                    {/*BACKEND HERE FOR HOW MANY NEW PATIENTS WE HAVE*/}
-                    {newpVisit}
-                  </p>
-                </div>
-              </div>
-
-              {/*Old Patients Box */}
-              <div className={styles.mapsquare2}>
-                <div className={styles.newoldpatient}>
-                  {/*Title Here*/}
-                  <p className={styles.newoldpatienttitle}>Old Patients</p>
-                </div>
-                <div className={styles.newoldpatientnumber}>
-                  <p className={styles.newoldpatientnumbertitle}>
-                    {/*BACKEND HERE FOR HOW MANY NEW PATIENTS WE HAVE*/}
-                    {oldpVisit}
-                  </p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 
