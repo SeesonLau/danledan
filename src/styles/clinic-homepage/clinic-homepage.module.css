@@ -26,6 +26,8 @@
     -webkit-text-stroke: 1px #0D54AC; 
     text-transform: uppercase; 
     letter-spacing: 1px;
+    margin: 0;
+    margin-bottom: 5px;
   }
   
   @media (max-width: 1024px){
@@ -206,6 +208,8 @@
   /* Always active hover effect for maptitle */
   .maptitle {
     transform: scale(1.05); /* Always applied */
+    justify-content: center;
+    align-items: center;
   }
   
   /* Underline effect always visible for maptitle */
@@ -256,15 +260,14 @@
   }
   
   .mapsquarediv {
-    display: flex;  
+    display: flex;
     justify-content: flex-start;
-    align-items: center; 
+    align-items: center;
     height: 140px;
     width: 100%;
     border-radius: 30px;
-    overflow: visible;
+    overflow: visible;  /* Or overflow: auto; based on your needs */
     padding-bottom: 0px;
-    overflow: auto;
   }
   
   .mapsquare1, .mapsquare2 {
@@ -442,6 +445,9 @@
     padding-left: 20px;
     text-transform: uppercase; /* Makes it look cleaner */
     letter-spacing: 1px; /* Adds slight spacing for elegance */
+    margin:0;
+    margin-top: 5px;
+    margin-bottom: 5px;
   }
   
   @media (max-width: 1024px){
