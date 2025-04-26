@@ -5,67 +5,67 @@ import styles from '../../styles/landing-page/ourteam.module.css';
 import Image from 'next/image';
 
 const teamMembers = [
-  { 
-    id: 1, 
-    name: "John Laurence G. Sison", 
-    role: "AI Developer", 
-    image: '/landing-page-iamge/sison1.jpg',
-    course: "BS Computer Engineering",
-    contribution: "Developed the AI-powered diagnosis system and machine learning models, landing-page and the appointment functions in both clinic and patient.",
-    github: "https://github.com/SeesonLau",
-    email: "seesonjohnlau@gmail.com"
-  },
-  { 
-    id: 2, 
-    name: "Charles Luis G. Gaid", 
-    role: "Settings Developer", 
-    image: '/landing-page-iamge/gaid.jpg',
-    course: "BS Computer Engineering",
-    contribution: "Implemented user settings and preferences system",
-    github: "https://github.com/SibuyasGaid",
-    email: "charlesluisgaid@gmail.com"
-  },
-  { 
-    id: 3, 
-    name: "Jamel P. Hadjirasul", 
-    role: "EHR Developer", 
-    image: '/landing-page-iamge/jamel.jpg',
-    course: "BS Computer Engineering",
-    contribution: "Developed the EHR functions in both patient and clinic.",
-    github: "https://github.com/catnipp9",
-    email: "hadjirasuljamel80@gmail.com"
-  },
-  { 
-    id: 4, 
-    name: "Dawson P. Alegarbes", 
-    role: "Database Developer", 
-    image: '/landing-page-iamge/dawson.jpg',
-    course: "BS Computer Engineering",
-    contribution: "Connected all functions to the database",
-    github: "https://github.com/deandoiii",
-    email: "dosonshi@gmail.com"
-  },
-  { 
-    id: 5, 
-    name: "Dan Vincent Y. Adlawan", 
-    role: "Login/Signup Developer", 
-    image: '/landing-page-iamge/adlawan.JPG',
-    course: "BS Computer Engineering",
-    contribution: "Developed the login/signup modals.",
-    github: "https://github.com/DansoloTO",
-    email: "danmc97to@gmail.com"
-  },
-  { 
-    id: 6, 
-    name: "Daniel M. Montesclaros", 
-    role: "Homepage Developer", 
-    image: '/landing-page-iamge/mont.jpg',
-    course: "BS Computer Engineering",
-    contribution: "Developed the homepage in both clinic, patient, and the sidebar.",
-    github: "https://github.com/constantine2003",
-    email: "montesclarosdaniel7@gmail.com"
-  },
-];
+    { 
+      id: 1, 
+      name: "John Laurence G. Sison", 
+      role: "AI Developer", 
+      image: '/landing-page-iamge/sison1.jpg',
+      course: "BS Computer Engineering",
+      contribution: "Designed and implemented the AI-powered diagnosis system, machine learning models, and key features like the landing page and appointment scheduling for both clinic and patient portals.",
+      github: "https://github.com/SeesonLau",
+      email: "seesonjohnlau@gmail.com"
+    },
+    { 
+      id: 2, 
+      name: "Charles Luis G. Gaid", 
+      role: "Settings Developer", 
+      image: '/landing-page-iamge/gaid.jpg',
+      course: "BS Computer Engineering",
+      contribution: "Developed the user settings and preferences system, enabling personalized and streamlined user experiences.",
+      github: "https://github.com/SibuyasGaid",
+      email: "charlesluisgaid@gmail.com"
+    },
+    { 
+      id: 3, 
+      name: "Jamel P. Hadjirasul", 
+      role: "EHR Developer", 
+      image: '/landing-page-iamge/jamel.jpg',
+      course: "BS Computer Engineering",
+      contribution: "Created and integrated comprehensive Electronic Health Record (EHR) functionalities for both clinic and patient platforms.",
+      github: "https://github.com/catnipp9",
+      email: "hadjirasuljamel80@gmail.com"
+    },
+    { 
+      id: 4, 
+      name: "Dawson P. Alegarbes", 
+      role: "Database Developer", 
+      image: '/landing-page-iamge/dawson.jpg',
+      course: "BS Computer Engineering",
+      contribution: "Established and maintained database connectivity, ensuring seamless integration of all platform features.",
+      github: "https://github.com/deandoiii",
+      email: "dosonshi@gmail.com"
+    },
+    { 
+      id: 5, 
+      name: "Dan Vincent Y. Adlawan", 
+      role: "Login/Signup Developer", 
+      image: '/landing-page-iamge/adlawan.JPG',
+      course: "BS Computer Engineering",
+      contribution: "Developed the authentication system, including responsive and user-friendly login and signup modals.",
+      github: "https://github.com/DansoloTO",
+      email: "danmc97to@gmail.com"
+    },
+    { 
+      id: 6, 
+      name: "Daniel M. Montesclaros", 
+      role: "Homepage Developer", 
+      image: '/landing-page-iamge/mont.jpg',
+      course: "BS Computer Engineering",
+      contribution: "Designed and developed the homepage for both clinic and patient platforms, as well as the sidebar navigation components.",
+      github: "https://github.com/constantine2003",
+      email: "montesclarosdaniel7@gmail.com"
+    },
+  ];  
 
 const OurTeam = () => {
   const [startIndex, setStartIndex] = useState(0);
@@ -74,6 +74,7 @@ const OurTeam = () => {
   const [selectedMember, setSelectedMember] = useState(null);
   const [particles, setParticles] = useState([]);
   const [eyeParticles, setEyeParticles] = useState([]);
+  const [modalBgElements, setModalBgElements] = useState([]);
 
   useEffect(() => {
     // Initialize particles
@@ -113,8 +114,37 @@ const OurTeam = () => {
       setEyeParticles(newEyeParticles);
     };
 
+    const generateModalBackground = () => {
+      const elements = [];
+      // Circles
+      for (let i = 0; i < 5; i++) {
+        elements.push({
+          id: `circle-${i}`,
+          type: 'circle',
+          size: Math.random() * 300 + 100,
+          x: Math.random() * 100,
+          y: Math.random() * 100,
+          opacity: Math.random() * 0.1 + 0.05
+        });
+      }
+      // Lines
+      for (let i = 0; i < 3; i++) {
+        elements.push({
+          id: `line-${i}`,
+          type: 'line',
+          width: Math.random() * 200 + 100,
+          x: Math.random() * 100,
+          y: Math.random() * 100,
+          rotation: Math.random() * 360,
+          opacity: Math.random() * 0.1 + 0.05
+        });
+      }
+      setModalBgElements(elements);
+    };
+
     generateParticles();
     generateEyeParticles();
+    generateModalBackground();
 
     const handleResize = () => {
       const width = window.innerWidth;
@@ -319,29 +349,60 @@ const OurTeam = () => {
       {/* Team Member Modal */}
       {selectedMember && (
         <div className={styles['team-modal']}>
-            <div className={styles['modal-overlay']} onClick={closeModal}></div>
-            
-            {/* Floating particles for modal */}
-            <div className={styles['modal-particles']}>
+          <div className={styles['modal-overlay']} onClick={closeModal}></div>
+          
+          {/* Background Design Elements */}
+          <div className={styles['modal-background-design']}>
+            {modalBgElements.map(element => (
+              element.type === 'circle' ? (
+                <div
+                  key={element.id}
+                  className={styles['modal-bg-circle']}
+                  style={{
+                    left: `${element.x}%`,
+                    top: `${element.y}%`,
+                    width: `${element.size}px`,
+                    height: `${element.size}px`,
+                    opacity: element.opacity
+                  }}
+                />
+              ) : (
+                <div
+                  key={element.id}
+                  className={styles['modal-bg-line']}
+                  style={{
+                    left: `${element.x}%`,
+                    top: `${element.y}%`,
+                    width: `${element.width}px`,
+                    transform: `rotate(${element.rotation}deg)`,
+                    opacity: element.opacity
+                  }}
+                />
+              )
+            ))}
+          </div>
+          
+          {/* Floating particles for modal */}
+          <div className={styles['modal-particles']}>
             {[...Array(15)].map((_, i) => (
-                <div 
+              <div 
                 key={i}
                 className={styles['modal-particle']}
                 style={{
-                    left: `${Math.random() * 100}%`,
-                    top: `${Math.random() * 100}%`,
-                    width: `${Math.random() * 8 + 4}px`,
-                    height: `${Math.random() * 8 + 4}px`,
-                    animationDelay: `${Math.random() * 2}s`,
-                    animationDuration: `${Math.random() * 10 + 5}s`
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  width: `${Math.random() * 8 + 4}px`,
+                  height: `${Math.random() * 8 + 4}px`,
+                  animationDelay: `${Math.random() * 2}s`,
+                  animationDuration: `${Math.random() * 10 + 5}s`
                 }}
-                />
+              />
             ))}
-            </div>
+          </div>
 
-            <div className={styles['modal-content']}>
+          <div className={styles['modal-content']}>
             <button className={styles['modal-close']} onClick={closeModal}>
-                <FaTimes />
+              <FaTimes />
             </button>
             
             {/* Decorative corner elements */}
@@ -352,63 +413,63 @@ const OurTeam = () => {
             
             {/* Centered Image with Frame */}
             <div className={styles['modal-image-frame']}>
-                <div className={styles['modal-image-wrapper']}>
+              <div className={styles['modal-image-wrapper']}>
                 <Image 
-                    src={selectedMember.image}
-                    alt={`Portrait of ${selectedMember.name}`}
-                    width={250}
-                    height={250}
-                    className={styles['modal-image']}
-                    objectFit="contain"
+                  src={selectedMember.image}
+                  alt={`Portrait of ${selectedMember.name}`}
+                  width={250}
+                  height={250}
+                  className={styles['modal-image']}
+                  objectFit="contain"
                 />
-                </div>
+              </div>
             </div>
             
-            {/* Left-aligned Profile Information */}
+            {/* Profile Information */}
             <div className={styles['modal-info']}>
-                <div className={styles['info-section']}>
-                <span className={styles['info-label']}>Name:</span>
+              <div className={styles['info-section']}>
+                <span className={styles['info-label']}>Name</span>
                 <span className={styles['info-value']}>{selectedMember.name}</span>
-                </div>
-                
-                <div className={styles['info-section']}>
-                <span className={styles['info-label']}>Role:</span>
+              </div>
+              
+              <div className={styles['info-section']}>
+                <span className={styles['info-label']}>Role</span>
                 <span className={styles['info-value']}>{selectedMember.role}</span>
-                </div>
-                
-                <div className={styles['info-section']}>
-                <span className={styles['info-label']}>Course:</span>
+              </div>
+              
+              <div className={styles['info-section']}>
+                <span className={styles['info-label']}>Course</span>
                 <span className={styles['info-value']}>{selectedMember.course}</span>
-                </div>
-                
-                <div className={styles['info-section']}>
-                <span className={styles['info-label']}>Contribution:</span>
+              </div>
+              
+              <div className={styles['info-section']}>
+                <span className={styles['info-label']}>Project Contribution</span>
                 <p className={styles['info-paragraph']}>{selectedMember.contribution}</p>
-                </div>
-                
-                {/* Social Links with Icons */}
-                <div className={styles['social-links']}>
+              </div>
+              
+              {/* Social Links with Icons */}
+              <div className={styles['social-links']}>
                 <a 
-                    href={selectedMember.github} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className={styles['social-link']}
+                  href={selectedMember.github} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className={styles['social-link']}
                 >
-                    <FaGithub className={styles['social-icon']} />
-                    <span>GitHub Profile</span>
+                  <FaGithub className={styles['social-icon']} />
+                  <span>GitHub Profile</span>
                 </a>
                 <a 
-                    href={`mailto:${selectedMember.email}`}
-                    className={styles['social-link']}
+                  href={`mailto:${selectedMember.email}`}
+                  className={styles['social-link']}
                 >
-                    <FaEnvelope className={styles['social-icon']} />
-                    <span>Contact via Email</span>
+                  <FaEnvelope className={styles['social-icon']} />
+                  <span>Contact via Email</span>
                 </a>
-                </div>
+              </div>
             </div>
-            </div>
+          </div>
         </div>
-        )}
+      )}
     </section>
   );
 };

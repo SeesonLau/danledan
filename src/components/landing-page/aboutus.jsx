@@ -145,7 +145,7 @@ const AboutUs = () => {
         <div className={styles['about-us-image']}>
           <div className={styles['image-container']}>
             <Image 
-              src="/landing-page-iamge/opticareLogo.png"
+              src="/landing-page-iamge/svgopticareLogo.svg"
               alt="OptiCare Logo"
               width={500}
               height={500}

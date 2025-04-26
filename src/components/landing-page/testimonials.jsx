@@ -9,21 +9,21 @@ const testimonials = [
     text: `"OptiCare has made managing my eye health so much easier. I can book appointments, check my prescriptions, and access my health records all in one place. It's truly a game-changer for busy individuals like me!"`,
     name: 'John Augustine L. Lapinig',
     role: 'Patient',
-    image: '/landing-page-iamge/lapinig.jpg'
+    image: '/landing-page-iamge/Slapinig.svg'
   },
   {
     id: 2,
     text: `"As a practice manager, I can confidently say that Opticare has streamlined our workflow and improved overall efficiency. The real-time tracking and reporting features give us valuable insights into our operations."`,
     name: 'HuTao',
     role: 'Practice Manager',
-    image: '/landing-page-iamge/hutao.jpg'
+    image: '/landing-page-iamge/shutao.svg'
   },
   {
     id: 3,
     text: `"Opticare has completely transformed how we manage our patient data and appointments. The intuitive interface and seamless integration have saved us hours each week. Our team can now focus more on patient care!"`,
     name: 'Yanfei',
     role: 'Clinic Director',
-    image: '/landing-page-iamge/yanfei.jpg'
+    image: '/landing-page-iamge/syanfei.svg'
   },
   {
     id: 4,
