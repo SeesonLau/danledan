@@ -4,8 +4,8 @@ import { useEffect, useState, useRef, useMemo } from "react";
 import { useRouter } from "next/router";
 import styles from "@/styles/patient/patient-appointments.module.css";
 
-import AppointmentProgressSteps from "@/components/patient/appointments/appointmentProgressSteps";
-import AppointmentLocation from "@/components/patient/appointments/appointmentLocation";
+import AppointmentProgressSteps from "@/components/patient/appointments/appointmentProgressSteps.jsx";
+import AppointmentLocation from "@/components/patient/appointments/appointmentLocation.jsx";
 import ClinicSelection from "@/components/patient/appointments/clinicSelection";
 import AppointmentCalendar from "@/components/patient/appointments/appointmentCalendar";
 import TimeSlotSelection from "@/components/patient/appointments/timeSlotSelection";
