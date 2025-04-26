@@ -292,7 +292,7 @@ const HomePage = () => {
           </div>
           <div className={styles["contact-right"]}>
             <h2>Contact Us</h2>
-            <p>We're here to help! Reach out through any of these channels:</p>
+            <p>We are here to help! Reach out through any of these channels:</p>
             <ul>
               <li>
                 <strong>Email:</strong> seeson@gmail.com
