@@ -19,26 +19,26 @@ const generateTimeSlots = () => {
   const startDate = new Date();
   startDate.setDate(startDate.getDate() + 1); // Start from tomorrow
   
-  // Define time slots for each day type
+  // Define time slots for each day type with booking count
   const mwfTimeSlots = [
-    '10:00 AM',
-    '11:00 AM',
-    '12:00 PM',
-    '1:00 PM',
-    '2:00 PM',
-    '3:00 PM',
-    '4:00 PM',
-    '5:00 PM'
+    { time: '10:00 AM', bookings: 0 },
+    { time: '11:00 AM', bookings: 0 },
+    { time: '12:00 PM', bookings: 0 },
+    { time: '1:00 PM', bookings: 0 },
+    { time: '2:00 PM', bookings: 0 },
+    { time: '3:00 PM', bookings: 0 },
+    { time: '4:00 PM', bookings: 0 },
+    { time: '5:00 PM', bookings: 0 }
   ];
   
   const ttTimeSlots = [
-    '1:00 PM',
-    '2:00 PM',
-    '3:00 PM',
-    '4:00 PM',
-    '5:00 PM',
-    '6:00 PM',
-    '7:00 PM'
+    { time: '1:00 PM', bookings: 0 },
+    { time: '2:00 PM', bookings: 0 },
+    { time: '3:00 PM', bookings: 0 },
+    { time: '4:00 PM', bookings: 0 },
+    { time: '5:00 PM', bookings: 0 },
+    { time: '6:00 PM', bookings: 0 },
+    { time: '7:00 PM', bookings: 0 }
   ];
 
   for (let i = 0; i < 60; i++) { // Generate for next 60 days
@@ -60,11 +60,11 @@ const generateTimeSlots = () => {
       case 1: // Monday
       case 3: // Wednesday
       case 5: // Friday
-        daySlots = [...mwfTimeSlots];
+        daySlots = JSON.parse(JSON.stringify(mwfTimeSlots)); // Deep copy
         break;
       case 2: // Tuesday
       case 4: // Thursday
-        daySlots = [...ttTimeSlots];
+        daySlots = JSON.parse(JSON.stringify(ttTimeSlots)); // Deep copy
         break;
       default:
         daySlots = [];
@@ -76,13 +76,12 @@ const generateTimeSlots = () => {
   return slots;
 };
 
-const availableTimeSlots = generateTimeSlots();
-
 const PatientAppointments = () => {
   const { user, loading } = useAuth();
   const router = useRouter();
   const fileInputRef = useRef(null);
   
+  const [availableTimeSlots, setAvailableTimeSlots] = useState(generateTimeSlots());
   const [currentStep, setCurrentStep] = useState(1);
   const [province, setProvince] = useState("");
   const [city, setCity] = useState("");
@@ -175,6 +174,20 @@ const PatientAppointments = () => {
     try {
       setIsSubmitting(true);
       setError("");
+      
+      // Update the booking count for the selected time slot
+      const updatedSlots = { ...availableTimeSlots };
+      const daySlots = updatedSlots[selectedDate];
+      
+      if (daySlots) {
+        const slotIndex = daySlots.findIndex(slot => slot.time === selectedTime);
+        if (slotIndex !== -1 && daySlots[slotIndex].bookings < 3) {
+          daySlots[slotIndex].bookings += 1;
+          setAvailableTimeSlots(updatedSlots);
+        } else {
+          throw new Error("This time slot is already fully booked");
+        }
+      }
       
       await new Promise(resolve => setTimeout(resolve, 1500));
       

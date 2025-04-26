@@ -14,18 +14,29 @@ const TimeSlotSelection = ({
           <div className={styles.selectedDate}>{selectedDate}</div>
         </div>
         <div className={styles.timeSlotsList}>
-          {currentTimeSlots.map((time) => (
+          {currentTimeSlots.map((slot) => (
             <button
-              key={time}
-              className={`${styles.timeSlot} ${selectedTime === time ? styles.selected : ''}`}
-              onClick={() => handleTimeSelect(time)}
+              key={slot.time}
+              className={`${styles.timeSlot} ${
+                selectedTime === slot.time ? styles.selected : ''
+              } ${slot.bookings >= 3 ? styles.fullyBooked : ''}`}
+              onClick={() => slot.bookings < 3 && handleTimeSelect(slot.time)}
+              disabled={slot.bookings >= 3}
             >
-              {time}
+              {slot.time}
+              {slot.bookings > 0 && (
+                <span className={styles.bookingCount}>
+                  ({slot.bookings}/3 booked)
+                </span>
+              )}
+              {slot.bookings >= 3 && (
+                <span className={styles.fullyBookedBadge}>Fully Booked</span>
+              )}
             </button>
           ))}
         </div>
       </div>
     );
   };
-  
+
   export default TimeSlotSelection;

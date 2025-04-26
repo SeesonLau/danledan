@@ -867,3 +867,24 @@ select.formInput {
     gap: 0.5rem;
   }
 }
+
+.bookingCount {
+  display: block;
+  font-size: 0.7rem;
+  color: #666;
+  margin-top: 0.25rem;
+}
+
+.fullyBookedBadge {
+  display: block;
+  font-size: 0.7rem;
+  color: #c62828;
+  margin-top: 0.25rem;
+}
+
+.timeSlot.fullyBooked {
+  background: #ffebee;
+  color: #c62828;
+  cursor: not-allowed;
+  border-color: #ffcdd2;
+}
