@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: column;
     width: 70%; 
-
   }
   
   .ehrTextboxLabel {
@@ -23,7 +22,7 @@
     font-size: 0.95rem; 
     font-family: Montserrat, sans-serif;
     font-weight: 600;
-    line-height: 1.5;
+    line-height: 1;
     color: var(--Color-Blue-Blue-500, #559DDC);
   }
   
@@ -61,7 +60,7 @@
     display: flex;
     align-items: flex-start;
     width: 100%;  /* Make it fully responsive */
-    height: 40px;
+    height: 2.3rem;
   }
   
   .ehrTextboxLabel2 {
@@ -90,15 +89,13 @@
     display: flex;
     flex-direction: column;
     width: 70%; 
-    height: 100%;
-    max-height: 50px;
-
+    height: 2.94rem;
   }
   
   .ehrTextboxLabel3 {
     color: var(--Color-Blue-Blue-800, #325B9B);
     font-family: Montserrat, sans-serif;
-    font-size: 0.6rem;
+    font-size: 0.5rem;
     font-weight: 600;
     line-height: 1.2;
     text-align: left; 
@@ -115,13 +112,14 @@
     font-weight: 600;
     line-height: 0.9;
     color: var(--Color-Blue-Blue-500, #559DDC);
+    min-width: 50%;
   }
   
   .ehrTextbox4 {
     display: flex;
     flex-direction: column;
     width: 35%;
-    max-height: 100px;
+
   }
   
   .ehrTextboxLabel4 {
@@ -155,9 +153,9 @@
   }
   
   .ehrTextarea5 {
-    max-width: 530px;
+    max-width: 400px;
     min-width: 300px;
-    height: 15rem;
+    height: 10rem;
     border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
     color: var(--Color-Blue-Blue-800, #325B9B);
     border-radius: 5px;
