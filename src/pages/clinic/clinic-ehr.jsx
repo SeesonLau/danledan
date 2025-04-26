@@ -651,10 +651,10 @@ const ClinicEHR = () => {
 
             <div className={styles.div6}>
               <div className={styles.horizontalFormat}>
-                <div className={styles.saveContainer}>
-                <SaveButton label="Save" onClick={handleSaveClick} />
+                <div className={styles.saveContainer} data-html2canvas-ignore>
+                  <SaveButton label="Save" onClick={handleSaveClick} />
                 </div>
-                <div className={styles.feesContainer}>
+                  <div className={styles.feesContainer}>
                   <div className={styles.horizontalFormat}>
                     <div className={styles.feeslabelCard}>
                       <h1 className={styles.feesText2}>ANALYTICAL FEE</h1>
