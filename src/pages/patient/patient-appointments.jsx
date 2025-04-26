@@ -10,8 +10,9 @@ import ClinicSelection from "@/components/patient/appointments/clinicSelection";
 import AppointmentCalendar from "@/components/patient/appointments/appointmentCalendar";
 import TimeSlotSelection from "@/components/patient/appointments/timeSlotSelection";
 import AppointmentDetailsForm from "@/components/patient/appointments/appointmentDetailsForm";
-import AppointmentReview from "@/components/patient/appointments/AppointmentReview";
+import AppointmentReview from "@/components/patient/appointments/appointmentReview";
 import AppointmentConfirmation from "@/components/patient/appointments/appointmentConfirmation";
+
 
 const generateTimeSlots = () => {
   const slots = {};
