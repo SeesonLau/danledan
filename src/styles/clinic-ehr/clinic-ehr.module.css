@@ -369,7 +369,21 @@
     margin-bottom: 11.5px;
     padding-top: 7px;
     height: 7.4rem;
-  
+  }
+
+  @media screen and (max-width: 768px) {
+    .segmentCard {
+      height: 6rem;
+      padding-top: 5px;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .segmentCard {
+      flex-direction: column;
+      height: auto;
+      padding: 10px;
+    }
   }
   
   .segmentText {
