@@ -1,34 +1,480 @@
-.cliniccontainer {
-    display: flex;
-    height: 100vh;
-    width: 100%;
-    background-color: #f9f9f9;
-    flex-wrap: wrap; /* Ensures proper wrapping */
-    align-items: flex-start; /* Keeps items aligned at the top */
-    overflow: hidden;
+.container {
+  padding: 1rem;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f5f7fa;
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.title {
+  color: #2c3e50;
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  font-weight: 600;
+  margin: 0;
+}
+
+.controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.refreshButton {
+  padding: 0.5rem 1rem;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.refreshButton:hover {
+  background-color: #3e8e41;
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.filterGroup, .searchGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.filterGroup label, .searchLabel {
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: #555;
+  white-space: nowrap;
+}
+
+.filterInput, .filterSelect {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  background-color: white;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.searchContainer {
+  position: relative;
+  width: 100%;
+}
+
+.searchInput {
+  padding: 0.5rem 2rem 0.5rem 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.searchIcon {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #777;
+  pointer-events: none;
+}
+
+.tableContainer {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  overflow-x: auto;
+  width: 100%;
+}
+
+.appointmentsTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  color: #2c3e50;
+}
+
+.appointmentsTable th,
+.appointmentsTable td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.appointmentsTable th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #444;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  user-select: none;
+  position: sticky;
+  top: 0;
+  white-space: nowrap;
+}
+
+.appointmentsTable th:hover {
+  background-color: #e9ecef;
+}
+
+.patientInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.patientName {
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.statusBadge {
+  padding: 0.35rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+  text-align: center;
+  min-width: 80px;
+}
+
+.statusBadge.pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.statusBadge.cancelled {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.statusBadge.completed {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.statusSelect {
+  padding: 0.35rem;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  font-size: 0.75rem;
+  background-color: white;
+  width: 100%;
+}
+
+.viewButton {
+  padding: 0.35rem 0.75rem;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.viewButton:hover {
+  background-color: #2980b9;
+}
+
+.noResults {
+  text-align: center;
+  padding: 2rem;
+  color: #6c757d;
+}
+
+.clearFilters {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.clearFilters:hover {
+  background-color: #e0e0e0;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.pagination button {
+  padding: 0.5rem 1rem;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination button:not(:disabled):hover {
+  background-color: #e0e0e0;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: white;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modalHeader {
+  padding: 1.5rem;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modalHeader h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #2c3e50;
+}
+
+.modalClose {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #777;
+  padding: 0 0.5rem;
+}
+
+.modalClose:hover {
+  color: #333;
+}
+
+.modalBody {
+  padding: 1.5rem;
+}
+
+.detailRow {
+  display: flex;
+  margin-bottom: 1rem;
+  align-items: flex-start;
+}
+
+.detailLabel {
+  font-weight: 600;
+  color: #555;
+  width: 150px;
+  flex-shrink: 0;
+}
+
+.detailValue {
+  flex: 1;
+  color: #333;
+  word-break: break-word;
+}
+
+.fileLink {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.fileLink:hover {
+  text-decoration: underline;
+}
+
+.modalFooter {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modalButton {
+  padding: 0.5rem 1rem;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.modalButton:hover {
+  background-color: #2980b9;
+}
+
+.detailValue.pending {
+  color: #856404;
+  background-color: #fff3cd;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.detailValue.cancelled {
+  color: #721c24;
+  background-color: #f8d7da;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.detailValue.completed {
+  color: #155724;
+  background-color: #d4edda;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+@media (max-width: 768px) {
+  .filters {
+    grid-template-columns: 1fr;
   }
   
-  .maincontent {
+  .appointmentsTable th,
+  .appointmentsTable td {
+    padding: 0.75rem 0.5rem;
+  }
+  
+  .actions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0.75rem;
+  }
+  
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .appointmentsTable {
+    display: block;
+  }
+  
+  .appointmentsTable thead {
+    display: none;
+  }
+  
+  .appointmentsTable tr {
+    display: block;
+    margin-bottom: 1rem;
+    border: 1px solid #eee;
+    border-radius: 8px;
+  }
+  
+  .appointmentsTable td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .appointmentsTable td:last-child {
+    border-bottom: none;
+  }
+  
+  .appointmentsTable td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #555;
+    margin-right: 1rem;
     flex: 1;
-    padding: 20px;
-    background-color: lightblue;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between; 
-    height: 100%;
+  }
+  
+  .appointmentsTable td > * {
+    flex: 2;
+  }
+  
+  .statusBadge {
+    min-width: auto;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .detailRow {
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+  }
+  
+  .detailLabel {
     width: 100%;
+    margin-bottom: 0.25rem;
   }
   
-  @media (max-width: 1024px) { /* Adjust the breakpoint as needed */
-    .cliniccontainer {
-      overflow: auto; /* Allows scrolling when minimized */
-      overflow-x: hidden;
-      width: 100%;
-    }
-  .maincontent {
-    flex-direction: column; /* Stack them vertically */
-    overflow-y: auto; /* Allows scrolling */
-    height: 100%; /*replace with auto*/
-    }
+  .modal {
+    width: 95%;
   }
-  
+}
