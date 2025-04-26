@@ -19,7 +19,7 @@ const ExportEHR = async (printRef) => {
   }
 };*/
 
-const PrintEHR1 = async (printRef, setIsPrinting) => {
+const PrintEHR = async (printRef, setIsPrinting) => {
     const element = printRef.current;
     if (!element) return;
   
@@ -41,5 +41,5 @@ const PrintEHR1 = async (printRef, setIsPrinting) => {
       setIsPrinting(false);
     }
 };
-export default PrintEHR1;
+export default PrintEHR;
 

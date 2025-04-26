@@ -7,7 +7,6 @@ import { EHR2Textbox } from "@/components/ehr-textbox";
 import { EHR3Textbox } from "@/components/ehr-textbox";
 import { EHR4Textbox } from "@/components/ehr-textbox";
 import { EHR5Textbox } from "@/components/ehr-textbox";
-import SaveButton from "@/components/save-button";
 import { FaEye, FaDownload, FaPrint } from "react-icons/fa";
 import PrintEHR from "@/components/export-ehr";
 import { useAuth } from "@/config/AuthContext";
@@ -15,7 +14,9 @@ import { useAuth } from "@/config/AuthContext";
 import { useRouter } from "next/router";
 
 const PatientEHR = () => {
-  //
+  
+  const [isPrinting, setIsPrinting] = useState(false);
+
   const { user, loading } = useAuth();
   const router = useRouter();
 
@@ -34,59 +35,9 @@ const PatientEHR = () => {
   
   const printRef = useRef();
 
-  const importEHR = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        try {
-          const data = JSON.parse(e.target.result);
+  const exportEHR = async (printRef, setIsPrinting) => {
 
-          // Populate the form fields with imported data
-          setCaseno(data.caseno || "");
-          setPatientname(data.name || "");
-          setDate(data.date || "");
-          setAddress(data.address || "");
-          setAge(data.age || "");
-          setClinic(data.clinic || "");
-          setPhonenumber(data.phone || "");
-          setOccupation(data.occupation || "");
-          setDoctor(data.doctor || "");
-          setDistanceOD(data.distanceOD || "");
-          setDistanceOS(data.distanceOS || "");
-          setNearOD(data.nearOD || "");
-          setNearOS(data.nearOS || "");
-          setRxOD(data.oldRxOD || "");
-          setRxOS(data.oldRxOS || "");
-          setODvaU(data.ODvaU || "");
-          setOSvaU(data.OSvaU || "");
-          setODvaRX(data.ODvaRX || "");
-          setOSvaRX(data.OSvaRX || "");
-          setPD(data.pd || "");
-          setDBL(data.dbl || "");
-          setSize1(data.size1 || "");
-          setBifocals(data.bifocals || "");
-          setLens(data.lens || "");
-          setSize2(data.size2 || "");
-          setRemarks(data.remarks || "");
-          setOF(data.orthopticfee || "");
-          setAF(data.analyticalfee || "");
-          setLF(data.lensesfee || "");
-          setFF(data.framefee || "");
-          setTotalfee(data.totalfee || "");
-
-          alert("Form data successfully imported!");
-        } catch (err) {
-          alert("Error parsing JSON file. Please select a valid JSON file.");
-        }
-      };
-      reader.readAsText(file);
-    }
-  };
-
-  const exportEHR = async (printRef) => {
-    // Export to PDF logic here
-    await PrintEHR(printRef);
+    await PrintEHR(printRef, setIsPrinting);
 
     // Extract form data
     const formData = {
@@ -376,7 +327,7 @@ const PatientEHR = () => {
       <main className={styles.maincontent}>
         <div className={styles.firstdiv}>
           <h1 className={styles.header}>My EHR</h1>
-          <div ref={printRef} className={styles.ehrContainer}>
+          <div ref={printRef} className={`${styles.ehrContainer} ${isPrinting ? styles.printMode : ''}`}>
             <div className={styles.div1}>
               <div className={styles.profilePhoto}>
                 {profileImageUrl ? (
@@ -770,7 +721,7 @@ const PatientEHR = () => {
                       </button>
                       <button
                         className={styles.button}
-                        onClick={() => exportEHR(printRef)}
+                        onClick={() => exportEHR(printRef, setIsPrinting)}
                       >
                         <FaPrint />
                       </button>
