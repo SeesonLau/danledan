@@ -5,6 +5,7 @@ import styles from "../styles/landing-page/index.module.css";
 import { useRouter } from "next/router";
 import { useState, useEffect, useCallback } from "react";
 import { auth } from "@/config/firebase";
+import { debounce } from "lodash";
 
 const Testimonials = dynamic(() => import('@/components/landing-page/testimonials'));
 const AboutUs = dynamic(() => import('@/components/landing-page/aboutus'));
@@ -16,13 +17,29 @@ const HomePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [particles, setParticles] = useState([]);
   const [eyes, setEyes] = useState([]);
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const [visible, setVisible] = useState(true);
   const router = useRouter();
 
-  // Create floating particles
+  // Handle scroll for header visibility
   useEffect(() => {
+    const handleScroll = debounce(() => {
+      const currentScrollPos = window.pageYOffset;
+      setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 10);
+      setPrevScrollPos(currentScrollPos);
+    }, 100);
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [prevScrollPos, visible]);
+
+  // Create floating particles (reduced on mobile)
+  useEffect(() => {
+    const isMobile = window.innerWidth < 768;
     const generateParticles = () => {
       const newParticles = [];
-      for (let i = 0; i < 50; i++) {
+      const count = isMobile ? 20 : 50;
+      for (let i = 0; i < count; i++) {
         newParticles.push({
           id: i,
           x: Math.random() * 100,
@@ -39,11 +56,13 @@ const HomePage = () => {
     generateParticles();
   }, []);
 
-  // Create floating eye elements
+  // Create floating eye elements (reduced on mobile)
   useEffect(() => {
+    const isMobile = window.innerWidth < 768;
     const generateEyes = () => {
       const newEyes = [];
-      for (let i = 0; i < 8; i++) {
+      const count = isMobile ? 4 : 8;
+      for (let i = 0; i < count; i++) {
         newEyes.push({
           id: i,
           x: Math.random() * 100,
@@ -70,6 +89,12 @@ const HomePage = () => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+  };
+
+  const handleTouchStart = (e) => {
+    if (e.touches[0].clientY < 50) {
+      setVisible(true);
+    }
   };
 
   const scrollToSection = (e, sectionId) => {
@@ -109,7 +134,10 @@ const HomePage = () => {
   };
 
   return (
-    <div className={`${styles["home-page-container"]} overflow-x-hidden`}>
+    <div 
+      className={`${styles["home-page-container"]} overflow-x-hidden`}
+      onTouchStart={handleTouchStart}
+    >
       {/* Animated background elements */}
       <AnimatedBackground />
       
@@ -151,7 +179,13 @@ const HomePage = () => {
         ))}
       </div>
 
-      <header className={styles["home-page-header"]}>
+      <header 
+        className={`${styles["home-page-header"]} ${!visible ? styles.hidden : ''}`}
+        style={{
+          transform: visible ? 'translateY(0)' : 'translateY(-100%)',
+          transition: 'transform 0.3s ease-in-out'
+        }}
+      >
         <div className={styles["logo-section"]}>
           <div className={styles.logo}>
             <Eye size={40} color="#ffffff" />
@@ -270,7 +304,7 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Other sections remain the same */}
+      {/* Other sections */}
       <section id="testimonials">
         <Testimonials />
       </section>
@@ -328,4 +362,5 @@ const HomePage = () => {
     </div>
   );
 };
+
 export default HomePage;
