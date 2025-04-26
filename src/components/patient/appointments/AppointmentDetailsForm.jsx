@@ -111,7 +111,7 @@ const AppointmentDetailsForm = ({
           </div>
           
           <div className={styles.formGroup}>
-            <label className={styles.formLabel}>Upload PDF File</label>
+            <label className={styles.formLabel}>Upload Previous Diagnosis in PDF File</label>
             <div className={styles.fileUpload}>
               <input
                 type="file"
