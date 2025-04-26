@@ -5,7 +5,7 @@
     flex-wrap: wrap; /* Ensures proper wrapping */
     align-items: flex-start; /* Keeps items aligned at the top */
     overflow: hidden;
-    
+       
   }
   
   @media (max-width: 1024px) { /* Adjust the breakpoint as needed */
@@ -25,6 +25,8 @@
     -webkit-text-stroke: 1px #0D54AC; 
     text-transform: uppercase; 
     letter-spacing: 1px;
+    text-align: center;
+
   }
   
   @media (max-width: 1024px){
@@ -52,9 +54,9 @@
     min-width: 40%;
     max-width: 100%;
     width: 100%;
-    height: auto; /* Allow height to adjust dynamically */
-    border-radius: 10px;
+    height: auto;
     position: relative;
+    margin-top: -2rem;
   }
   
   
@@ -63,7 +65,7 @@
       height: auto;
       max-width: 100%;
       min-width: 500px;
-      padding-bottom: 20px; 
+      padding-left: 0.5rem;
       
     }
   
@@ -84,20 +86,18 @@
   
   .ehrContainer {
     display: grid;
-    grid-template-columns: 1fr 1fr; 
+    grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(6, auto);
     width: 100%;
     border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
-    gap: 0;
     background: var(--Color-Blue-Blue-200, #C8E3F5);
-  
   }
   
   @media (max-width: 1024px){
     .ehrContainer {
-      display: flex; /* Switch to flex on small screens */
-      flex-direction: column; /* Stack divs vertically */
-      align-items: center; /* Center align if needed */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
   
     /* Reset grid areas to stack items properly */
@@ -109,12 +109,14 @@
   .div1, .div2 {
     display: flex;
     align-items: center;
-    padding: 1.5rem;
-    border-radius: 1rem;
+    padding: 1rem;
     gap: 1rem;
     width: 100%;
     margin: 0;
-   
+  }
+
+  .div {
+    display: flex;  
   }
   
   /* Grid placement */
@@ -129,38 +131,53 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 15rem;  /* Adjust size if needed */
+    width: 15rem;
     height: 15rem;
     overflow: hidden;
-    margin-left: 20px;
-    margin-right: 20px;
-    
+    margin: 0 auto;
   }
   
-  .profileImage {
+  .profileImage, .profileIcon {
     max-width: 100%;
-    max-height: 200px; /* Increased to 200px */
+    max-height: 100%;
     width: auto;
     height: auto;
-  
   }
   
   .profileIcon {
-    max-width: 100%;
-    max-height: 200px;
-    width: auto;
-    height: auto;
-    font-size: 8rem; /* Adjusted icon size */
+    font-size: 8rem;
     color: #1f6bb5;
   }
   
+  @media (max-width: 768px) {
+    .profilePhoto {
+      width: 10rem;
+      height: 10rem;
+    }
   
+    .profileIcon {
+      font-size: 6rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .profilePhoto {
+      width: 8rem;
+      height: 8rem;
+      margin: 0 auto;
+    }
+  
+    .profileIcon {
+      font-size: 4rem;
+    }
+  }
   
   .profileColumn {
     display: flex;
     flex-direction: column;
     gap: 15px; 
     width: 100%;
+    
   }
   
   .profileRow {
@@ -179,7 +196,7 @@
     display: flex;
     flex-direction: row; 
     justify-content: flex-start; 
-    gap: 2rem;
+    gap: 2.5rem;
   }
   
   .verticalFormat {
@@ -190,15 +207,12 @@
   }
   
   .rxContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 15px; 
-    width: 100%;
-    max-width: 40%;
-    position: relative;
-    border: 1px solid var(--Color-Blue-Blue-600, #4183CF);
-  }
-  
+  width: 70%;
+  max-width: 100%;
+  padding: 1rem;
+  border: 1px solid #4183CF;
+}
+
   
   .rxNew {
     height: 79.5%; /* Scales relative to parent */
@@ -287,28 +301,30 @@
     height: 19.5%;
     padding: 15px;
     border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
+    
   }
   .glassesCard {
     display: flex;
-    height: 19.5%;
-    padding: 1.1rem;
+    height: 3rem;
+    padding: 1.12rem;
     border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
     justify-content: center;
   } 
     
   
   .feesCard {
-    height: 19.5%;
+    height: 1.5rem;
     width:50%;
     text-align: center;
     border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
-    padding: 0.785rem;
+    padding: 1rem;
   }
   .feeslabelCard {
+    height: 1.5rem;
     width:50%;
     text-align: center;
     border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
-    padding: 10px;
+    padding: 1rem;
   }
   
    .glassesContainer, .feesContainer{
@@ -346,14 +362,28 @@
   }
   
   .segmentCard {
-    min-height: 7rem;
     display: flex-start;
     align-items: center;
     justify-content: center;
     width: 100%;
     margin-bottom: 11.5px;
     padding-top: 7px;
-    
+    height: 7.4rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    .segmentCard {
+      height: 6rem;
+      padding-top: 5px;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .segmentCard {
+      flex-direction: column;
+      height: auto;
+      padding: 10px;
+    }
   }
   
   .segmentText {
@@ -402,7 +432,7 @@
   .feesText2{
     color: var(--Color-Blue-Blue-700, #3871C1);
    font-family: Montserrat;
-   font-size: 13px;
+   font-size: 0.7rem;
    font-style: normal;
    font-weight: 700;
    line-height: 100%;  
@@ -436,8 +466,8 @@
     cursor: pointer;
     transition: all 0.3s ease;
     position: absolute;
-    
-  left: 20%;
+    top: 48%; 
+    left: 13%;
 
   }
   
@@ -453,9 +483,9 @@
   
   .tableContainer {
     width: 100%;
-    overflow-x: auto;
-    margin-top: 100px;
-    border: 1px solid #000;
+    height: 56.6rem;
+    overflow-y: auto;
+    border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
     background: #E0EFF9;
     text-align: center;
     color: var(--Color-Blue-Blue-600, #4183CF);
@@ -464,7 +494,8 @@
   .table {
     width: 100%;
     border-collapse: collapse;
-    border: 1px solid #4183CF
+    border: 1px solid #4183CF;
+    table-layout: fixed;
   }
   
   .thead {
@@ -474,8 +505,15 @@
   }
   
   .th, .td {
-    padding: 8px;
-  
+    padding: 1rem 0.5rem;
+    
+  }
+
+  .th {
+    position: sticky;
+    top: 0;
+    background-color: #b0d4f1;
+    z-index: 2;
   }
   
   /* Table Row Clickable Effect */
@@ -528,4 +566,5 @@
       padding: 4px;
     }
   }
+  
   

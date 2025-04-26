@@ -4,7 +4,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import { auth, getFullName } from "../config/firebase";
-
+import dynamic from 'next/dynamic';
+const MapContainer = dynamic(() => import('react-leaflet').then(mod => mod.MapContainer), {
+  ssr: false, // This ensures the map is only rendered client-side
+});
+const TileLayer = dynamic(() => import('react-leaflet').then(mod => mod.TileLayer), {
+  ssr: false,
+});
+const Marker = dynamic(() => import('react-leaflet').then(mod => mod.Marker), {
+  ssr: false,
+});
+const Popup = dynamic(() => import('react-leaflet').then(mod => mod.Popup), {
+  ssr: false,
+});
 {
   /*OVERFLOWING PURPOSES DO YOUR BACKEND HERE BROSKI*/
 }
@@ -34,6 +46,7 @@ const patientNotifications = [
 ];
 
 const PatientHomePage = () => {
+  const [position, setPosition] = useState([10.294951, 123.881070]); // Default position (change it to your own)
 
   /*EASTER EGG LOGIC*/
   const [clickCount, setClickCount] = useState(0);
@@ -115,7 +128,17 @@ const PatientHomePage = () => {
 
           {/*Profile Info Container*/}
           <div className={styles.mapcontainer}>
-            
+          <MapContainer center={position} zoom={13} style={{ height: '100%', width: '100%' }}>
+            <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            />
+        <Marker position={position}>
+        <Popup>
+          A default popup for the marker
+        </Popup>
+      </Marker>
+    </MapContainer>
           </div>
         </div>
 

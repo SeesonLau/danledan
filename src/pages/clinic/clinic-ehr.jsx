@@ -12,11 +12,20 @@ import { FaEye, FaDownload, FaPrint } from "react-icons/fa";
 import ExportEHR from "@/components/ehr-to-pdf";
 import { useAuth } from "@/config/AuthContext";
 import { useRouter } from "next/router";
+import { getDiagnosis } from "../../components/getDiagnosis"
 
 const ClinicEHR = () => {
   //
   const { user, loading } = useAuth();
   const router = useRouter();
+
+
+
+  const handleSaveClick = () => {
+    const diagnosis = getDiagnosis(distanceOD, distanceOS, nearOD, nearOS);
+    console.log("Diagnosis:", diagnosis);  // Change ang code nga mabutang siya sa database
+  };
+
 
   useEffect(() => {
     if (!loading && !user) {
@@ -564,8 +573,8 @@ const ClinicEHR = () => {
                       onChange={handleChange(setSegment)}
                       style={{
                         background: "transparent",
-                        margin: "10px",
-                        padding: "10px",
+                        margin: "0.8rem",
+                        padding: "0.3em",
                         color: "#559DDC",
                         textAlign: "center",
                         width: "85%",
@@ -590,7 +599,7 @@ const ClinicEHR = () => {
                         value={pd}
                         onChange={handleChange(setPD)}
                       />
-                      <EHR2Textbox
+                      <EHR4Textbox
                         label="DBL"
                         value={dbl}
                         onChange={handleChange(setDBL)}
@@ -642,11 +651,10 @@ const ClinicEHR = () => {
 
             <div className={styles.div6}>
               <div className={styles.horizontalFormat}>
-                <div className={styles.saveContainer}>
-                <SaveButton label="Save" />
+                <div className={styles.saveContainer} data-html2canvas-ignore>
+                  <SaveButton label="Save" onClick={handleSaveClick} />
                 </div>
-
-                <div className={styles.feesContainer}>
+                  <div className={styles.feesContainer}>
                   <div className={styles.horizontalFormat}>
                     <div className={styles.feeslabelCard}>
                       <h1 className={styles.feesText2}>ANALYTICAL FEE</h1>
@@ -658,8 +666,7 @@ const ClinicEHR = () => {
                         onChange={handleInputChange(setAF)}
                         style={{
                           background: "transparent",
-                          margin: "10px",
-                          fontSize: "17px",
+                          fontSize: "1rem",
                           color: "#559DDC",
                           textAlign: "center",
                           width: "85%",
@@ -679,8 +686,7 @@ const ClinicEHR = () => {
                         onChange={handleInputChange(setOF)}
                         style={{
                           background: "transparent",
-                          margin: "10px",
-                          fontSize: "17px",
+                          fontSize: "1rem",
                           color: "#559DDC",
                           textAlign: "center",
                           width: "85%",
@@ -700,8 +706,7 @@ const ClinicEHR = () => {
                         onChange={handleInputChange(setLF)}
                         style={{
                           background: "transparent",
-                          margin: "10px",
-                          fontSize: "17px",
+                          fontSize: "1rem",
                           color: "#559DDC",
                           textAlign: "center",
                           width: "85%",
@@ -721,8 +726,7 @@ const ClinicEHR = () => {
                         onChange={handleInputChange(setFF)}
                         style={{
                           background: "transparent",
-                          margin: "10px",
-                          fontSize: "17px",
+                          fontSize: "1rem",
                           color: "#559DDC",
                           textAlign: "center",
                           width: "85%",
@@ -733,7 +737,7 @@ const ClinicEHR = () => {
                   </div>
                   <div className={styles.horizontalFormat}>
                     <div className={styles.feeslabelCard}>
-                      <h1 className={styles.feesText}>TOTAL FEE</h1>
+                      <h1 className={styles.feesText2}>TOTAL FEE</h1>
                     </div>
                     <div className={styles.feesCard}>
                       <input
@@ -741,8 +745,7 @@ const ClinicEHR = () => {
                         value={totalfee}
                         style={{
                           background: "transparent",
-                          margin: "10px",
-                          fontSize: "17px",
+                          fontSize: "1rem",
                           color: "#559DDC",
                           textAlign: "center",
                           width: "85%",
@@ -758,6 +761,7 @@ const ClinicEHR = () => {
         </div>
 
         <div className={styles.seconddiv}>
+        <h1 className={styles.header}>Patient List</h1>
           <div className={styles.tableContainer}>
             <table className={styles.table}>
               <thead className={styles.thead}>

@@ -395,14 +395,14 @@ const PatientEHR = () => {
                   value={caseno}
                   onChange={() => {}}
                 />
-                <EHRTextbox
-                  label="Address"
-                  value={address}
+                 <EHRTextbox
+                  label="Patient Name"
+                  value={name}
                   onChange={() => {}}
                 />
                 <EHRTextbox
-                  label="Patient Name"
-                  value={name}
+                  label="Address"
+                  value={address}
                   onChange={() => {}}
                 />
               </div>
@@ -542,12 +542,13 @@ const PatientEHR = () => {
                       readOnly
                       style={{
                         background: "transparent",
-                        margin: "10px",
-                        padding: "17px",
+                        margin: "0.8rem",
+                        padding: "0.3em",
                         color: "#559DDC",
                         textAlign: "center",
                         width: "85%",
-                          border: "none",
+                        border: "none",
+                        lineHeight: "2.3",
                       }}
                     />
                   </div>
@@ -633,8 +634,7 @@ const PatientEHR = () => {
                         readOnly
                         style={{
                           background: "transparent",
-                          margin: "10px",
-                          fontSize: "17px",
+                          fontSize: "1rem",
                           color: "#559DDC",
                           textAlign: "center",
                           width: "85%",
@@ -655,8 +655,7 @@ const PatientEHR = () => {
                         readOnly
                         style={{
                           background: "transparent",
-                          margin: "10px",
-                          fontSize: "17px",
+                          fontSize: "1rem",
                           color: "#559DDC",
                           textAlign: "center",
                           width: "85%",
@@ -677,8 +676,7 @@ const PatientEHR = () => {
                         readOnly
                         style={{
                           background: "transparent",
-                          margin: "10px",
-                          fontSize: "17px",
+                          fontSize: "1rem",
                           color: "#559DDC",
                           textAlign: "center",
                           width: "85%",
@@ -699,8 +697,7 @@ const PatientEHR = () => {
                         readOnly
                         style={{
                           background: "transparent",
-                          margin: "10px",
-                          fontSize: "17px",
+                          fontSize: "1rem",
                           color: "#559DDC",
                           textAlign: "center",
                           width: "85%",
@@ -711,7 +708,7 @@ const PatientEHR = () => {
                   </div>
                   <div className={styles.horizontalFormat}>
                     <div className={styles.feeslabelCard}>
-                      <h1 className={styles.feesText}>TOTAL FEE</h1>
+                      <h1 className={styles.feesText2}>TOTAL FEE</h1>
                     </div>
                     <div className={styles.feesCard}>
                       <input
@@ -720,8 +717,7 @@ const PatientEHR = () => {
                         readOnly
                         style={{
                           background: "transparent",
-                          margin: "10px",
-                          fontSize: "17px",
+                          fontSize: "1rem",
                           color: "#559DDC",
                           textAlign: "center",
                           width: "85%",
@@ -737,6 +733,7 @@ const PatientEHR = () => {
         </div>
 
         <div className={styles.seconddiv}>
+          <h1 className={styles.header}>EHR History</h1>
           <div className={styles.tableContainer}>
             <table className={styles.table}>
               <thead className={styles.thead}>
