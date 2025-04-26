@@ -9,17 +9,17 @@ import { EHR4Textbox } from "@/components/ehr-textbox";
 import { EHR5Textbox } from "@/components/ehr-textbox";
 import SaveButton from "@/components/save-button";
 import { FaEye, FaDownload, FaPrint } from "react-icons/fa";
-import ExportEHR from "@/components/ehr-to-pdf";
+import PrintEHR from "@/components/export-ehr";
 import { useAuth } from "@/config/AuthContext";
 import { useRouter } from "next/router";
 import { getDiagnosis } from "../../components/getDiagnosis"
 
 const ClinicEHR = () => {
-  //
+
+  const [isPrinting, setIsPrinting] = useState(false);
+
   const { user, loading } = useAuth();
   const router = useRouter();
-
-
 
   const handleSaveClick = () => {
     const diagnosis = getDiagnosis(distanceOD, distanceOS, nearOD, nearOS);
@@ -75,6 +75,7 @@ const ClinicEHR = () => {
           setBifocals(data.bifocals || "");
           setLens(data.lens || "");
           setSize2(data.size2 || "");
+          setSegment(data.segment || "");
           setRemarks(data.remarks || "");
           setOF(data.orthopticfee || "");
           setAF(data.analyticalfee || "");
@@ -84,16 +85,16 @@ const ClinicEHR = () => {
 
           alert("Form data successfully imported!");
         } catch (err) {
-          alert("Error parsing JSON file. Please select a valid JSON file.");
+          //alert("Error parsing JSON file. Please select a valid JSON file.");
         }
       };
       reader.readAsText(file);
     }
   };
 
-  const exportEHR = async (printRef) => {
-    // Export to PDF logic here
-    await ExportEHR(printRef);
+  const exportEHR = async (printRef, setIsPrinting) => {
+
+    await PrintEHR(printRef, setIsPrinting);
 
     // Extract form data
     const formData = {
@@ -403,7 +404,7 @@ const ClinicEHR = () => {
       <main className={styles.maincontent}>
         <div className={styles.firstdiv}>
           <h1 className={styles.header}>EHR</h1>
-          <div ref={printRef} className={styles.ehrContainer}>
+          <div ref={printRef} className={`${styles.ehrContainer} ${isPrinting ? styles.printMode : ''}`}>
             <div className={styles.div1}>
               <div className={styles.profilePhoto}>
                 {profileImageUrl ? (
@@ -655,10 +656,10 @@ const ClinicEHR = () => {
                   <SaveButton label="Save" onClick={handleSaveClick} />
                 </div>
                   <div className={styles.feesContainer}>
-                  <div className={styles.horizontalFormat}>
-                    <div className={styles.feeslabelCard}>
-                      <h1 className={styles.feesText2}>ANALYTICAL FEE</h1>
-                    </div>
+                    <div className={styles.horizontalFormat}>
+                      <div className={styles.feeslabelCard}>
+                        <h1 className={styles.feesText2}>ANALYTICAL FEE</h1>
+                      </div>
                     <div className={styles.feesCard}>
                       <input
                         type="text"
@@ -820,7 +821,7 @@ const ClinicEHR = () => {
                       </button>
                       <button
                         className={styles.button}
-                        onClick={() => exportEHR(printRef)}
+                        onClick={() => exportEHR(printRef, setIsPrinting)}
                       >
                         <FaPrint />
                       </button>

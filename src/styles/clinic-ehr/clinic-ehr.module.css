@@ -227,20 +227,19 @@
   .rxNew .rxTitle {
     font-family: Montserrat, sans-serif;
     font-weight: bold;
-    font-size: 1rem; /* 16px equivalent */
+    font-size: 1rem;
     color: #4183CF;
-    margin-bottom: 0.3rem; /* 5px equivalent */
+    margin-bottom: 0.3rem;
   }
   
   .rxNew .rxSymbol {
-    font-size: 1.75rem; /* 28px equivalent */
+    font-size: 1.75rem;
     color: #000;
   }
   
-  /* Vertical Labels (Base styles) */
   .verticalLabel {
     font-family: Montserrat, sans-serif;
-    font-size: 0.875rem; /* 14px equivalent */
+    font-size: 0.875rem;
     font-weight: bold;
     color: #4183CF;
     text-align: center;
@@ -263,8 +262,8 @@
     bottom: 15%;
     transform: rotate(180deg);
   }
+
   
-  /* OLD Rx Section */
   .rxOld {
     height: 20%; /* Scales relative to parent */
     display: flex;
@@ -294,7 +293,6 @@
     flex-direction: column;
     width: 100%;
     position: relative;
-    height: 100%;
   }
   
   .oCard { 
@@ -310,7 +308,11 @@
     border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
     justify-content: center;
   } 
-    
+
+  .printMode .glassesCard {
+    height: 5.5rem;
+  }
+  
   
   .feesCard {
     height: 1.5rem;
@@ -319,6 +321,7 @@
     border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
     padding: 1rem;
   }
+
   .feeslabelCard {
     height: 1.5rem;
     width:50%;
@@ -326,13 +329,21 @@
     border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
     padding: 1rem;
   }
+
+  .printMode .feesCard{
+    height: 3.5rem;
+  }
+
+  .printMode .feeslabelCard{
+    height: 3.5rem;
+  }
+  
   
    .glassesContainer, .feesContainer{
     display: flex;
     flex-direction: column;
     width: 100%;
     position: relative;
-    height: 100%;
   }
   
   .vSegmentContainer{
@@ -340,7 +351,6 @@
     flex-direction: column;
     width: 100%;
     position: relative;
-    height: 100%;
   }
   
   
@@ -416,7 +426,6 @@
     flex-direction: column;
     width: 100%;
     position: relative;
-    height: 100%;
     padding-bottom: 1.5rem;
   }
   
