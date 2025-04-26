@@ -4,14 +4,14 @@ import { useEffect, useState, useRef, useMemo } from "react";
 import { useRouter } from "next/router";
 import styles from "@/styles/patient/patient-appointments.module.css";
 
-import AppointmentProgressSteps from "@/components/patient/appointments/appointmentProgressSteps.jsx";
-import AppointmentLocation from "@/components/patient/appointments/appointmentLocation.jsx";
-import ClinicSelection from "@/components/patient/appointments/clinicSelection";
-import AppointmentCalendar from "@/components/patient/appointments/appointmentCalendar";
-import TimeSlotSelection from "@/components/patient/appointments/timeSlotSelection";
-import AppointmentDetailsForm from "@/components/patient/appointments/appointmentDetailsForm";
-import AppointmentReview from "@/components/patient/appointments/appointmentReview";
-import AppointmentConfirmation from "@/components/patient/appointments/appointmentConfirmation";
+import AppointmentProgressSteps from "@/components/patient/appointments/AppointmentProgressSteps";
+import AppointmentLocation from "@/components/patient/appointments/AppointmentLocation";
+import ClinicSelection from "@/components/patient/appointments/ClinicSelection";
+import AppointmentCalendar from "@/components/patient/appointments/AppointmentCalendar";
+import TimeSlotSelection from "@/components/patient/appointments/TimeSlotSelection";
+import AppointmentDetailsForm from "@/components/patient/appointments/AppointmentDetailsForm";
+import AppointmentReview from "@/components/patient/appointments/AppointmentReview";
+import AppointmentConfirmation from "@/components/patient/appointments/AppointmentConfirmation";
 
 
 const generateTimeSlots = () => {
