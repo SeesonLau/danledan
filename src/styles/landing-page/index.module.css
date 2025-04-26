@@ -1,14 +1,14 @@
+/* Base Styles */
 .component-example {
-  display: flex; /* Use flexbox for centering */
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically if height is set */
-  height: 100vh; /* Take full viewport height for vertical centering */
-  text-align: center; /* Center text */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
 }
 
 .App {
   text-align: center;
-  
 }
 
 .App-logo {
@@ -60,15 +60,16 @@
 
 /* Homepage Header */
 .home-page-header {
-  display: flex; /* Use flexbox layout */
-  justify-content: space-between; /* Space between the logo and buttons */
-  align-items: center; /* Vertically center the content */
-  padding: 1rem 2rem; /* Padding for spacing */
-  background: rgba(0, 0, 0, 0.4); /* Transparent background with slight opacity */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-  position: sticky; /* Make the header stick at the top of the page */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  position: sticky;
   top: 0;
-  z-index: 1000; /* Ensure the header stays on top of other content */
+  z-index: 1000;
+  backdrop-filter: blur(5px);
 }
 
 .logo-section {
@@ -78,106 +79,156 @@
 }
 
 .logo {
-  background-image: url('../../../public/landing-page-iamge/opto2.png');
-  background-size: contain;
-  background-position: center;
-  height: 50px; /* Adjust height */
-  width: 50px;  /* Adjust width */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 50px;
   margin-right: 10px;
-  border: none;
-  padding: 0;
-  background-repeat: no-repeat; /* Avoid repeating the image */
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  backdrop-filter: blur(5px);
+  padding: 5px;
 }
 
-  /* Logo Title Adjustments for Responsiveness */
+.logo-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: white;
+  display: inline-block;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+@media (max-width: 620px) {
   .logo-title {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: white;
-    display: inline-block; /* Ensure it's inline-block for hiding */
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+    width: 0;
+    height: 0;
   }
-
-  /* Hide logo text on small screens */
-  @media (max-width: 620px) {
-    .logo-title {
-      opacity: 0;
-      visibility: hidden;
-      width: 0; /* Prevent text from taking up space */
-      height: 0;
-    }
-  }
-
-/* Flexbox for the Auth buttons */
-.auth-buttons {
-  display: flex; /* Arrange buttons in a row */
-  gap: 1rem; /* Space between the buttons */
 }
 
-/* Styling for the buttons */
+/* Auth Buttons */
+.auth-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
 .glass-button {
-  padding: 1rem 2rem; /* Ensure equal padding for consistent button size */
+  padding: 1rem 2rem;
   border: none;
   border-radius: 25px;
-  background: rgba(255, 255, 255, 0.2); /* Semi-transparent white background */
+  background: rgba(255, 255, 255, 0.2);
   color: white;
   font-size: 1rem;
   cursor: pointer;
-  backdrop-filter: blur(8px); /* Frosted glass effect */
+  backdrop-filter: blur(8px);
   transition: all 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   display: inline-block;
-  min-width: 120px; /* Minimum width for buttons */
+  min-width: 120px;
   text-align: center;
 }
 
-/* Hover effect for buttons */
 .glass-button:hover {
   background: rgba(255, 255, 255, 0.4);
   transform: translateY(-3px);
 }
 
-/* Show buttons and hide icons for screens > 620px */
+/* Responsive Auth Elements */
 @media (min-width: 621px) {
   .auth-buttons {
-    display: flex; /* Show buttons */
+    display: flex;
   }
-
   .auth-icons {
-    display: none; /* Hide icons */
+    display: none;
   }
 }
 
-/* Show icons and hide buttons for screens <= 620px */
 @media (max-width: 620px) {
   .auth-buttons {
-    display: none; /* Hide buttons */
+    display: none;
   }
-
   .auth-icons {
-    display: flex; /* Show icons */
-    gap: 3rem; /* Space between the icons */
+    display: flex;
+    gap: 3rem;
   }
-
-  /* Adjust the logo size on smaller screens */
   .logo-title {
-    font-size: 1.5rem; /* Reduce logo size on smaller screens */
+    font-size: 1.5rem;
   }
 }
 
-/* Media Query for screens smaller than 425px */
 @media (max-width: 425px) {
   .home-page-header {
-    justify-content: space-between; /* Ensure elements are spaced evenly */
-    padding: 1rem; /* Reduce padding on smaller screens */
+    justify-content: space-between;
+    padding: 1rem;
   }
-
-  /* Ensure icons are still visible in very small screens */
   .auth-icons {
-    display: flex; /* Show icons */
+    display: flex;
     gap: 1rem;
   }
 }
+
+/* Background Animations */
+.animatedBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -3;
+  background-size: 400% 400%;
+  transition: background 0.5s ease;
+}
+
+.particlesContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    transform: translateY(-20px) translateX(10px);
+  }
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+}
+
+.eyesContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+  opacity: 0.1;
+}
+
+.eyeElement {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
 /* Hero Section */
 .hero-section {
   position: relative;
@@ -186,32 +237,107 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  background: url('../../../public/landing-page-iamge/optoimage.jpg') no-repeat center center/cover;
+  overflow: hidden;
 }
-.hero-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 123, 255, 0.5);
-  z-index: 1;
-}
+
 .hero-content {
   position: relative;
   z-index: 2;
   color: white;
-}
-.hero-content h1 {
-  font-size: clamp(1.5rem, 6vw, 3rem); /* Adjust font size based on viewport width */
-  font-weight: bold;
-  margin-bottom: 1.5rem;
+  max-width: 1200px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+.hero-title {
+  font-size: clamp(1.5rem, 6vw, 3rem);
+  font-weight: bold;
+  margin-bottom: 2rem;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.title-highlight {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.8em;
+}
+
+.title-focus {
+  color: white;
+  font-size: 1.2em;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+  animation: pulse 2s infinite alternate;
+}
+
+.title-sub {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.7em;
+}
+
+@keyframes pulse {
+  0% {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+  }
+  100% {
+    text-shadow: 0 0 20px rgba(255, 255, 255, 1);
+  }
+}
+
+/* Vision Test Animation */
+.vision-test-animation {
+  position: relative;
+  margin: 2rem 0;
+  width: 300px;
+  height: 200px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.eye-chart {
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  opacity: 0.8;
+  transform: scale(1.5);
+  transition: all 0.5s ease;
+}
+
+.chart-line {
+  margin: 5px 0;
+  letter-spacing: 5px;
+}
+
+.focus-circle {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border: 3px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  animation: focus 4s infinite ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes focus {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+/* Hero Button */
 .hero-button {
   padding: clamp(0.8rem, 2vw, 1.5rem) clamp(1.5rem, 4vw, 2rem);
-  background-color: #28a745; /* Green button */
+  background-color: rgba(40, 167, 69, 0.8);
   color: white;
   border: none;
   border-radius: 30px;
@@ -219,12 +345,24 @@
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(5px);
 }
 
 .hero-button:hover {
-  background-color: #218838; /* Darker green */
+  background-color: rgba(33, 136, 56, 0.9);
   transform: scale(1.05);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
 }
+
+/* Navigation Links */
+.nav-links {
+  display: flex;
+  gap: 16px;
+}
+
 .nav-links a {
   text-decoration: none;
   color: white;
@@ -234,41 +372,53 @@
 }
 
 .nav-links a:hover {
-  color: #28a745; /* Green color on hover */
+  color: #28a745;
   transform: translateY(-2px);
 }
 
-/* Shared styles for scrollable sections */
-.scrollable-section {
-  padding: 4rem 2rem;
-  text-align: center;
-  margin: 2rem auto;
-  max-width: 800px;
-  color: white; /* Consistent text color */
+.link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #000;
 }
 
-.scrollable-section h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
+.link .icon {
+  display: none;
+  margin-right: 8px;
 }
 
-.scrollable-section p,
-.scrollable-section ul {
-  font-size: 1.1rem;
-  line-height: 1.6;
+.link .text {
+  display: block;
 }
 
-.scrollable-section ul {
-  list-style: none;
-  padding: 0;
+@media (max-width: 900px) {
+  .link .icon {
+    display: block;
+  }
+  .link .text {
+    display: none;
+  }
 }
 
-.scrollable-section li {
-  margin-bottom: 0.5rem;
+.iconSvg {
+  width: 1.5em;
+  height: 1.5em;
+  transition: transform 0.2s ease;
 }
 
-.scrollable-section p {
-  margin-bottom: 1.5rem;
+@media (max-width: 768px) {
+  .iconSvg {
+    width: 1.2em;
+    height: 1.2em;
+  }
+}
+
+@media (max-width: 480px) {
+  .iconSvg {
+    width: 1em;
+    height: 1em;
+  }
 }
 
 /* About Section */
@@ -281,17 +431,17 @@
   text-align: center;
   max-width: 800px;
   margin: 0 auto;
-  height: 50vh; /* Set to 50% of the viewport height */
+  height: 60vh;
   color: white;
 }
 
 .about-section h2 {
-  font-size: clamp(1.5rem, 5vw, 3rem); /* Dynamically scales text size based on the viewport width */
+  font-size: clamp(1.5rem, 5vw, 3rem);
   margin-bottom: 1rem;
 }
 
 .about-section p {
-  font-size: clamp(1rem, 3vw, 1.5rem); /* Dynamically scales text size */
+  font-size: clamp(1rem, 3vw, 1.5rem);
   line-height: 1.6;
   margin-bottom: 1.5rem;
 }
@@ -320,22 +470,22 @@
 .contact-left {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center-align the logo and phrase */
-  text-align: center;  /* Ensure the phrase is centered */
+  align-items: center;
+  text-align: center;
 }
 
 .cogo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 150px;
+  width: 150px;
   margin-bottom: 1rem;
-  background-image: url('../../../public/landing-page-iamge/opto2.png');
-  background-size: contain;
-  background-position: center;
-  height: 150px; /* Adjust height */
-  width: 150px;  /* Adjust width */
-  border: none;
-  padding: 0;
-  background-repeat: no-repeat; /* Avoid repeating the image */
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  backdrop-filter: blur(5px);
+  padding: 15px;
 }
-
 
 .contact-phrase {
   font-size: 1.5rem;
@@ -348,7 +498,7 @@
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  text-align: center; /* Center-align the text */
+  text-align: center;
 }
 
 .contact-right h2 {
@@ -378,119 +528,77 @@
   color: #0077b6;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .contact-container {
     flex-direction: column;
     text-align: center;
   }
-
   .contact-left, .contact-right {
     flex: unset;
     width: 100%;
   }
-
   .contact-right {
     margin-top: 2rem;
   }
 }
 
-
-/* About Section */
-.about-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+/* Scrollable Sections */
+.scrollable-section {
   padding: 4rem 2rem;
   text-align: center;
+  margin: 2rem auto;
   max-width: 800px;
-  margin: 0 auto;
-  height: 60vh; /* Increased to 60% of the viewport height */
   color: white;
 }
 
-
-.nav-links {
-  display: flex;
-  gap: 16px;
+.scrollable-section h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
 }
 
-.link {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  color: #000;
+.scrollable-section p,
+.scrollable-section ul {
+  font-size: 1.1rem;
+  line-height: 1.6;
 }
 
-.link .icon {
-  display: none; /* Initially hide icons */
-  margin-right: 8px;
+.scrollable-section ul {
+  list-style: none;
+  padding: 0;
 }
 
-.link .text {
-  display: block;
+.scrollable-section li {
+  margin-bottom: 0.5rem;
 }
 
-@media (max-width: 900px) {
-  .link .icon {
-    display: block; /* Show icons */
-  }
-
-  .link .text {
-    display: none; /* Hide text */
-  }
+.scrollable-section p {
+  margin-bottom: 1.5rem;
 }
 
-/* For screens as small as 320px */
+/* For very small screens */
 @media (min-width: 320px) and (max-width: 700px) {
-.auth-icons {
-  display: flex;
-  justify-content: center; /* Center the icons */
-  align-items: center; /* Align them vertically */
-  gap: 1rem; /* Reduce gap between icons */
-  flex-wrap: wrap; /* Allow wrapping to prevent overflow */
-}
-
-.auth-icons .icon {
-  font-size: 1.2rem; /* Adjust icon size for visibility */
-}
-
-.nav-links a {
-  font-size: 0.8rem; /* Smaller text for navigation */
-  margin: 0 0.5rem; /* Reduce margin */
-}
-
-.home-page-header {
-  padding: 0.5rem 1rem; /* Adjust padding */
-}
-
-.logo {
-  height: 30px; /* Smaller logo */
-  width: 30px; /* Smaller logo */
-}
-
-.logo-title {
-  font-size: 1.2rem; /* Reduce text size */
-}
-}
-
-.iconSvg {
-width: 1.5em; /* Base size */
-height: 1.5em;
-transition: transform 0.2s ease; /* Smooth resizing */
-}
-
-@media (max-width: 768px) {
-.iconSvg {
-  width: 1.2em;
-  height: 1.2em;
-}
-}
-
-@media (max-width: 480px) {
-.iconSvg {
-  width: 1em;
-  height: 1em;
-}
+  .auth-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .auth-icons .icon {
+    font-size: 1.2rem;
+  }
+  .nav-links a {
+    font-size: 0.8rem;
+    margin: 0 0.5rem;
+  }
+  .home-page-header {
+    padding: 0.5rem 1rem;
+  }
+  .logo {
+    height: 30px;
+    width: 30px;
+  }
+  .logo-title {
+    font-size: 1.2rem;
+  }
 }
