@@ -54,10 +54,9 @@
     min-width: 40%;
     max-width: 100%;
     width: 100%;
-    height: auto; /* Allow height to adjust dynamically */
-    border-radius: 10px;
+    height: auto;
     position: relative;
-    
+    margin-top: -2rem;
   }
   
   
@@ -66,7 +65,7 @@
       height: auto;
       max-width: 100%;
       min-width: 500px;
-      padding-bottom: 20px; 
+      padding-left: 0.5rem;
       
     }
   
@@ -92,7 +91,6 @@
     width: 100%;
     border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
     background: var(--Color-Blue-Blue-200, #C8E3F5);
-  
   }
   
   @media (max-width: 1024px){
@@ -303,28 +301,30 @@
     height: 19.5%;
     padding: 15px;
     border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
+    
   }
   .glassesCard {
     display: flex;
-    height: 19.5%;
-    padding: 1.1rem;
+    height: 3rem;
+    padding: 1.12rem;
     border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
     justify-content: center;
   } 
     
   
   .feesCard {
-    height: 19.5%;
+    height: 1.5rem;
     width:50%;
     text-align: center;
     border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
     padding: 1rem;
   }
   .feeslabelCard {
+    height: 1.5rem;
     width:50%;
     text-align: center;
     border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
-    padding: 0.785rem;
+    padding: 1rem;
   }
   
    .glassesContainer, .feesContainer{
@@ -362,14 +362,28 @@
   }
   
   .segmentCard {
-    min-height: 7rem;
     display: flex-start;
     align-items: center;
     justify-content: center;
     width: 100%;
     margin-bottom: 11.5px;
     padding-top: 7px;
-  
+    height: 7.4rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    .segmentCard {
+      height: 6rem;
+      padding-top: 5px;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .segmentCard {
+      flex-direction: column;
+      height: auto;
+      padding: 10px;
+    }
   }
   
   .segmentText {
@@ -418,7 +432,7 @@
   .feesText2{
     color: var(--Color-Blue-Blue-700, #3871C1);
    font-family: Montserrat;
-   font-size: 13px;
+   font-size: 0.7rem;
    font-style: normal;
    font-weight: 700;
    line-height: 100%;  
@@ -452,8 +466,8 @@
     cursor: pointer;
     transition: all 0.3s ease;
     position: absolute;
-    
-  left: 20%;
+    top: 48%; 
+    left: 13%;
 
   }
   
@@ -469,9 +483,9 @@
   
   .tableContainer {
     width: 100%;
-    height: 63.8rem;
+    height: 56.6rem;
     overflow-y: auto;
-    border: 1px solid #000;
+    border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
     background: #E0EFF9;
     text-align: center;
     color: var(--Color-Blue-Blue-600, #4183CF);
@@ -480,7 +494,8 @@
   .table {
     width: 100%;
     border-collapse: collapse;
-    border: 1px solid #4183CF
+    border: 1px solid #4183CF;
+    table-layout: fixed;
   }
   
   .thead {
@@ -490,7 +505,15 @@
   }
   
   .th, .td {
-    padding: 1rem 0.5rem; /* 1rem = 16px base, adjust as needed */
+    padding: 1rem 0.5rem;
+    
+  }
+
+  .th {
+    position: sticky;
+    top: 0;
+    background-color: #b0d4f1;
+    z-index: 2;
   }
   
   /* Table Row Clickable Effect */
@@ -543,4 +566,5 @@
       padding: 4px;
     }
   }
+  
   
