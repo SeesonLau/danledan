@@ -9,7 +9,7 @@ import { EHR4Textbox } from "@/components/ehr-textbox";
 import { EHR5Textbox } from "@/components/ehr-textbox";
 import SaveButton from "@/components/save-button";
 import { FaEye, FaDownload, FaPrint } from "react-icons/fa";
-import ExportEHR from "@/components/ehr-to-pdf";
+import PrintEHR from "@/components/export-ehr";
 import { useAuth } from "@/config/AuthContext";
 //import { useEffect } from "react";
 import { useRouter } from "next/router";
@@ -86,7 +86,7 @@ const PatientEHR = () => {
 
   const exportEHR = async (printRef) => {
     // Export to PDF logic here
-    await ExportEHR(printRef);
+    await PrintEHR(printRef);
 
     // Extract form data
     const formData = {

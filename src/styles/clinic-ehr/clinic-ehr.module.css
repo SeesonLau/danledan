@@ -294,7 +294,6 @@
     flex-direction: column;
     width: 100%;
     position: relative;
-    height: 100%;
   }
   
   .oCard { 
@@ -310,7 +309,11 @@
     border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
     justify-content: center;
   } 
-    
+
+  .printMode .glassesCard {
+    height: 5.5rem;
+  }
+  
   
   .feesCard {
     height: 1.5rem;
@@ -319,6 +322,7 @@
     border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
     padding: 1rem;
   }
+
   .feeslabelCard {
     height: 1.5rem;
     width:50%;
@@ -326,13 +330,22 @@
     border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
     padding: 1rem;
   }
+
+  .printMode .feesCard{
+    height: 3.5rem;
+  }
+
+  .printMode .feeslabelCard{
+    height: 3.5rem;
+  }
+  
+  
   
    .glassesContainer, .feesContainer{
     display: flex;
     flex-direction: column;
     width: 100%;
     position: relative;
-    height: 100%;
   }
   
   .vSegmentContainer{
@@ -340,7 +353,6 @@
     flex-direction: column;
     width: 100%;
     position: relative;
-    height: 100%;
   }
   
   
@@ -416,7 +428,6 @@
     flex-direction: column;
     width: 100%;
     position: relative;
-    height: 100%;
     padding-bottom: 1.5rem;
   }
   

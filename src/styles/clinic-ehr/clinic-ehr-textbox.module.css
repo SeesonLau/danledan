@@ -81,7 +81,7 @@
     }
   
     .ehrTextboxLabel2, .ehrTextboxLabel3, .ehrTextboxLabel4 {
-      font-size: 0.3px; 
+      font-size: 0.7rem;
     }
   }
   
@@ -154,7 +154,7 @@
   
   .ehrTextarea5 {
     max-width: 25rem;
-    min-width: 20rempx;
+    min-width: 20rem;
     height: 10rem;
     border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
     color: var(--Color-Blue-Blue-800, #325B9B);
