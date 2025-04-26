@@ -1,36 +1,81 @@
 import ClinicLayout from "@/components/clinic-layout";
-import styles from "../../styles/clinic/clinic-appointments.module.css";
-import { useAuth } from "@/config/AuthContext";
-import { useEffect } from "react";
-import { useRouter } from "next/router";
+import styles from "@/styles/clinic/clinic-appointments.module.css"
+import Head from 'next/head';
+import AppointmentsTable from '@/components/clinic/appointments/appointmentsTable';
+import AppointmentsFilters from '@/components/clinic/appointments/appointmentsFilter';
+import AppointmentModal from '@/components/clinic/appointments/appointmentModal';
+import useAppointments from '@/components/hooks/useAppointments';
+import Pagination from "@/components/clinic/appointments/pagination";
 
 const ClinicAppointments = () => {
-  //
-  const { user, loading } = useAuth();
-  const router = useRouter();
+  const {
+    //appointments,
+    //filteredAppointments,
+    currentAppointments,
+    dateFilter,
+    statusFilter,
+    searchTerm,
+    sortConfig,
+    currentPage,
+    totalPages,
+    selectedAppointment,
+    showModal,
+    setDateFilter,
+    setStatusFilter,
+    setSearchTerm,
+    requestSort,
+    setCurrentPage,
+    handleStatusChange,
+    handleViewAppointment,
+    closeModal
+  } = useAppointments();
 
-  useEffect(() => {
-    if (!loading && !user) {
-      router.replace("/"); // Redirect if not authenticated
-    }
-  }, [user, loading]);
-  if (user) console.log(user);
-
-  //if (loading) return <h1>Loading...</h1>; // Show a loading state while checking auth
-  if (!user) return null;
-  //
   return (
-    <div className={styles.cliniccontainer}>
-      <ClinicLayout />
-      <main className={styles.maincontent}>
-        <div>
-          <h1 style={{ fontSize: "2.5rem", marginBottom: "20px" }}>
-            Appointsments
-          </h1>
-          <p style={{ fontSize: "1.5rem" }}>Manage your appointments here.</p>
+    <ClinicLayout>
+      <Head>
+        <title>Clinic Appointments</title>
+      </Head>
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <h1 className={styles.title}>Patient Appointments</h1>
+          <button className={styles.refreshButton} onClick={() => window.location.reload()}>
+            Refresh
+          </button>
         </div>
-      </main>
-    </div>
+        
+        <AppointmentsFilters
+          dateFilter={dateFilter}
+          statusFilter={statusFilter}
+          searchTerm={searchTerm}
+          onDateChange={setDateFilter}
+          onStatusChange={setStatusFilter}
+          onSearchChange={setSearchTerm}
+        />
+        
+        <AppointmentsTable
+          appointments={currentAppointments}
+          sortConfig={sortConfig}
+          onSort={requestSort}
+          onStatusChange={handleStatusChange}
+          onView={handleViewAppointment}
+        />
+        
+        {totalPages > 1 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+        )}
+
+        {showModal && (
+          <AppointmentModal
+            appointment={selectedAppointment}
+            onClose={closeModal}
+          />
+        )}
+      </div>
+    </ClinicLayout>
   );
 };
 
