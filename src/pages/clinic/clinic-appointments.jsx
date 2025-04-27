@@ -1,16 +1,17 @@
-import ClinicLayout from "@/components/clinic-layout";
-import styles from "@/styles/clinic/clinic-appointments.module.css"
+import { useMediaQuery } from 'react-responsive';
+import ClinicLayout from '@/components/clinic-layout';
+import styles from '@/styles/clinic/clinic-appointments.module.css';
 import Head from 'next/head';
 import AppointmentsTable from '@/components/clinic/appointments/appointmentsTable';
 import AppointmentsFilters from '@/components/clinic/appointments/appointmentsFilter';
 import AppointmentModal from '@/components/clinic/appointments/appointmentModal';
 import useAppointments from '@/components/hooks/useAppointments';
-import Pagination from "@/components/clinic/appointments/pagination";
+import Pagination from '@/components/clinic/appointments/pagination';
 
 const ClinicAppointments = () => {
+  const isDesktop = useMediaQuery({ minWidth: 1024 });
+
   const {
-    //appointments,
-    //filteredAppointments,
     currentAppointments,
     dateFilter,
     statusFilter,
@@ -27,11 +28,11 @@ const ClinicAppointments = () => {
     setCurrentPage,
     handleStatusChange,
     handleViewAppointment,
-    closeModal
+    closeModal,
   } = useAppointments();
 
-  return (
-    <ClinicLayout>
+  const AppointmentsContent = () => (
+    <>
       <Head>
         <title>Clinic Appointments</title>
       </Head>
@@ -42,7 +43,7 @@ const ClinicAppointments = () => {
             Refresh
           </button>
         </div>
-        
+
         <AppointmentsFilters
           dateFilter={dateFilter}
           statusFilter={statusFilter}
@@ -51,7 +52,7 @@ const ClinicAppointments = () => {
           onStatusChange={setStatusFilter}
           onSearchChange={setSearchTerm}
         />
-        
+
         <AppointmentsTable
           appointments={currentAppointments}
           sortConfig={sortConfig}
@@ -59,7 +60,7 @@ const ClinicAppointments = () => {
           onStatusChange={handleStatusChange}
           onView={handleViewAppointment}
         />
-        
+
         {totalPages > 1 && (
           <Pagination
             currentPage={currentPage}
@@ -75,7 +76,20 @@ const ClinicAppointments = () => {
           />
         )}
       </div>
+    </>
+  );
+
+  return isDesktop ? (
+    <ClinicLayout>
+      <AppointmentsContent />
     </ClinicLayout>
+  ) : (
+    <div className={styles.clinicContainer}>
+      <ClinicLayout />
+      <main className={styles.mainContent}>
+        <AppointmentsContent />
+      </main>
+    </div>
   );
 };
 

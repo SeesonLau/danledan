@@ -4,6 +4,8 @@
   min-height: 100vh;
   background-color: #f5f7fa;
   box-sizing: border-box;
+  flex-direction: column; 
+  display: flex;
 }
 
 .header {
@@ -109,6 +111,7 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
   overflow-x: auto;
   width: 100%;
+  
 }
 
 .appointmentsTable {
@@ -116,6 +119,7 @@
   border-collapse: collapse;
   font-size: 0.875rem;
   color: #2c3e50;
+  
 }
 
 .appointmentsTable th,
@@ -413,6 +417,7 @@
 @media (max-width: 480px) {
   .container {
     padding: 0.75rem;
+    
   }
   
   .header {
