@@ -76,13 +76,14 @@ const PatientEHR = () => {
       totalfee,
     };
 
-    // Save form data as a JSON file
     const dataStr =
-      "data:text/json;charset=utf-8," +
-      encodeURIComponent(JSON.stringify(formData));
+    "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(formData));
+
+    const filename = `${caseno} - ${clinic}.json`;
+
     const downloadAnchor = document.createElement("a");
     downloadAnchor.setAttribute("href", dataStr);
-    downloadAnchor.setAttribute("download", "formData.json");
+    downloadAnchor.setAttribute("download", filename);
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
