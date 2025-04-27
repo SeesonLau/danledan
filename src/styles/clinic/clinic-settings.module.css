@@ -919,3 +919,133 @@
       font-size: 32px;
     }
   }
+
+  /* ====================
+   MOBILE RESPONSIVE (max-width: 480px)
+   ==================== */
+@media (max-width: 480px) {
+  .tabTitle {
+    font-size: 28px;
+    padding: 20px 0 10px 12px;
+  }
+
+  .tabBar {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .tab {
+    padding: 8px 14px;
+    font-size: 14px;
+  }
+
+  .tabContent {
+    padding: 20px 15px;
+    font-size: 16px;
+  }
+
+  .profileForm,
+  .securityForm {
+    width: 100%;
+    padding: 30px 20px;
+  }
+
+  .formRow {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .profilePictureSection {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .profilePictureContainer {
+    margin-right: 0;
+    margin-bottom: 12px;
+  }
+
+  .userInfoContainer {
+    align-items: center;
+  }
+
+  .fullName {
+    font-size: 22px;
+  }
+
+  .userEmail {
+    font-size: 14px;
+  }
+
+  .saveButton {
+    width: 100%;
+    padding: 12px 0;
+    font-size: 16px;
+  }
+
+  .securityHeader h3 {
+    font-size: 24px;
+  }
+
+  .securityHeader p {
+    font-size: 14px;
+  }
+
+  .privacyPolicy p,
+  .privacyPolicy li {
+    font-size: 16px;
+  }
+
+  .aboutTitle {
+    font-size: 28px;
+  }
+
+  .aboutIntro,
+  .aboutPage p {
+    font-size: 16px;
+  }
+
+  .aboutPage h4 {
+    font-size: 20px;
+  }
+
+  .aboutClosing,
+  .aboutTagline {
+    font-size: 18px;
+  }
+
+  /* Adjust About page layout for small screens */
+  .aboutContainer {
+    flex-direction: column;
+  }
+
+  .aboutTextContent {
+    padding-right: 0;
+  }
+
+  .aboutImageSection {
+    height: 200px;
+  }
+
+  .policyHeader h3 {
+    font-size: 28px;
+  }
+  
+  .profileForm,
+  .securityForm {
+    padding-right: 20px;
+    margin-right: 100px;
+  }
+
+  .privacyPolicy,
+  .aboutPage,
+  .helpPage {
+    min-height: 100vh;
+  }
+
+  .aboutScrollContent {
+    padding-bottom: 30px;
+  }
+}
