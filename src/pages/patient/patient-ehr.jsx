@@ -2,11 +2,12 @@ import React, { useRef, useState, useEffect } from "react";
 import PatientLayout from "@/components/patient-layout";
 import styles from "../../styles/clinic-ehr/clinic-ehr.module.css";
 import { MdAccountCircle } from "react-icons/md";
-import { EHRTextbox } from "@/components/ehr-textbox";
-import { EHR2Textbox } from "@/components/ehr-textbox";
-import { EHR3Textbox } from "@/components/ehr-textbox";
-import { EHR4Textbox } from "@/components/ehr-textbox";
-import { EHR5Textbox } from "@/components/ehr-textbox";
+import { EHR1ReadOnly } from "@/components/ehr-textboxread-only";
+import { EHR2ReadOnly } from "@/components/ehr-textboxread-only";
+import { EHR3ReadOnly } from "@/components/ehr-textboxread-only";
+import { EHR4ReadOnly } from "@/components/ehr-textboxread-only";
+import { EHR5ReadOnly } from "@/components/ehr-textboxread-only";
+
 import { FaEye, FaDownload, FaPrint } from "react-icons/fa";
 import PrintEHR from "@/components/export-ehr";
 import { useAuth } from "@/config/AuthContext";
@@ -341,20 +342,23 @@ const PatientEHR = () => {
                 )}
               </div>
               <div className={styles.profileColumn}>
-                <EHRTextbox
+                <EHR1ReadOnly
                   label="Case No."
                   value={caseno}
-                  onChange={() => {}}
+                  readOnly
+                  disabled
                 />
-                 <EHRTextbox
+                 <EHR1ReadOnly
                   label="Patient Name"
                   value={name}
-                  onChange={() => {}}
+                  readOnly
+                  disabled
                 />
-                <EHRTextbox
+                <EHR1ReadOnly
                   label="Address"
                   value={address}
-                  onChange={() => {}}
+                  readOnly
+                  disabled
                 />
               </div>
             </div>
@@ -362,34 +366,44 @@ const PatientEHR = () => {
             <div className={styles.div2}>
               <div className={styles.profileRow}>
                 <div className={styles.profileColumn}>
-                  <EHRTextbox label="Age" value={age} onChange={() => {}} />
-                  <EHRTextbox
+                  <EHR1ReadOnly 
+                    label="Age" 
+                    value={age} 
+                    readOnly
+                    disabled
+                  />
+                  <EHR1ReadOnly
                     label="Phone No."
                     value={phone}
-                    onChange={() => {}}
+                    readOnly
+                    disabled
                   />
-                  <EHRTextbox
+                  <EHR1ReadOnly
                     label="Occupation"
                     value={occupation}
-                    onChange={() => {}}
+                    readOnly
+                    disabled
                   />
                 </div>
 
                 <div className={styles.profileColumn}>
-                  <EHRTextbox
+                  <EHR1ReadOnly
                     label="Birth Date"
                     value={date}
-                    onChange={() => {}}
+                    readOnly
+                    disabled
                   />
-                  <EHRTextbox
+                  <EHR1ReadOnly
                     label="Clinic"
                     value={clinic}
-                    onChange={() => {}}
+                    readOnly
+                    disabled
                   />
-                  <EHRTextbox
+                  <EHR1ReadOnly
                     label="Doctor"
                     value={doctor}
-                    onChange={() => {}}
+                    readOnly
+                    disabled
                   />
                 </div>
               </div>
@@ -411,38 +425,43 @@ const PatientEHR = () => {
                 </div>
                 <div className={styles.oContainer}>
                   <div className={styles.oCard}>
-                    <EHR2Textbox
+                    <EHR2ReadOnly
                       label="O.D"
                       value={distanceOD}
-                      onChange={() => {}}
+                      readOnly
+                      disabled
                     />
                   </div>
                   <div className={styles.oCard}>
-                    <EHR2Textbox
+                    <EHR2ReadOnly
                       label="O.S"
                       value={distanceOS}
-                      onChange={() => {}}
+                      readOnly
+                      disabled
                     />
                   </div>
                   <div className={styles.oCard}>
-                    <EHR2Textbox
+                    <EHR2ReadOnly
                       label="O.D"
                       value={nearOD}
-                      onChange={() => {}}
+                      readOnly
+                      disabled
                     />
                   </div>
                   <div className={styles.oCard}>
-                    <EHR2Textbox
+                    <EHR2ReadOnly
                       label="O.S"
                       value={nearOS}
-                      onChange={() => {}}
+                      readOnly
+                      disabled
                     />
                   </div>
                   <div className={styles.oCard}>
-                    <EHR2Textbox
+                    <EHR2ReadOnly
                       label="O.D"
                       value={oldRxOD}
-                      onChange={() => {}}
+                      readOnly
+                      disabled
                     />
                   </div>
                 </div>
@@ -454,33 +473,37 @@ const PatientEHR = () => {
                 <div className={styles.vSegmentContainer}>
                   <div className={styles.horizontalContainer}>
                     <div className={styles.vCard}>
-                      <EHR3Textbox
+                      <EHR3ReadOnly
                         label="V.A UNAIDED"
                         value={ODvaU}
-                        onChange={() => {}}
+                        readOnly
+                        disabled
                       />
                     </div>
                     <div className={styles.vCard}>
-                      <EHR3Textbox
+                      <EHR3ReadOnly
                         label="V.A WITH RX"
                         value={ODvaRX}
-                        onChange={() => {}}
+                        readOnly
+                        disabled
                       />
                     </div>
                   </div>
                   <div className={styles.horizontalContainer}>
                     <div className={styles.vCard}>
-                      <EHR3Textbox
+                      <EHR3ReadOnly
                         label="V.A UNAIDED"
                         value={OSvaU}
-                        onChange={() => {}}
+                        readOnly
+                        disabled
                       />
                     </div>
                     <div className={styles.vCard}>
-                      <EHR3Textbox
+                      <EHR3ReadOnly
                         label="V.A WITH RX"
                         value={OSvaRX}
-                        onChange={() => {}}
+                        readOnly
+                        disabled
                       />
                     </div>
                   </div>
@@ -491,6 +514,7 @@ const PatientEHR = () => {
                       value={segment}
                       onChange={handleChange(setSegment)}
                       readOnly
+                      tabIndex={-1}
                       style={{
                         background: "transparent",
                         margin: "0.8rem",
@@ -500,58 +524,66 @@ const PatientEHR = () => {
                         width: "85%",
                         border: "none",
                         lineHeight: "2.3",
+                        pointerEvents: "none",
                       }}
                     />
                   </div>
                   <div className={styles.oCard}>
-                    <EHR2Textbox
+                    <EHR2ReadOnly
                       label="O.S"
                       value={oldRxOS}
-                      onChange={() => {}}
+                      readOnly
+                      disabled
                     />
                   </div>
                 </div>
                 <div className={styles.glassesContainer}>
                   <div className={styles.glassesCard}>
                     <div className={styles.horizontalFormat2}>
-                      <EHR4Textbox
+                      <EHR4ReadOnly
                         label="P.D."
                         value={pd}
-                        onChange={() => {}}
+                        readOnly
+                        disabled
                       />
-                      <EHR4Textbox
+                      <EHR4ReadOnly
                         label="DBL"
                         value={dbl}
-                        onChange={() => {}}
+                        readOnly
+                        disabled
                       />
                     </div>
                   </div>
                   <div className={styles.glassesCard}>
-                    <EHR4Textbox
+                    <EHR4ReadOnly
                       label="SIZE"
                       value={size1}
-                      onChange={() => {}}
+                      readOnly
+                      disabled
                     />
                   </div>
                   <div className={styles.glassesCard}>
                     <div className={styles.horizontalFormat2}>
-                      <EHR4Textbox
+                      <EHR4ReadOnly
                         label="BIFOCALS"
                         value={bifocals}
-                        onChange={() => {}}
+                        readOnly
+                        disabled
                       />
-                      <EHR4Textbox
+                      <EHR4ReadOnly
                         label="LENS"
                         value={lens}
-                        onChange={() => {}}
+                        readOnly
+                        disabled
                       />
                     </div>
                   </div>
                   <div className={styles.glassesCard}>
-                    <EHR4Textbox
+                    <EHR4ReadOnly
                       label="SIZE"
                       value={size2}
-                      onChange={() => {}}
+                      readOnly
+                      disabled
                     />
                   </div>
                 </div>
@@ -560,10 +592,11 @@ const PatientEHR = () => {
 
             <div className={styles.div5}>
               <div className={styles.remarksContainer}>
-                <EHR5Textbox
+                <EHR5ReadOnly
                   label="Remarks"
                   value={remarks}
-                  onChange={() => {}}
+                  readOnly
+                  disabled
                 />
               </div>
             </div>
@@ -583,6 +616,7 @@ const PatientEHR = () => {
                         value={analyticalfee}
                         onChange={handleInputChange(setAF)}
                         readOnly
+                        tabIndex={-1}
                         style={{
                           background: "transparent",
                           fontSize: "1rem",
@@ -590,6 +624,7 @@ const PatientEHR = () => {
                           textAlign: "center",
                           width: "85%",
                           border: "none",
+                          pointerEvents: "none",
                         }}
                       />
                     </div>
@@ -604,6 +639,7 @@ const PatientEHR = () => {
                         value={orthopticfee}
                         onChange={handleInputChange(setOF)}
                         readOnly
+                        tabIndex={-1}
                         style={{
                           background: "transparent",
                           fontSize: "1rem",
@@ -611,6 +647,7 @@ const PatientEHR = () => {
                           textAlign: "center",
                           width: "85%",
                           border: "none",
+                          pointerEvents: "none",
                         }}
                       />
                     </div>
@@ -625,6 +662,7 @@ const PatientEHR = () => {
                         value={lensesfee}
                         onChange={handleInputChange(setLF)}
                         readOnly
+                        tabIndex={-1}
                         style={{
                           background: "transparent",
                           fontSize: "1rem",
@@ -632,6 +670,7 @@ const PatientEHR = () => {
                           textAlign: "center",
                           width: "85%",
                           border: "none",
+                          pointerEvents: "none",
                         }}
                       />
                     </div>
@@ -646,6 +685,7 @@ const PatientEHR = () => {
                         value={framefee}
                         onChange={handleInputChange(setFF)}
                         readOnly
+                        tabIndex={-1}
                         style={{
                           background: "transparent",
                           fontSize: "1rem",
@@ -653,6 +693,7 @@ const PatientEHR = () => {
                           textAlign: "center",
                           width: "85%",
                           border: "none",
+                          pointerEvents: "none",
                         }}
                       />
                     </div>
@@ -666,6 +707,7 @@ const PatientEHR = () => {
                         type="text"
                         value={totalfee}
                         readOnly
+                        tabIndex={-1}
                         style={{
                           background: "transparent",
                           fontSize: "1rem",
@@ -673,6 +715,7 @@ const PatientEHR = () => {
                           textAlign: "center",
                           width: "85%",
                           border: "none",
+                          pointerEvents: "none",
                         }}
                       />
                     </div>

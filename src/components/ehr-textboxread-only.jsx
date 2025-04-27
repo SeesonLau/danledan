@@ -1,21 +1,24 @@
 import React from "react";
 import styles from "../styles/clinic-ehr/clinic-ehr-textbox.module.css";
 
-export const EHRTextbox = ({ label, value, onChange }) => {
-  return (
-    <div className={styles.ehrTextbox}>
-      <label className={styles.ehrTextboxLabel}>{label}</label>
-      <input
-        type="text"
-        value={value}
-        onChange={onChange}
-        className={styles.ehrTextboxContent}
-      />
-    </div>
-  );
-};
+export const EHR1ReadOnly = ({ label, value, onChange, readOnly, disabled }) => {
+    return (
+      <div className={styles.ehrTextbox}>
+        <label className={styles.ehrTextboxLabel}>{label}</label>
+        <input
+           type="text"
+           value={value}
+           onChange={onChange}
+           className={styles.ehrTextboxContent}
+           readOnly={readOnly}
+           disabled={disabled}
+        />
+      </div>
+    );
+  };
+  
 
-export const EHR2Textbox = ({ label, value, onChange }) => {
+export const EHR2ReadOnly = ({ label, value, onChange, readOnly, disabled }) => {
   return (
     <div className={styles.ehrTextbox2}>
       <label className={styles.ehrTextboxLabel2}>{label}</label>
@@ -24,12 +27,14 @@ export const EHR2Textbox = ({ label, value, onChange }) => {
         value={value}
         onChange={onChange}
         className={styles.ehrTextboxContent}
+        readOnly={readOnly}
+        disabled={disabled}
       />
     </div>
   );
 };
 
-export const EHR3Textbox = ({ label, value, onChange }) => {
+export const EHR3ReadOnly = ({ label, value, onChange, readOnly, disabled }) => {
   return (
     <div className={styles.ehrTextbox3}>
       <label className={styles.ehrTextboxLabel3}>{label}</label>
@@ -38,12 +43,14 @@ export const EHR3Textbox = ({ label, value, onChange }) => {
         value={value}
         onChange={onChange}
         className={styles.ehrTextboxContent3}
+        readOnly={readOnly}
+        disabled={disabled}
       />
     </div>
   );
 };
 
-export const EHR4Textbox = ({ label, value, onChange }) => {
+export const EHR4ReadOnly = ({ label, value, onChange, readOnly, disabled }) => {
   return (
     <div className={styles.ehrTextbox4}>
       <label className={styles.ehrTextboxLabel4}>{label}</label>
@@ -52,12 +59,14 @@ export const EHR4Textbox = ({ label, value, onChange }) => {
         value={value}
         onChange={onChange}
         className={styles.ehrTextboxContent4}
+        readOnly={readOnly}
+        disabled={disabled}
       />
     </div>
   );
 };
 
-export const EHR5Textbox = ({ label, value, onChange }) => {
+export const EHR5ReadOnly = ({ label, value, onChange, readOnly, disabled }) => {
   return (
     <div className={styles.ehrTextbox5}>
       <label className={styles.ehrTextboxLabel5}>{label}</label>
@@ -67,22 +76,8 @@ export const EHR5Textbox = ({ label, value, onChange }) => {
         onChange={onChange}
         rows="4"
         cols="50"
-      />
-    </div>
-  );
-};
-
-export const EHR6Textbox = ({ label, value, onChange, readOnly, disabled }) => {
-  return (
-    <div className={styles.ehrTextbox}>
-      <label className={styles.ehrTextboxLabel}>{label}</label>
-      <input
-         type="text"
-         value={value}
-         onChange={onChange}
-         className={styles.ehrTextboxContent}
-         readOnly={readOnly}
-         disabled={disabled}
+        readOnly={readOnly}
+        disabled={disabled}
       />
     </div>
   );
