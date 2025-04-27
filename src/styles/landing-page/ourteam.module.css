@@ -465,7 +465,7 @@
   position: relative;
   background: linear-gradient(135deg, rgba(9, 159, 152, 0.95) 0%, rgba(5, 124, 133, 0.95) 100%);
   border-radius: 16px;
-  max-width: 800px;
+  max-width: 560px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
@@ -478,6 +478,7 @@
   align-items: center;
   border: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
+  scale: 90%;
 }
 
 @keyframes modalFadeIn {
@@ -679,16 +680,19 @@
   .modal-content {
     padding: 1.5rem;
     max-height: 95vh;
+    width: 440px;
+    height: auto;
+    scale: 80%;
   }
   
   .modal-image-frame {
-    width: 220px;
-    height: 220px;
+    width: 180px;
+    height: 180px;
   }
   
   .modal-image-wrapper {
-    width: 200px;
-    height: 200px;
+    width: 160px;
+    height: 160px;
   }
   
   .info-label {
@@ -706,14 +710,18 @@
 }
 
 @media (max-width: 480px) {
+
+  .modal-content {
+    scale: 80%;
+  }
   .modal-image-frame {
-    width: 180px;
-    height: 180px;
+    width: 140px;
+    height: 140px;
   }
   
   .modal-image-wrapper {
-    width: 160px;
-    height: 160px;
+    width: 120px;
+    height: 120px;
   }
   
   .info-label {
