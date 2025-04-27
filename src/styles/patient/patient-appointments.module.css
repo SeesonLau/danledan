@@ -2,7 +2,6 @@
 .appointmentContainer {
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
   background: #f5f7fa;
   width: 100%;
 }
@@ -792,6 +791,9 @@ select.formInput {
   .appointmentMain {
     padding: 1.5rem;
   }
+  .appointmentContainer{
+    flex-direction: column;
+  }
   
   .datetimeContent {
     grid-template-columns: 1fr;
@@ -808,6 +810,7 @@ select.formInput {
   .stepLabel {
     display: none;
   }
+
   
   .stepIndicator {
     width: 24px;
@@ -839,7 +842,7 @@ select.formInput {
   .pageTitle {
     font-size: 1.5rem;
   }
-  
+
   .sectionTitle {
     font-size: 1.1rem;
   }

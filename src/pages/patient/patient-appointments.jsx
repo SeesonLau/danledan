@@ -284,9 +284,11 @@ const PatientAppointments = () => {
   if (!user) return null;
 
   return (
+    
     <div className={styles.appointmentContainer}>
-      <PatientLayout>
+      <PatientLayout/>
         <main className={styles.appointmentMain}>
+          
           <h1 className={styles.pageTitle}>Book an Appointment</h1>
           
           <AppointmentProgressSteps currentStep={currentStep} />
@@ -438,7 +440,7 @@ const PatientAppointments = () => {
             />
           )}
         </main>
-      </PatientLayout>
+     
     </div>
   );
 };
