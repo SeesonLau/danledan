@@ -94,7 +94,7 @@ const ClinicEHR = () => {
 
   const exportEHR = async (printRef, setIsPrinting) => {
 
-    await PrintEHR(printRef, setIsPrinting);
+    await PrintEHR(printRef, setIsPrinting, caseno, clinic);
 
     // Extract form data
     const formData = {
@@ -432,7 +432,7 @@ const ClinicEHR = () => {
                 <EHRTextbox
                   label="Address"
                   value={address}
-                  onChange={handleChange(setAddress)}
+                  onChang   e={handleChange(setAddress)}
                 />
               </div>
             </div>
@@ -575,12 +575,13 @@ const ClinicEHR = () => {
                       style={{
                         background: "transparent",
                         margin: "0.8rem",
+                        marginBottom: "1.5rem",
                         padding: "0.3em",
                         color: "#559DDC",
                         textAlign: "center",
                         width: "85%",
                         border: "none",
-                        lineHeight: "2.3",
+                        lineHeight: "3",
                       }}
                     />
                   </div>
@@ -652,8 +653,10 @@ const ClinicEHR = () => {
 
             <div className={styles.div6}>
               <div className={styles.horizontalFormat}>
-                <div className={styles.saveContainer} data-html2canvas-ignore>
-                  <SaveButton label="Save" onClick={handleSaveClick} />
+                <div className={styles.saveContainer}>
+                  <div className={styles.hideContainer} data-html2canvas-ignore>
+                    <SaveButton label="Save" onClick={handleSaveClick}/>
+                  </div>
                 </div>
                   <div className={styles.feesContainer}>
                     <div className={styles.horizontalFormat}>

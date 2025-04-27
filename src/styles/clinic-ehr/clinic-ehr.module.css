@@ -68,7 +68,6 @@
       padding-left: 0.5rem;
       
     }
-  
     .patientlistContainer {
       height: auto; 
       max-width: 100%; 
@@ -81,6 +80,10 @@
       overflow-y: auto; 
       height: auto;
       padding-top: 10px;
+    }
+
+    .firstdiv, .seconddiv {
+      margin-top: 0.1rem;
     }
   }
   
@@ -104,6 +107,23 @@
     .div1, .div2, .div3, .div4, .div5, .div6 {
       width: 100%;
     }
+
+    .profileColumn{
+      display: flex;
+      justify-content: center;
+      align-items: center; 
+      margin-left: -2rem;
+    }
+
+    .profilePhoto {
+      margin-left: 4rem;
+    }
+
+    .saveButton1 {
+      margin-top: -1rem;
+      margin-left: 3rem;
+    }
+    
   }
   
   .div1, .div2 {
@@ -129,12 +149,10 @@
   
   .profilePhoto {
     display: flex;
-    align-items: center;
     justify-content: center;
     width: 15rem;
     height: 15rem;
-    overflow: hidden;
-    margin: 0 auto;
+
   }
   
   .profileImage, .profileIcon {
@@ -196,7 +214,7 @@
     display: flex;
     flex-direction: row; 
     justify-content: flex-start; 
-    gap: 2.5rem;
+    gap: 1rem;
   }
   
   .verticalFormat {
@@ -209,19 +227,22 @@
   .rxContainer {
   width: 70%;
   max-width: 100%;
-  padding: 1rem;
-  border: 1px solid #4183CF;
+  padding: 0.5rem;
+  border-top: 1px solid #4183CF;
+
 }
 
   
   .rxNew {
-    height: 79.5%; /* Scales relative to parent */
+    height: 82%;
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
     text-align: center;
     flex-direction: column;
+    
+    
   }
   
   .rxNew .rxTitle {
@@ -247,7 +268,6 @@
     position: absolute;
   }
   
-  /* Right-side vertical label for DISTANCE */
   .verticalLabelRight1 {
     composes: verticalLabel;
     right: 2%;
@@ -255,7 +275,6 @@
     transform: rotate(180deg);
   }
   
-  /* Right-side vertical label for NEAR */
   .verticalLabelRight2 {
     composes: verticalLabel;
     right: 2%;
@@ -265,7 +284,7 @@
 
   
   .rxOld {
-    height: 20%; /* Scales relative to parent */
+    height: 23%; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -278,13 +297,13 @@
   .rxOld .rxTitle {
     font-family: Montserrat, sans-serif;
     font-weight: bold;
-    font-size: 1rem; /* 16px equivalent */
+    font-size: 1rem; 
     color: #4183CF;
-    margin-bottom: 0.3rem; /* 5px equivalent */
+    margin-bottom: 0.3rem; 
   }
   
   .rxOld .rxSymbol {
-    font-size: 1.75rem; /* 28px equivalent */
+    font-size: 1.75rem; 
     color: #000;
   }
   
@@ -293,19 +312,23 @@
     flex-direction: column;
     width: 100%;
     position: relative;
+    
   }
   
   .oCard { 
     height: 19.5%;
     padding: 15px;
     border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
-    
+    border-bottom: none;
+    border-right: none;
   }
   .glassesCard {
     display: flex;
     height: 3rem;
     padding: 1.12rem;
     border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
+    border-bottom: none;  
+    border-right: none;
     justify-content: center;
   } 
 
@@ -319,6 +342,8 @@
     width:50%;
     text-align: center;
     border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
+    border-right: none;
+    border-bottom: none;
     padding: 1rem;
   }
 
@@ -327,6 +352,8 @@
     width:50%;
     text-align: center;
     border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
+    border-right: none;
+    border-bottom: none;
     padding: 1rem;
   }
 
@@ -351,9 +378,9 @@
     flex-direction: column;
     width: 100%;
     position: relative;
-  }
-  
-  
+
+  }  
+
   .vCard {
     width: 50%;
     display: flex;
@@ -361,7 +388,9 @@
     justify-content: center;
     padding: 10px;
     border: 1px solid var(--Color-Blue-Blue-600, #4183CF);
-  
+    border-top: 1px solid var(--Color-Blue-Blue-600, #4183CF);
+    border-bottom: none;
+    border-right: none;
   }
   
   .horizontalContainer {
@@ -376,9 +405,11 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    margin-bottom: 11.5px;
-    padding-top: 7px;
-    height: 7.4rem;
+    height: 8rem;
+    padding-bottom: 0.38rem;
+    border:1px solid var(--Color-Blue-Blue-600, #4183CF);
+    border-bottom: none;
+    border-right: none;
   }
 
   @media screen and (max-width: 768px) {
@@ -426,7 +457,8 @@
     flex-direction: column;
     width: 100%;
     position: relative;
-    padding-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-top:  1px solid var(--Color-Blue-Blue-500, #559DDC);
   }
   
   .feesText{
@@ -441,7 +473,7 @@
   .feesText2{
     color: var(--Color-Blue-Blue-700, #3871C1);
    font-family: Montserrat;
-   font-size: 0.7rem;
+   font-size: 0.6rem;
    font-style: normal;
    font-weight: 700;
    line-height: 100%;  
@@ -450,10 +482,11 @@
    .saveContainer {
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Can stay if you want other content centered */
+    justify-content: center;
     width: 100%;
-    position: relative; /* Required for absolute positioning */
-    height: 100; /* Or set a specific height like 300px if needed */
+    position: relative;
+    height: 100;
+    border-top:  1px solid var(--Color-Blue-Blue-500, #559DDC);
   }
   
 
@@ -477,7 +510,6 @@
     position: absolute;
     top: 48%; 
     left: 13%;
-
   }
   
   .saveButton1:hover {
@@ -492,7 +524,7 @@
   
   .tableContainer {
     width: 100%;
-    height: 56.6rem;
+    height: 56.1rem;
     overflow-y: auto;
     border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
     background: #E0EFF9;
@@ -523,9 +555,10 @@
     top: 0;
     background-color: #b0d4f1;
     z-index: 2;
+    border-bottom:  1px solid var(--Color-Blue-Blue-500, #559DDC);
+    border-right: 
   }
   
-  /* Table Row Clickable Effect */
   .tr {
     cursor: pointer;
     transition: background 0.3s ease;
@@ -535,11 +568,10 @@
     background-color: #A2D2EE;;
   }
   
-  /* Action Buttons */
   .actions {
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 0.6rem;
     
   }
   
@@ -547,7 +579,7 @@
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 1rem;
     color: #004085;
   }
   
@@ -555,24 +587,24 @@
     color: #002752;
   }
   
-  /* Responsive */
-  @media screen and (max-width: 768px) {
+  
+  @media screen and (max-width: 48rem) { 
     .table {
-      font-size: 14px;
+      font-size: 0.875rem; 
     }
   
     .th, .td {
-      padding: 6px;
+      padding: 0.375rem; 
     }
   }
   
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 50rem) { 
     .table {
-      font-size: 12px;
+      font-size: 0.75rem;
     }
   
     .th, .td {
-      padding: 4px;
+      padding: 0.25rem;
     }
   }
   

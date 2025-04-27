@@ -38,7 +38,7 @@ const PatientEHR = () => {
 
   const exportEHR = async (printRef, setIsPrinting) => {
 
-    await PrintEHR(printRef, setIsPrinting);
+    await PrintEHR(printRef, setIsPrinting, caseno, clinic);
 
     // Extract form data
     const formData = {
@@ -518,12 +518,13 @@ const PatientEHR = () => {
                       style={{
                         background: "transparent",
                         margin: "0.8rem",
+                        marginBottom: "1.5rem",
                         padding: "0.3em",
                         color: "#559DDC",
                         textAlign: "center",
                         width: "85%",
                         border: "none",
-                        lineHeight: "2.3",
+                        lineHeight: "3",
                         pointerEvents: "none",
                       }}
                     />

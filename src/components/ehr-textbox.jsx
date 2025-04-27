@@ -71,19 +71,3 @@ export const EHR5Textbox = ({ label, value, onChange }) => {
     </div>
   );
 };
-
-export const EHR6Textbox = ({ label, value, onChange, readOnly, disabled }) => {
-  return (
-    <div className={styles.ehrTextbox}>
-      <label className={styles.ehrTextboxLabel}>{label}</label>
-      <input
-         type="text"
-         value={value}
-         onChange={onChange}
-         className={styles.ehrTextboxContent}
-         readOnly={readOnly}
-         disabled={disabled}
-      />
-    </div>
-  );
-};
