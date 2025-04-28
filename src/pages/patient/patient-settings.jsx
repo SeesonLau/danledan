@@ -61,6 +61,17 @@ const PatientSettings = () => {
   const [imagePreview, setImagePreview] = useState(null);
   // Flag to show default profile image if needed
   const [showDefaultImage, setShowDefaultImage] = useState(false);
+  // Maximum date for established date (today)
+  const [maxEstablishedDate, setMaxEstablishedDate] = useState("");
+
+  // Set the maximum date for established date picker (today's date)
+  useEffect(() => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    setMaxEstablishedDate(`${year}-${month}-${day}`);
+  }, []);
 
   const toggleFaq = (index) => {
     setOpenFaq(openFaq === index ? null : index);
@@ -443,6 +454,7 @@ const PatientSettings = () => {
                 name="birthdate" 
                 value={formData.birthdate} 
                 onChange={handleChange}
+                max={maxEstablishedDate}
                 required 
               />
             </div>

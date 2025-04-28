@@ -62,6 +62,17 @@ const ClinicSettings = () => {
   const [imagePreview, setImagePreview] = useState(null);
   // Flag to show default profile image if needed
   const [showDefaultImage, setShowDefaultImage] = useState(false);
+  // Maximum date for established date (today)
+  const [maxEstablishedDate, setMaxEstablishedDate] = useState("");
+
+  // Set the maximum date for established date picker (today's date)
+  useEffect(() => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    setMaxEstablishedDate(`${year}-${month}-${day}`);
+  }, []);
 
   const toggleFaq = (index) => {
     setOpenFaq(openFaq === index ? null : index);
@@ -236,12 +247,11 @@ const ClinicSettings = () => {
         ownerFirstName: formData.ownerFirstName,
         ownerMiddleName: formData.ownerMiddleName,
         ownerLastName: formData.ownerLastName,
-        licenseNumber: formData.licenseNumber,
         establishedDate: formData.establishedDate,
         address: combinedAddress,
         phone: formData.phone,
         profilePicture: profilePictureUrl
-        // Email and years active are not updated - email is managed by auth and years active is calculated
+        // Email, license number, and years active are not updated - email and license are managed by auth and years active is calculated
       });
 
       // Update local state with new profile picture if uploaded
@@ -441,8 +451,9 @@ const ClinicSettings = () => {
                     type="text" 
                     name="licenseNumber" 
                     value={formData.licenseNumber} 
-                    onChange={handleChange}
-                    required
+                    disabled
+                    className={styles.disabledInput}
+                    title="Please contact support to change your License Number"
                   />
                 </div>
                 <div className={styles.inputGroup}>
@@ -452,6 +463,7 @@ const ClinicSettings = () => {
                     name="establishedDate" 
                     value={formData.establishedDate} 
                     onChange={handleChange}
+                    max={maxEstablishedDate}
                     required 
                   />
                 </div>
