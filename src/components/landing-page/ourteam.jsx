@@ -29,7 +29,7 @@ const teamMembers = [
       id: 3, 
       name: "Jamel P. Hadjirasul", 
       role: "EHR Developer", 
-      image: '/landing-page-iamge/jamel.jpg',
+      image: '/landing-page-iamge/hadjirasul.JPG',
       course: "BS Computer Engineering",
       contribution: "Created and integrated comprehensive Electronic Health Record (EHR) functionalities for both clinic and patient platforms.",
       github: "https://github.com/catnipp9",
