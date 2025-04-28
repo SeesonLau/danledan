@@ -319,7 +319,6 @@ const ClinicEHR = () => {
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     document.body.removeChild(downloadAnchor);
-  const downloadAnchor = document.createElement("a");
   };
 
   const handlePrint = async () => {
