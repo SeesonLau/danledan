@@ -24,7 +24,7 @@ const firebaseConfig = {
   databaseURL:
     "https://opticare-firebase-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "opticare-firebase",
-  storageBucket: "opticare-firebase.firebasestorage.app",
+  //storageBucket: "opticare-firebase.firebasestorage.app",
   messagingSenderId: "7823200320",
   appId: "1:7823200320:web:9ff0e25f3e22bf80d04fa5",
   measurementId: "G-J1PEB6SE72",
