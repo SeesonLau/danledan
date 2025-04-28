@@ -16,7 +16,7 @@ import {
 } from "firebase/firestore";
 import { db } from "./firebase";
 import { determineDiagnosis } from "@/components/getDiagnosis";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+//import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 // --- Collection References ---
 const ehrCollGroupRef = collectionGroup(db, "ehr");
@@ -244,20 +244,4 @@ export const saveAppointment = async (appointmentData, fileUrl = null) => {
 };
 
 // --- Upload File to Storage ---
-export const uploadAppointmentFile = async (file, userUid) => {
-  try {
-    if (!file) return null;
-
-    const storage = getStorage();
-    const storageRef = ref(
-      storage,
-      `appointment-files/${userUid}/${Date.now()}_${file.name}`
-    );
-    await uploadBytes(storageRef, file);
-    const downloadURL = await getDownloadURL(storageRef);
-    return downloadURL;
-  } catch (error) {
-    window.alert("Error uploading file: " + error.message);
-    throw error;
-  }
-};
+export const uploadAppointmentFile = async (file, userUid) => {};
