@@ -13,7 +13,6 @@ import AppointmentDetailsForm from "@/components/patient/appointments/Appointmen
 import AppointmentReview from "@/components/patient/appointments/AppointmentReview";
 import AppointmentConfirmation from "@/components/patient/appointments/AppointmentConfirmation";
 import { saveAppointment } from "@/config/firestore";
-import { uploadAppointmentFile } from "@/config/firestore"; // Assuming this function is defined in your firebase config
 
 const generateTimeSlots = () => {
   const slots = {};
@@ -179,12 +178,6 @@ const PatientAppointments = () => {
       setIsSubmitting(true);
       setError("");
 
-      let fileUrl = null;
-
-      if (pdfFile) {
-        fileUrl = await uploadAppointmentFile(pdfFile, user.uid);
-      }
-
       const appointmentData = {
         userUid: user.uid,
         clinic: clinic,
@@ -199,7 +192,7 @@ const PatientAppointments = () => {
         contactNumber,
       };
 
-      await saveAppointment(appointmentData, fileUrl);
+      await saveAppointment(appointmentData);
 
       const updatedSlots = { ...availableTimeSlots };
       const daySlots = updatedSlots[selectedDate];

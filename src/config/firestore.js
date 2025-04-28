@@ -16,7 +16,6 @@ import {
 } from "firebase/firestore";
 import { db } from "./firebase";
 import { determineDiagnosis } from "@/components/getDiagnosis";
-//import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 // --- Collection References ---
 const ehrCollGroupRef = collectionGroup(db, "ehr");
@@ -221,7 +220,8 @@ export const getEhrRecordsByPatient = async (patientUid) => {
 
 // (Other functions like getEhrRecordsByClinic, getEhrRecordById, updateEhrRecord, deleteEhrRecord remain unchanged)
 
-export const saveAppointment = async (appointmentData, fileUrl = null) => {
+// --- Save Appointment ---
+export const saveAppointment = async (appointmentData) => {
   try {
     if (!appointmentData || typeof appointmentData !== "object") {
       throw new Error("Invalid appointment data.");
@@ -231,8 +231,7 @@ export const saveAppointment = async (appointmentData, fileUrl = null) => {
 
     const dataToSave = {
       ...appointmentData,
-      fileUrl: fileUrl || null,
-      createdAt: Timestamp.now(),
+      createdAt: Timestamp.now(), // Add a server timestamp
     };
 
     const docRef = await addDoc(appointmentsCollectionRef, dataToSave);
@@ -242,6 +241,3 @@ export const saveAppointment = async (appointmentData, fileUrl = null) => {
     throw error;
   }
 };
-
-// --- Upload File to Storage ---
-export const uploadAppointmentFile = async (file, userUid) => {};
