@@ -161,7 +161,7 @@ const PatientEHR = () => {
     setTotal(analyticalfee + orthopticfee + lensesfee + framefee);
   }, [analyticalfee, orthopticfee, lensesfee, framefee]);
 
-  /*//-PLACEHOLDER
+  //-PLACEHOLDER
   const patients = [
     {
       lastVisit: "15/02/2025",
@@ -342,7 +342,7 @@ const PatientEHR = () => {
       setSize2(patient.size2 || "56");
       setSegment(patient.segment || "Round Top 22");
     }
-  };*/
+  };
 
   useEffect(() => {
     const fetchEhrRecords = async () => {
