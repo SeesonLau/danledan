@@ -310,7 +310,6 @@ const ClinicEHR = () => {
       totalfee,
     };
 
-<<<<<<< HEAD
     const dataStr =
       "data:text/json;charset=utf-8," +
       encodeURIComponent(JSON.stringify(formData));
@@ -320,19 +319,7 @@ const ClinicEHR = () => {
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     document.body.removeChild(downloadAnchor);
-=======
-  const dataStr =
-  "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(formData));
-
-  const filename = `${caseno} - ${clinic}.json`;
-
   const downloadAnchor = document.createElement("a");
-  downloadAnchor.setAttribute("href", dataStr);
-  downloadAnchor.setAttribute("download", filename);
-  document.body.appendChild(downloadAnchor);
-  downloadAnchor.click();
-  downloadAnchor.remove();
->>>>>>> deployment
   };
 
   const handlePrint = async () => {

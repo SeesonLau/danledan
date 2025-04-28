@@ -13,9 +13,12 @@ import PrintEHR from "@/components/export-ehr";
 import { useAuth } from "@/config/AuthContext";
 //import { useEffect } from "react";
 import { useRouter } from "next/router";
+import {
+  getEhrRecordsByPatient,
+  getPatientNameByUid,
+} from "@/config/firestore";
 
 const PatientEHR = () => {
-  
   const [isPrinting, setIsPrinting] = useState(false);
 
   const { user, loading } = useAuth();
@@ -29,15 +32,32 @@ const PatientEHR = () => {
   if (user) console.log(user);
 
   //if (loading) return <h1>Loading...</h1>; // Show a loading state while checking auth
- //  if (!user) return null; -SAME ISSUE MO ERROR BECAUSE OF THIS LINE IDK WHY
+  //  if (!user) return null; -SAME ISSUE MO ERROR BECAUSE OF THIS LINE IDK WHY
   //
+
+  useEffect(() => {
+    const fetchEhrRecords = async () => {
+      try {
+        if (!user?.uid) return;
+
+        const records = await getEhrRecordsByPatient(user.uid);
+        setEhrRecords(records); // or however you display it
+
+        const name = await getPatientNameByUid(user.uid);
+        setPatientName(name); // display full name separately
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchEhrRecords();
+  }, [user]);
+
   const profileImageUrl = null;
 
-  
   const printRef = useRef();
 
   const exportEHR = async (printRef, setIsPrinting) => {
-
     await PrintEHR(printRef, setIsPrinting, caseno, clinic);
 
     // Extract form data
@@ -77,7 +97,8 @@ const PatientEHR = () => {
     };
 
     const dataStr =
-    "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(formData));
+      "data:text/json;charset=utf-8," +
+      encodeURIComponent(JSON.stringify(formData));
 
     const filename = `${caseno} - ${clinic}.json`;
 
@@ -140,7 +161,7 @@ const PatientEHR = () => {
     setTotal(analyticalfee + orthopticfee + lensesfee + framefee);
   }, [analyticalfee, orthopticfee, lensesfee, framefee]);
 
-  //-PLACEHOLDER
+  /*//-PLACEHOLDER
   const patients = [
     {
       lastVisit: "15/02/2025",
@@ -321,7 +342,25 @@ const PatientEHR = () => {
       setSize2(patient.size2 || "56");
       setSegment(patient.segment || "Round Top 22");
     }
-  };
+  };*/
+
+  useEffect(() => {
+    const fetchEhrRecords = async () => {
+      try {
+        if (!user?.uid) return;
+
+        const records = await getEhrRecordsByPatient(user.uid);
+        setEhrRecords(records); // or however you display it
+
+        const name = await getPatientNameByUid(user.uid);
+        setPatientName(name); // display full name separately
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchEhrRecords();
+  }, [user]);
 
   return (
     <div className={styles.recordContainer}>
@@ -329,7 +368,12 @@ const PatientEHR = () => {
       <main className={styles.maincontent}>
         <div className={styles.firstdiv}>
           <h1 className={styles.header}>My EHR</h1>
-          <div ref={printRef} className={`${styles.ehrContainer} ${isPrinting ? styles.printMode : ''}`}>
+          <div
+            ref={printRef}
+            className={`${styles.ehrContainer} ${
+              isPrinting ? styles.printMode : ""
+            }`}
+          >
             <div className={styles.div1}>
               <div className={styles.profilePhoto}>
                 {profileImageUrl ? (
@@ -349,7 +393,7 @@ const PatientEHR = () => {
                   readOnly
                   disabled
                 />
-                 <EHR1ReadOnly
+                <EHR1ReadOnly
                   label="Patient Name"
                   value={name}
                   readOnly
@@ -367,12 +411,7 @@ const PatientEHR = () => {
             <div className={styles.div2}>
               <div className={styles.profileRow}>
                 <div className={styles.profileColumn}>
-                  <EHR1ReadOnly 
-                    label="Age" 
-                    value={age} 
-                    readOnly
-                    disabled
-                  />
+                  <EHR1ReadOnly label="Age" value={age} readOnly disabled />
                   <EHR1ReadOnly
                     label="Phone No."
                     value={phone}
@@ -542,18 +581,8 @@ const PatientEHR = () => {
                 <div className={styles.glassesContainer}>
                   <div className={styles.glassesCard}>
                     <div className={styles.horizontalFormat2}>
-                      <EHR4ReadOnly
-                        label="P.D."
-                        value={pd}
-                        readOnly
-                        disabled
-                      />
-                      <EHR4ReadOnly
-                        label="DBL"
-                        value={dbl}
-                        readOnly
-                        disabled
-                      />
+                      <EHR4ReadOnly label="P.D." value={pd} readOnly disabled />
+                      <EHR4ReadOnly label="DBL" value={dbl} readOnly disabled />
                     </div>
                   </div>
                   <div className={styles.glassesCard}>
@@ -780,7 +809,6 @@ const PatientEHR = () => {
       </main>
     </div>
   );
-  
 };
 
 export default PatientEHR;

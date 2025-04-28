@@ -210,3 +210,9 @@ export const getFullName = async (userId, userType) => {
     return userType === "Clinic" ? "Unknown Doctor" : "Unknown Patient";
   }
 };
+
+import {
+  updatePassword,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+} from "firebase/auth";

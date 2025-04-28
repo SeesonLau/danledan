@@ -12,51 +12,53 @@ import TimeSlotSelection from "@/components/patient/appointments/TimeSlotSelecti
 import AppointmentDetailsForm from "@/components/patient/appointments/AppointmentDetailsForm";
 import AppointmentReview from "@/components/patient/appointments/AppointmentReview";
 import AppointmentConfirmation from "@/components/patient/appointments/AppointmentConfirmation";
-
+import { saveAppointment } from "@/config/firestore";
+import { uploadAppointmentFile } from "@/config/firestore"; // Assuming this function is defined in your firebase config
 
 const generateTimeSlots = () => {
   const slots = {};
   const startDate = new Date();
   startDate.setDate(startDate.getDate() + 1); // Start from tomorrow
-  
+
   // Define time slots for each day type with booking count
   const mwfTimeSlots = [
-    { time: '10:00 AM', bookings: 0 },
-    { time: '11:00 AM', bookings: 0 },
-    { time: '12:00 PM', bookings: 0 },
-    { time: '1:00 PM', bookings: 0 },
-    { time: '2:00 PM', bookings: 0 },
-    { time: '3:00 PM', bookings: 0 },
-    { time: '4:00 PM', bookings: 0 },
-    { time: '5:00 PM', bookings: 0 }
-  ];
-  
-  const ttTimeSlots = [
-    { time: '1:00 PM', bookings: 0 },
-    { time: '2:00 PM', bookings: 0 },
-    { time: '3:00 PM', bookings: 0 },
-    { time: '4:00 PM', bookings: 0 },
-    { time: '5:00 PM', bookings: 0 },
-    { time: '6:00 PM', bookings: 0 },
-    { time: '7:00 PM', bookings: 0 }
+    { time: "10:00 AM", bookings: 0 },
+    { time: "11:00 AM", bookings: 0 },
+    { time: "12:00 PM", bookings: 0 },
+    { time: "1:00 PM", bookings: 0 },
+    { time: "2:00 PM", bookings: 0 },
+    { time: "3:00 PM", bookings: 0 },
+    { time: "4:00 PM", bookings: 0 },
+    { time: "5:00 PM", bookings: 0 },
   ];
 
-  for (let i = 0; i < 60; i++) { // Generate for next 60 days
+  const ttTimeSlots = [
+    { time: "1:00 PM", bookings: 0 },
+    { time: "2:00 PM", bookings: 0 },
+    { time: "3:00 PM", bookings: 0 },
+    { time: "4:00 PM", bookings: 0 },
+    { time: "5:00 PM", bookings: 0 },
+    { time: "6:00 PM", bookings: 0 },
+    { time: "7:00 PM", bookings: 0 },
+  ];
+
+  for (let i = 0; i < 60; i++) {
+    // Generate for next 60 days
     const date = new Date(startDate);
     date.setDate(startDate.getDate() + i);
-    
+
     // Skip weekends (Saturday = 6, Sunday = 0)
     if (date.getDay() === 0 || date.getDay() === 6) continue;
-    
-    const formattedDate = date.toLocaleDateString('en-US', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
+
+    const formattedDate = date.toLocaleDateString("en-US", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
     });
-    
+
     // Get the appropriate time slots based on day of week
     let daySlots;
-    switch(date.getDay()) {
+    switch (date.getDay()) {
       case 1: // Monday
       case 3: // Wednesday
       case 5: // Friday
@@ -69,10 +71,10 @@ const generateTimeSlots = () => {
       default:
         daySlots = [];
     }
-    
+
     slots[formattedDate] = daySlots;
   }
-  
+
   return slots;
 };
 
@@ -80,8 +82,10 @@ const PatientAppointments = () => {
   const { user, loading } = useAuth();
   const router = useRouter();
   const fileInputRef = useRef(null);
-  
-  const [availableTimeSlots, setAvailableTimeSlots] = useState(generateTimeSlots());
+
+  const [availableTimeSlots, setAvailableTimeSlots] = useState(
+    generateTimeSlots()
+  );
   const [currentStep, setCurrentStep] = useState(1);
   const [province, setProvince] = useState("");
   const [city, setCity] = useState("");
@@ -131,12 +135,12 @@ const PatientAppointments = () => {
   };
 
   const handleDateClick = (date) => {
-    const formattedDate = date.toLocaleDateString('en-US', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric',
+    const formattedDate = date.toLocaleDateString("en-US", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
     });
-  
+
     if (availableTimeSlots[formattedDate]) {
       setSelectedDate(formattedDate);
       setSelectedTime("");
@@ -174,13 +178,36 @@ const PatientAppointments = () => {
     try {
       setIsSubmitting(true);
       setError("");
-      
-      // Update the booking count for the selected time slot
+
+      let fileUrl = null;
+
+      if (pdfFile) {
+        fileUrl = await uploadAppointmentFile(pdfFile, user.uid);
+      }
+
+      const appointmentData = {
+        userUid: user.uid,
+        clinic: clinic,
+        province: province,
+        city: city,
+        date: selectedDate,
+        time: selectedTime,
+        reason: reason === "Other (Please specify)" ? otherReason : reason,
+        name,
+        sex,
+        email,
+        contactNumber,
+      };
+
+      await saveAppointment(appointmentData, fileUrl);
+
       const updatedSlots = { ...availableTimeSlots };
       const daySlots = updatedSlots[selectedDate];
-      
+
       if (daySlots) {
-        const slotIndex = daySlots.findIndex(slot => slot.time === selectedTime);
+        const slotIndex = daySlots.findIndex(
+          (slot) => slot.time === selectedTime
+        );
         if (slotIndex !== -1 && daySlots[slotIndex].bookings < 3) {
           daySlots[slotIndex].bookings += 1;
           setAvailableTimeSlots(updatedSlots);
@@ -188,9 +215,9 @@ const PatientAppointments = () => {
           throw new Error("This time slot is already fully booked");
         }
       }
-      
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
+
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
       setSuccess("Appointment booked successfully!");
       setShowReview(false);
       setCurrentStep(1);
@@ -202,7 +229,7 @@ const PatientAppointments = () => {
   };
 
   const navigateMonth = (direction) => {
-    if (direction === 'prev') {
+    if (direction === "prev") {
       if (currentMonth === 0) {
         setCurrentMonth(11);
         setCurrentYear(currentYear - 1);
@@ -245,36 +272,36 @@ const PatientAppointments = () => {
     const daysInMonth = getDaysInMonth(currentMonth, currentYear);
     const firstDayOfMonth = getFirstDayOfMonth(currentMonth, currentYear);
     const days = [];
-    
+
     for (let i = 0; i < firstDayOfMonth; i++) {
       days.push(null);
     }
-    
+
     for (let i = 1; i <= daysInMonth; i++) {
       const date = new Date(currentYear, currentMonth, i);
-      const formattedDate = date.toLocaleDateString('en-US', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
+      const formattedDate = date.toLocaleDateString("en-US", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
       });
-      
+
       const isPast = date < new Date();
       const isAvailable = !isPast && !!availableTimeSlots[formattedDate];
-      
+
       days.push({
         day: i,
         date,
         available: isAvailable,
         formattedDate,
-        isPast
+        isPast,
       });
     }
-    
+
     const weeks = [];
     while (days.length > 0) {
       weeks.push(days.splice(0, 7));
     }
-    
+
     return weeks;
   };
 
@@ -284,163 +311,167 @@ const PatientAppointments = () => {
   if (!user) return null;
 
   return (
-    
     <div className={styles.appointmentContainer}>
-      <PatientLayout/>
-        <main className={styles.appointmentMain}>
-          
-          <h1 className={styles.pageTitle}>Book an Appointment</h1>
-          
-          <AppointmentProgressSteps currentStep={currentStep} />
-          
-          {error && (
-            <div className={`${styles.alert} ${styles.alertDanger}`}>
-              <i className={styles.alertIcon}>⚠️</i> {error}
-            </div>
-          )}
-          
-          {success && (
-            <div className={`${styles.alert} ${styles.alertSuccess}`}>
-              <i className={styles.alertIcon}>✓</i> {success}
-            </div>
-          )}
+      <PatientLayout />
+      <main className={styles.appointmentMain}>
+        <h1 className={styles.pageTitle}>Book an Appointment</h1>
 
-          {currentStep === 1 && (
-            <AppointmentLocation 
-              province={province}
-              city={city}
-              handleProvinceChange={handleProvinceChange}
-              handleCityChange={handleCityChange}
-              setCurrentStep={setCurrentStep}
-            />
-          )}
+        <AppointmentProgressSteps currentStep={currentStep} />
 
-          {currentStep === 2 && (
-            <ClinicSelection 
-              city={city}
-              clinic={clinic}
-              setClinic={setClinic}
-              setCurrentStep={setCurrentStep}
-            />
-          )}
+        {error && (
+          <div className={`${styles.alert} ${styles.alertDanger}`}>
+            <i className={styles.alertIcon}>⚠️</i> {error}
+          </div>
+        )}
 
-          {currentStep === 3 && (
-            <div className={styles.datetimeSection}>
-              <div className={styles.formSection}>
-                <h2 className={styles.sectionTitle}>
-                  <i className={`${styles.icon} ${styles.calendarIcon}`}>📅</i> Select Date & Time
-                </h2>
-                <div className={styles.datetimeContent}>
-                  <div className={styles.calendarContainer}>
-                    <AppointmentCalendar
-                      currentMonth={currentMonth}
-                      currentYear={currentYear}
-                      navigateMonth={navigateMonth}
-                      toggleMonthYearPicker={toggleMonthYearPicker}
-                      showMonthYearPicker={showMonthYearPicker}
-                      selectMonth={selectMonth}
-                      selectYear={selectYear}
-                      years={years}
-                      weeks={weeks}
-                      handleDateClick={handleDateClick}
-                      selectedDate={selectedDate}
-                    />
-                    <div className={styles.calendarLegend}>
-                      <div className={styles.legendItem}>
-                        <span className={`${styles.legendColorAvailable} ${styles.available}`}></span>
-                        <span className={styles.legendText}>Available</span>
-                      </div>
-                      <div className={styles.legendItem}>
-                        <span className={`${styles.legendColorFullyBooked} ${styles.fullyBooked}`}></span>
-                        <span className={styles.legendText}>Fully Booked</span>
-                      </div>
-                      <div className={styles.legendItem}>
-                        <span className={`${styles.legendColorNotAvailable} ${styles.notAvailable}`}></span>
-                        <span className={styles.legendText}>Not Available</span>
-                      </div>
+        {success && (
+          <div className={`${styles.alert} ${styles.alertSuccess}`}>
+            <i className={styles.alertIcon}>✓</i> {success}
+          </div>
+        )}
+
+        {currentStep === 1 && (
+          <AppointmentLocation
+            province={province}
+            city={city}
+            handleProvinceChange={handleProvinceChange}
+            handleCityChange={handleCityChange}
+            setCurrentStep={setCurrentStep}
+          />
+        )}
+
+        {currentStep === 2 && (
+          <ClinicSelection
+            city={city}
+            clinic={clinic}
+            setClinic={setClinic}
+            setCurrentStep={setCurrentStep}
+          />
+        )}
+
+        {currentStep === 3 && (
+          <div className={styles.datetimeSection}>
+            <div className={styles.formSection}>
+              <h2 className={styles.sectionTitle}>
+                <i className={`${styles.icon} ${styles.calendarIcon}`}>📅</i>{" "}
+                Select Date & Time
+              </h2>
+              <div className={styles.datetimeContent}>
+                <div className={styles.calendarContainer}>
+                  <AppointmentCalendar
+                    currentMonth={currentMonth}
+                    currentYear={currentYear}
+                    navigateMonth={navigateMonth}
+                    toggleMonthYearPicker={toggleMonthYearPicker}
+                    showMonthYearPicker={showMonthYearPicker}
+                    selectMonth={selectMonth}
+                    selectYear={selectYear}
+                    years={years}
+                    weeks={weeks}
+                    handleDateClick={handleDateClick}
+                    selectedDate={selectedDate}
+                  />
+                  <div className={styles.calendarLegend}>
+                    <div className={styles.legendItem}>
+                      <span
+                        className={`${styles.legendColorAvailable} ${styles.available}`}
+                      ></span>
+                      <span className={styles.legendText}>Available</span>
+                    </div>
+                    <div className={styles.legendItem}>
+                      <span
+                        className={`${styles.legendColorFullyBooked} ${styles.fullyBooked}`}
+                      ></span>
+                      <span className={styles.legendText}>Fully Booked</span>
+                    </div>
+                    <div className={styles.legendItem}>
+                      <span
+                        className={`${styles.legendColorNotAvailable} ${styles.notAvailable}`}
+                      ></span>
+                      <span className={styles.legendText}>Not Available</span>
                     </div>
                   </div>
-
-                  {selectedDate && (
-                    <TimeSlotSelection
-                      selectedDate={selectedDate}
-                      selectedTime={selectedTime}
-                      currentTimeSlots={currentTimeSlots}
-                      handleTimeSelect={handleTimeSelect}
-                    />
-                  )}
                 </div>
-              </div>
-              <div className={styles.stepNavigation}>
-                <button 
-                  className={styles.backButton}
-                  onClick={() => setCurrentStep(2)}
-                >
-                  Back
-                </button>
-                <button 
-                  className={styles.nextButton}
-                  onClick={() => setCurrentStep(4)}
-                  disabled={!selectedTime}
-                >
-                  Next
-                </button>
+
+                {selectedDate && (
+                  <TimeSlotSelection
+                    selectedDate={selectedDate}
+                    selectedTime={selectedTime}
+                    currentTimeSlots={currentTimeSlots}
+                    handleTimeSelect={handleTimeSelect}
+                  />
+                )}
               </div>
             </div>
-          )}
+            <div className={styles.stepNavigation}>
+              <button
+                className={styles.backButton}
+                onClick={() => setCurrentStep(2)}
+              >
+                Back
+              </button>
+              <button
+                className={styles.nextButton}
+                onClick={() => setCurrentStep(4)}
+                disabled={!selectedTime}
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        )}
 
-          {currentStep === 4 && (
-            <AppointmentDetailsForm
-              reason={reason}
-              otherReason={otherReason}
-              name={name}
-              sex={sex}
-              email={email}
-              contactNumber={contactNumber}
-              pdfFile={pdfFile}
-              fileInputRef={fileInputRef}
-              handleReasonChange={handleReasonChange}
-              setOtherReason={setOtherReason}
-              setName={setName}
-              setSex={setSex}
-              setEmail={setEmail}
-              setContactNumber={setContactNumber}
-              handleFileChange={handleFileChange}
-              setCurrentStep={setCurrentStep}
-            />
-          )}
+        {currentStep === 4 && (
+          <AppointmentDetailsForm
+            reason={reason}
+            otherReason={otherReason}
+            name={name}
+            sex={sex}
+            email={email}
+            contactNumber={contactNumber}
+            pdfFile={pdfFile}
+            fileInputRef={fileInputRef}
+            handleReasonChange={handleReasonChange}
+            setOtherReason={setOtherReason}
+            setName={setName}
+            setSex={setSex}
+            setEmail={setEmail}
+            setContactNumber={setContactNumber}
+            handleFileChange={handleFileChange}
+            setCurrentStep={setCurrentStep}
+          />
+        )}
 
-          {currentStep === 5 && !showReview && (
-            <AppointmentReview
-              clinic={clinic}
-              selectedDate={selectedDate}
-              selectedTime={selectedTime}
-              reason={reason}
-              otherReason={otherReason}
-              name={name}
-              sex={sex}
-              email={email}
-              contactNumber={contactNumber}
-              pdfFile={pdfFile}
-              setCurrentStep={setCurrentStep}
-              handleConfirm={handleConfirm}
-            />
-          )}
+        {currentStep === 5 && !showReview && (
+          <AppointmentReview
+            clinic={clinic}
+            selectedDate={selectedDate}
+            selectedTime={selectedTime}
+            reason={reason}
+            otherReason={otherReason}
+            name={name}
+            sex={sex}
+            email={email}
+            contactNumber={contactNumber}
+            pdfFile={pdfFile}
+            setCurrentStep={setCurrentStep}
+            handleConfirm={handleConfirm}
+          />
+        )}
 
-          {showReview && (
-            <AppointmentConfirmation
-              clinic={clinic}
-              selectedDate={selectedDate}
-              selectedTime={selectedTime}
-              reason={reason}
-              otherReason={otherReason}
-              isSubmitting={isSubmitting}
-              setShowReview={setShowReview}
-              handleFinalSubmit={handleFinalSubmit}
-            />
-          )}
-        </main>
-     
+        {showReview && (
+          <AppointmentConfirmation
+            clinic={clinic}
+            selectedDate={selectedDate}
+            selectedTime={selectedTime}
+            reason={reason}
+            otherReason={otherReason}
+            isSubmitting={isSubmitting}
+            setShowReview={setShowReview}
+            handleFinalSubmit={handleFinalSubmit}
+          />
+        )}
+      </main>
     </div>
   );
 };
