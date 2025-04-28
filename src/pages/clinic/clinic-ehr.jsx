@@ -2,44 +2,224 @@ import React, { useRef, useState, useEffect } from "react";
 import ClinicLayout from "@/components/clinic-layout";
 import styles from "../../styles/clinic-ehr/clinic-ehr.module.css";
 import { MdAccountCircle } from "react-icons/md";
-import { EHRTextbox } from "@/components/ehr-textbox";
-import { EHR2Textbox } from "@/components/ehr-textbox";
-import { EHR3Textbox } from "@/components/ehr-textbox";
-import { EHR4Textbox } from "@/components/ehr-textbox";
-import { EHR5Textbox } from "@/components/ehr-textbox";
+import {
+  EHRTextbox,
+  EHR2Textbox,
+  EHR3Textbox,
+  EHR4Textbox,
+  EHR5Textbox,
+} from "@/components/ehr-textbox";
 import SaveButton from "@/components/save-button";
 import { FaEye, FaDownload, FaPrint } from "react-icons/fa";
 import PrintEHR from "@/components/export-ehr";
 import { useAuth } from "@/config/AuthContext";
 import { useRouter } from "next/router";
-import { getDiagnosis } from "../../components/getDiagnosis"
+import { addEhrRecord, getEhrRecordsByClinic } from "@/config/firestore";
+import { determineDiagnosis } from "@/components/getDiagnosis";
+import { Timestamp } from "firebase/firestore";
 
 const ClinicEHR = () => {
-
-  const [isPrinting, setIsPrinting] = useState(false);
-
   const { user, loading } = useAuth();
   const router = useRouter();
+  const printRef = useRef();
 
-  const handleSaveClick = () => {
-    const diagnosis = getDiagnosis(distanceOD, distanceOS, nearOD, nearOS);
-    console.log("Diagnosis:", diagnosis);  // Change ang code nga mabutang siya sa database
+  const [patients, setPatients] = useState([]);
+  const [loadingPatients, setLoadingPatients] = useState(false);
+  const [error, setError] = useState(null);
+  const [isPrinting, setIsPrinting] = useState(false);
+
+  const [clinic, setClinic] = useState("");
+
+  // EHR Fields
+  const [caseno, setCaseno] = useState("");
+  const [name, setPatientname] = useState("");
+  const [date, setBirthdate] = useState("");
+  const [address, setAddress] = useState("");
+  const [age, setAge] = useState("");
+  const [phone, setPhonenumber] = useState("");
+  const [occupation, setOccupation] = useState("");
+  const [doctor, setDoctor] = useState("");
+  const [distanceOD, setDistanceOD] = useState("");
+  const [distanceOS, setDistanceOS] = useState("");
+  const [nearOD, setNearOD] = useState("");
+  const [nearOS, setNearOS] = useState("");
+  const [oldRxOD, setRxOD] = useState("");
+  const [oldRxOS, setRxOS] = useState("");
+  const [ODvaU, setODvaU] = useState("");
+  const [OSvaU, setOSvaU] = useState("");
+  const [ODvaRX, setODvaRX] = useState("");
+  const [OSvaRX, setOSvaRX] = useState("");
+  const [pd, setPD] = useState("");
+  const [dbl, setDBL] = useState("");
+  const [size1, setSize1] = useState("");
+  const [bifocals, setBifocals] = useState("");
+  const [lens, setLens] = useState("");
+  const [size2, setSize2] = useState("");
+  const [segment, setSegment] = useState("");
+  const [remarks, setRemarks] = useState("");
+  const [analyticalfee, setAF] = useState(0);
+  const [orthopticfee, setOF] = useState(0);
+  const [lensesfee, setLF] = useState(0);
+  const [framefee, setFF] = useState(0);
+  const [totalfee, setTotal] = useState(0);
+  const [profileImageUrl, setProfileImageUrl] = useState("");
+
+  const handleInputChange = (setter) => (e) => {
+    const value = e.target.value;
+    setter(value === "" ? 0 : parseFloat(value));
   };
 
+  const handleChange = (setter) => (e) => setter(e.target.value);
+
+  useEffect(() => {
+    if (user && user.uid) {
+      setClinic(user.uid);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    setTotal(analyticalfee + orthopticfee + lensesfee + framefee);
+  }, [analyticalfee, orthopticfee, lensesfee, framefee]);
+
+  useEffect(() => {
+    if (!clinic) return;
+    setLoadingPatients(true);
+    getEhrRecordsByClinic(clinic)
+      .then((records) => {
+        setPatients(
+          records.map((ehr) => ({
+            caseNo: ehr.caseno,
+            name: ehr.patientname,
+            lastVisit: ehr.lastvisit?.toDate
+              ? ehr.lastvisit.toDate().toLocaleDateString()
+              : "",
+            diagnosis: ehr.diagnosis,
+            prescription: `${ehr.distanceOD || "-"} / ${ehr.distanceOS || "-"}`,
+            ehr,
+          }))
+        );
+        setLoadingPatients(false);
+      })
+      .catch((err) => {
+        setError("Failed to fetch patient list.");
+        setLoadingPatients(false);
+      });
+  }, [clinic]);
 
   useEffect(() => {
     if (!loading && !user) {
-      router.replace("/"); // Redirect if not authenticated
+      router.replace("/");
     }
   }, [user, loading]);
-  if (user) console.log(user);
 
-  //if (loading) return <h1>Loading...</h1>; // Show a loading state while checking auth
- // if (!user) return null; - MO ERROR TUNGOD ANI??
-  //
-  const profileImageUrl = null;
+  const handleSaveClick = async () => {
+    setError(null);
+    try {
+      if (!caseno || !name || !date || !address || !clinic) {
+        window.alert("Please fill in all required fields.");
+        return;
+      }
 
-  const printRef = useRef();
+      const ehrData = {
+        caseno,
+        patientname: name,
+        date: date ? new Date(date) : new Date(),
+        address,
+        age: Number(age),
+        clinic,
+        phonenumber: phone,
+        occupation,
+        doctor,
+        distanceOD,
+        distanceOS,
+        nearOD,
+        nearOS,
+        oldRxOD,
+        oldRxOS,
+        ODvaU,
+        OSvaU,
+        ODvaRX,
+        OSvaRX,
+        pd,
+        dbl,
+        size1,
+        bifocals,
+        lens,
+        size2,
+        remarks,
+        segment,
+        orthopticfee: Number(orthopticfee),
+        analyticalfee: Number(analyticalfee),
+        lensesfee: Number(lensesfee),
+        framefee: Number(framefee),
+        totalfee: Number(totalfee),
+        lastvisit: new Date(),
+      };
+
+      const newRecordId = await addEhrRecord(ehrData);
+      window.alert("EHR saved successfully!");
+
+      // Build new patient locally
+      const newPatient = {
+        caseNo: ehrData.caseno,
+        name: ehrData.patientname,
+        lastVisit: new Date().toLocaleDateString(),
+        diagnosis: determineDiagnosis(ehrData),
+        prescription: `${ehrData.distanceOD || "-"} / ${
+          ehrData.distanceOS || "-"
+        }`,
+        ehr: {
+          ...ehrData,
+          id: newRecordId,
+          lastvisit: Timestamp.fromDate(new Date()),
+          version: 1,
+        },
+      };
+
+      setPatients((prevPatients) => [newPatient, ...prevPatients]);
+    } catch (err) {
+      window.alert(err.message || "Failed to save EHR.");
+      setError(err.message || "Failed to save EHR.");
+    }
+  };
+
+  const viewPatient = (patient) => {
+    const ehr = patient.ehr;
+    if (!ehr) return;
+    setCaseno(ehr.caseno || "");
+    setPatientname(ehr.patientname || "");
+    setBirthdate(
+      ehr.date?.toDate ? ehr.date.toDate().toISOString().slice(0, 10) : ""
+    );
+    setAddress(ehr.address || "");
+    setAge(ehr.age || "");
+    setPhonenumber(ehr.phonenumber || "");
+    setOccupation(ehr.occupation || "");
+    setDoctor(ehr.doctor || "");
+    setDistanceOD(ehr.distanceOD || "");
+    setDistanceOS(ehr.distanceOS || "");
+    setNearOD(ehr.nearOD || "");
+    setNearOS(ehr.nearOS || "");
+    setRxOD(ehr.oldRxOD || "");
+    setRxOS(ehr.oldRxOS || "");
+    setODvaU(ehr.ODvaU || "");
+    setOSvaU(ehr.OSvaU || "");
+    setODvaRX(ehr.ODvaRX || "");
+    setOSvaRX(ehr.OSvaRX || "");
+    setPD(ehr.pd || "");
+    setDBL(ehr.dbl || "");
+    setSize1(ehr.size1 || "");
+    setBifocals(ehr.bifocals || "");
+    setLens(ehr.lens || "");
+    setSize2(ehr.size2 || "");
+    setSegment(ehr.segment || "");
+    setRemarks(ehr.remarks || "");
+    setOF(ehr.orthopticfee || 0);
+    setAF(ehr.analyticalfee || 0);
+    setLF(ehr.lensesfee || 0);
+    setFF(ehr.framefee || 0);
+    setTotal(ehr.totalfee || 0);
+  };
 
   const importEHR = (event) => {
     const file = event.target.files[0];
@@ -49,13 +229,14 @@ const ClinicEHR = () => {
         try {
           const data = JSON.parse(e.target.result);
 
-          // Populate the form fields with imported data
           setCaseno(data.caseno || "");
           setPatientname(data.name || "");
-          setDate(data.date || "");
+          setBirthdate(data.date || "");
           setAddress(data.address || "");
           setAge(data.age || "");
-          setClinic(data.clinic || "");
+          if (!clinic) {
+            setClinic(data.clinic || "");
+          } // protect clinic uid
           setPhonenumber(data.phone || "");
           setOccupation(data.occupation || "");
           setDoctor(data.doctor || "");
@@ -77,26 +258,23 @@ const ClinicEHR = () => {
           setSize2(data.size2 || "");
           setSegment(data.segment || "");
           setRemarks(data.remarks || "");
-          setOF(data.orthopticfee || "");
-          setAF(data.analyticalfee || "");
-          setLF(data.lensesfee || "");
-          setFF(data.framefee || "");
-          setTotalfee(data.totalfee || "");
+          setAF(data.analyticalfee || 0);
+          setOF(data.orthopticfee || 0);
+          setLF(data.lensesfee || 0);
+          setFF(data.framefee || 0);
+          setTotal(data.totalfee || 0);
 
           alert("Form data successfully imported!");
         } catch (err) {
-          //alert("Error parsing JSON file. Please select a valid JSON file.");
+          alert("Error parsing JSON file.");
         }
       };
       reader.readAsText(file);
     }
   };
 
-  const exportEHR = async (printRef, setIsPrinting) => {
-
-    await PrintEHR(printRef, setIsPrinting, caseno, clinic);
-
-    // Extract form data
+  const exportEHR = async () => {
+    // Export JSON
     const formData = {
       caseno,
       name,
@@ -132,280 +310,39 @@ const ClinicEHR = () => {
       totalfee,
     };
 
-  const dataStr =
-  "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(formData));
-
-  const filename = `${caseno} - ${clinic}.json`;
-
-  const downloadAnchor = document.createElement("a");
-  downloadAnchor.setAttribute("href", dataStr);
-  downloadAnchor.setAttribute("download", filename);
-  document.body.appendChild(downloadAnchor);
-  downloadAnchor.click();
-  downloadAnchor.remove();
+    const dataStr =
+      "data:text/json;charset=utf-8," +
+      encodeURIComponent(JSON.stringify(formData));
+    const downloadAnchor = document.createElement("a");
+    downloadAnchor.setAttribute("href", dataStr);
+    downloadAnchor.setAttribute("download", "formData.json");
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    document.body.removeChild(downloadAnchor);
   };
 
-  const [caseno, setCaseno] = useState("");
-  const [name, setPatientname] = useState("");
-  const [date, setBirthdate] = useState("");
-
-  const [address, setAddress] = useState("");
-  const [age, setAge] = useState("");
-  const [clinic, setClinic] = useState("");
-
-  const [phone, setPhonenumber] = useState("");
-  const [occupation, setOccupation] = useState("");
-  const [doctor, setDoctor] = useState("");
-
-  const [distanceOD, setDistanceOD] = useState("");
-  const [distanceOS, setDistanceOS] = useState("");
-  const [nearOD, setNearOD] = useState("");
-  const [nearOS, setNearOS] = useState("");
-
-  const [oldRxOD, setRxOD] = useState("");
-  const [oldRxOS, setRxOS] = useState("");
-  const [ODvaU, setODvaU] = useState("");
-  const [OSvaU, setOSvaU] = useState("");
-  const [ODvaRX, setODvaRX] = useState("");
-  const [OSvaRX, setOSvaRX] = useState("");
-
-  const [pd, setPD] = useState("");
-  const [dbl, setDBL] = useState("");
-  const [size1, setSize1] = useState("");
-  const [bifocals, setBifocals] = useState("");
-  const [lens, setLens] = useState("");
-  const [size2, setSize2] = useState("");
-  const [remarks, setRemarks] = useState("");
-
-  const [segment, setSegment] = useState("");
-
-  const [analyticalfee, setAF] = useState(0);
-  const [orthopticfee, setOF] = useState(0);
-  const [lensesfee, setLF] = useState(0);
-  const [framefee, setFF] = useState(0);
-  const [totalfee, setTotal] = useState(0);
-
-  const handleInputChange = (setter) => (event) => {
-    const value = event.target.value;
-    setter(value === "" ? 0 : parseFloat(value)); // Ensure empty input is treated as 0
-  };
-
-  useEffect(() => {
-    setTotal(analyticalfee + orthopticfee + lensesfee + framefee);
-  }, [analyticalfee, orthopticfee, lensesfee, framefee]);
-
-  const handleChange = (setter) => (e) => setter(e.target.value);
-
-  //-PLACEHOLDER
-  const patients = [
-    {
-      caseNo: "0001",
-      name: "John Doe",
-      lastVisit: "15/02/2025",
-      diagnosis: "Myopia",
-      prescription: "-2.00 / -1.50",
-    },
-    {
-      caseNo: "0002",
-      name: "Jane Smith",
-      lastVisit: "20/02/2025",
-      diagnosis: "Hyperopia",
-      prescription: "+1.50 / +1.00",
-    },
-    {
-      caseNo: "0003",
-      name: "Michael Johnson",
-      lastVisit: "10/03/2025",
-      diagnosis: "Astigmatism",
-      prescription: "-1.25 / -0.75",
-    },
-    {
-      caseNo: "0004",
-      name: "Emily Davis",
-      lastVisit: "05/04/2025",
-      diagnosis: "Myopia",
-      prescription: "-3.00 / -2.50",
-    },
-    {
-      caseNo: "0005",
-      name: "David Brown",
-      lastVisit: "12/05/2025",
-      diagnosis: "Presbyopia",
-      prescription: "+2.00 / +2.00",
-    },
-    {
-      caseNo: "0006",
-      name: "Olivia Wilson",
-      lastVisit: "25/06/2025",
-      diagnosis: "Hyperopia",
-      prescription: "+1.75 / +1.25",
-    },
-    {
-      caseNo: "0007",
-      name: "Sophia Martinez",
-      lastVisit: "30/07/2025",
-      diagnosis: "Astigmatism",
-      prescription: "-2.00 / -1.00",
-    },
-    {
-      caseNo: "0008",
-      name: "Ethan Taylor",
-      lastVisit: "08/08/2025",
-      diagnosis: "Myopia",
-      prescription: "-1.75 / -1.25",
-    },
-    {
-      caseNo: "0009",
-      name: "Charlotte White",
-      lastVisit: "18/09/2025",
-      diagnosis: "Hyperopia",
-      prescription: "+2.25 / +1.75",
-    },
-    {
-      caseNo: "0010",
-      name: "Liam Anderson",
-      lastVisit: "05/10/2025",
-      diagnosis: "Astigmatism",
-      prescription: "-1.50 / -1.00",
-    },
-    {
-      caseNo: "0011",
-      name: "Benjamin Clark",
-      lastVisit: "10/11/2025",
-      diagnosis: "Myopia",
-      prescription: "-2.25 / -1.75",
-    },
-    {
-      caseNo: "0012",
-      name: "Emma Garcia",
-      lastVisit: "15/12/2025",
-      diagnosis: "Hyperopia",
-      prescription: "+1.25 / +1.00",
-    },
-    {
-      caseNo: "0013",
-      name: "Lucas Harris",
-      lastVisit: "22/01/2026",
-      diagnosis: "Presbyopia",
-      prescription: "+2.50 / +2.50",
-    },
-    {
-      caseNo: "0014",
-      name: "Ava Moore",
-      lastVisit: "28/02/2026",
-      diagnosis: "Astigmatism",
-      prescription: "-1.50 / -0.75",
-    },
-    {
-      caseNo: "0015",
-      name: "Mason Hall",
-      lastVisit: "12/03/2026",
-      diagnosis: "Myopia",
-      prescription: "-3.25 / -2.75",
-    },
-    {
-      caseNo: "0016",
-      name: "Mia Young",
-      lastVisit: "20/04/2026",
-      diagnosis: "Hyperopia",
-      prescription: "+1.75 / +1.50",
-    },
-    {
-      caseNo: "0017",
-      name: "James Walker",
-      lastVisit: "05/05/2026",
-      diagnosis: "Astigmatism",
-      prescription: "-1.75 / -1.25",
-    },
-    {
-      caseNo: "0018",
-      name: "Isabella King",
-      lastVisit: "18/06/2026",
-      diagnosis: "Presbyopia",
-      prescription: "+2.25 / +2.00",
-    },
-    {
-      caseNo: "0019",
-      name: "William Wright",
-      lastVisit: "25/07/2026",
-      diagnosis: "Myopia",
-      prescription: "-2.50 / -2.00",
-    },
-    {
-      caseNo: "0020",
-      name: "Amelia Scott",
-      lastVisit: "08/08/2026",
-      diagnosis: "Hyperopia",
-      prescription: "+1.50 / +1.25",
-    },
-  ];
-
-  // Function to handle row click -   //-PLACEHOLDER
-  const viewPatient = (patient) => {
-    if (patient.caseNo === "0001") {
-      setCaseno(patient.caseNo);
-      setPatientname(patient.name);
-      setBirthdate(patient.birthdate || "01/01/1990");
-      setAddress(patient.address || "123 Main St, City");
-      setAge(patient.age || "30");
-      setClinic(patient.clinic || "City Clinic");
-      setPhonenumber(patient.phone || "123-456-7890");
-      setOccupation(patient.occupation || "Engineer");
-      setDoctor(patient.doctor || "Dr. Smith");
-      setDistanceOD(patient.distanceOD || "20/40");
-      setDistanceOS(patient.distanceOS || "20/30");
-      setNearOD(patient.nearOD || "N5");
-      setNearOS(patient.nearOS || "N6");
-      setRxOD(patient.oldRxOD || "-2.00");
-      setRxOS(patient.oldRxOS || "-1.75");
-      setODvaU(patient.ODvaU || "20/40");
-      setOSvaU(patient.OSvaU || "20/30");
-      setODvaRX(patient.ODvaRX || "20/25");
-      setOSvaRX(patient.OSvaRX || "20/20");
-      setPD(patient.pd || "62");
-      setDBL(patient.dbl || "18");
-      setSize1(patient.size1 || "52");
-      setBifocals(patient.bifocals || "Yes");
-      setLens(patient.lens || "Polycarbonate");
-      setSize2(patient.size2 || "54");
-      setSegment(patient.segment || "Flat Top 28");
-    } else if (patient.caseNo === "0002") {
-      setCaseno(patient.caseNo);
-      setPatientname(patient.name);
-      setBirthdate(patient.birthdate || "02/02/1985");
-      setAddress(patient.address || "456 Elm St, Town");
-      setAge(patient.age || "38");
-      setClinic(patient.clinic || "Town Medical Center");
-      setPhonenumber(patient.phone || "987-654-3210");
-      setOccupation(patient.occupation || "Teacher");
-      setDoctor(patient.doctor || "Dr. Johnson");
-      setDistanceOD(patient.distanceOD || "20/50");
-      setDistanceOS(patient.distanceOS || "20/40");
-      setNearOD(patient.nearOD || "N7");
-      setNearOS(patient.nearOS || "N8");
-      setRxOD(patient.oldRxOD || "-1.50");
-      setRxOS(patient.oldRxOS || "-1.25");
-      setODvaU(patient.ODvaU || "20/50");
-      setOSvaU(patient.OSvaU || "20/40");
-      setODvaRX(patient.ODvaRX || "20/30");
-      setOSvaRX(patient.OSvaRX || "20/25");
-      setPD(patient.pd || "64");
-      setDBL(patient.dbl || "20");
-      setSize1(patient.size1 || "50");
-      setBifocals(patient.bifocals || "No");
-      setLens(patient.lens || "High-Index");
-      setSize2(patient.size2 || "56");
-      setSegment(patient.segment || "Round Top 22");
+  const handlePrint = async () => {
+    try {
+      setIsPrinting(true);
+      await PrintEHR(printRef, setIsPrinting, caseno, clinic);
+    } finally {
+      setIsPrinting(false);
     }
   };
 
+  // Render
   return (
     <div className={styles.recordContainer}>
       <ClinicLayout />
       <main className={styles.maincontent}>
         <div className={styles.firstdiv}>
           <h1 className={styles.header}>EHR</h1>
-          <div ref={printRef} className={`${styles.ehrContainer} ${isPrinting ? styles.printMode : ''}`}>
+          <div
+            ref={printRef}
+            className={`${styles.ehrContainer} ${
+              isPrinting ? styles.printMode : ""
+            }`}
+          >
             <div className={styles.div1}>
               <div className={styles.profilePhoto}>
                 {profileImageUrl ? (
@@ -464,11 +401,7 @@ const ClinicEHR = () => {
                     value={date}
                     onChange={handleChange(setBirthdate)}
                   />
-                  <EHRTextbox
-                    label="Clinic"
-                    value={clinic}
-                    onChange={handleChange(setClinic)}
-                  />
+                  <EHRTextbox label="Clinic" value={clinic} readOnly disabled />
                   <EHRTextbox
                     label="Doctor"
                     value={doctor}
@@ -609,7 +542,7 @@ const ClinicEHR = () => {
                       />
                     </div>
                   </div>
-                  
+
                   <div className={styles.glassesCard}>
                     <EHR4Textbox
                       label="SIZE"
@@ -656,14 +589,14 @@ const ClinicEHR = () => {
               <div className={styles.horizontalFormat}>
                 <div className={styles.saveContainer}>
                   <div className={styles.hideContainer} data-html2canvas-ignore>
-                    <SaveButton label="Save" onClick={handleSaveClick}/>
+                    <SaveButton label="Save" onClick={handleSaveClick} />
                   </div>
                 </div>
-                  <div className={styles.feesContainer}>
-                    <div className={styles.horizontalFormat}>
-                      <div className={styles.feeslabelCard}>
-                        <h1 className={styles.feesText2}>ANALYTICAL FEE</h1>
-                      </div>
+                <div className={styles.feesContainer}>
+                  <div className={styles.horizontalFormat}>
+                    <div className={styles.feeslabelCard}>
+                      <h1 className={styles.feesText2}>ANALYTICAL FEE</h1>
+                    </div>
                     <div className={styles.feesCard}>
                       <input
                         type="text"
@@ -766,80 +699,84 @@ const ClinicEHR = () => {
         </div>
 
         <div className={styles.seconddiv}>
-        <h1 className={styles.header}>Patient List</h1>
+          <h1 className={styles.header}>Patient List</h1>
           <div className={styles.tableContainer}>
-            <table className={styles.table}>
-              <thead className={styles.thead}>
-                <tr>
-                  <th className={styles.th}>Case No.</th>
-                  <th className={styles.th}>Patient Name</th>
-                  <th className={styles.th}>Last Visit</th>
-                  <th className={styles.th}>Diagnosis</th>
-                  <th className={styles.th}>Prescription</th>
-                  <th className={styles.th} style={{ textAlign: "center" }}>
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {patients.map((patient, index) => (
-                  <tr
-                    key={index}
-                    className={styles.tr}
-                    onClick={() => viewPatient(patient)}
-                  >
-                    <td className={styles.td}>{patient.caseNo}</td>
-                    <td
-                      className={styles.td}
-                      style={{ fontWeight: "bold", color: "#004085" }}
-                    >
-                      {patient.name}
-                    </td>
-                    <td className={styles.td}>{patient.lastVisit}</td>
-                    <td className={styles.td}>{patient.diagnosis}</td>
-                    <td className={styles.td}>{patient.prescription}</td>
-                    <td
-                      className={`${styles.td} ${styles.actions}`}
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <button
-                        className={styles.button}
-                        onClick={() => viewPatient(patient)}
-                      >
-                        <FaEye />
-                      </button>
-                      <input
-                        id="file-input"
-                        type="file"
-                        accept=".json"
-                        onChange={importEHR}
-                        style={{ display: "none" }}
-                      />
-                      <button
-                        className={styles.button}
-                        onClick={() =>
-                          document.getElementById("file-input").click()
-                        }
-                      >
-                        <FaDownload />
-                      </button>
-                      <button
-                        className={styles.button}
-                        onClick={() => exportEHR(printRef, setIsPrinting)}
-                      >
-                        <FaPrint />
-                      </button>
-                    </td>
+            {loadingPatients ? (
+              <div style={{ textAlign: "center", padding: "2rem" }}>
+                Loading...
+              </div>
+            ) : error ? (
+              <div style={{ color: "red", textAlign: "center" }}>{error}</div>
+            ) : (
+              <table className={styles.table}>
+                <thead className={styles.thead}>
+                  <tr>
+                    <th className={styles.th}>Case No.</th>
+                    <th className={styles.th}>Patient Name</th>
+                    <th className={styles.th}>Last Visit</th>
+                    <th className={styles.th}>Diagnosis</th>
+                    <th className={styles.th}>Prescription</th>
+                    <th className={styles.th} style={{ textAlign: "center" }}>
+                      Actions
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {patients.map((patient, index) => (
+                    <tr
+                      key={index}
+                      className={styles.tr}
+                      onClick={() => viewPatient(patient)}
+                    >
+                      <td className={styles.td}>{patient.caseNo}</td>
+                      <td
+                        className={styles.td}
+                        style={{ fontWeight: "bold", color: "#004085" }}
+                      >
+                        {patient.name}
+                      </td>
+                      <td className={styles.td}>{patient.lastVisit}</td>
+                      <td className={styles.td}>{patient.diagnosis}</td>
+                      <td className={styles.td}>{patient.prescription}</td>
+                      <td
+                        className={`${styles.td} ${styles.actions}`}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <button
+                          className={styles.button}
+                          onClick={() => viewPatient(patient)}
+                        >
+                          <FaEye />
+                        </button>
+                        <input
+                          id="file-input"
+                          type="file"
+                          accept=".json"
+                          onChange={importEHR}
+                          style={{ display: "none" }}
+                        />
+                        <button
+                          className={styles.button}
+                          onClick={() =>
+                            document.getElementById("file-input").click()
+                          }
+                        >
+                          <FaDownload />
+                        </button>
+                        <button className={styles.button} onClick={handlePrint}>
+                          <FaPrint />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </div>
         </div>
       </main>
     </div>
-  ); 
+  );
 };
 
 export default ClinicEHR;
-
