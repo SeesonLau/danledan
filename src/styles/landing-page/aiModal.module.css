@@ -1,0 +1,356 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 1rem;
+    overflow: auto;
+}
+
+.modalContainer {
+    position: relative;
+    width: 100%;
+    max-width: 32rem;
+    max-height: 90vh;
+    background: linear-gradient(135deg, #0a1a2a 0%, #0d2b4a 100%);
+    border-radius: 1.5rem;
+    border: 1px solid rgba(100, 200, 255, 0.2);
+    box-shadow: 0 0 30px rgba(30, 144, 255, 0.4);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.header {
+    padding: 1.25rem 1.5rem;
+    background: linear-gradient(90deg, #0066CC 0%, #00BFFF 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.headerContent {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.animatedEyeIcon {
+    position: relative;
+    display: flex;
+}
+
+.eyeIcon {
+    position: relative;
+    z-index: 2;
+    color: white;
+}
+
+.eyePulse {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 36px;
+    height: 36px;
+    background: rgba(100, 220, 255, 0.3);
+    border-radius: 50%;
+    animation: pulse 2s infinite ease-out;
+    z-index: 1;
+}
+
+@keyframes pulse {
+    0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.8; }
+    100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+}
+
+.headerTitle {
+    font-weight: 600;
+    font-size: 1.25rem;
+    letter-spacing: 0.5px;
+    background: linear-gradient(90deg, #fff, #e0f2ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.closeButton {
+    padding: 0.5rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.closeButton:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+
+.messagesContainer {
+    flex: 1;
+    padding: 1.5rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    scroll-behavior: smooth;
+}
+
+.message {
+    max-width: 85%;
+    padding: 1rem;
+    border-radius: 1.25rem;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    animation: fadeIn 0.3s ease-out;
+    position: relative;
+}
+
+.message.welcome {
+    background: rgba(255, 255, 255, 0.1);
+    border-left: 4px solid #1E90FF;
+}
+
+.message.analysis {
+    background: rgba(30, 144, 255, 0.1);
+    border-left: 4px solid #00BFFF;
+}
+
+.message.error {
+    background: rgba(255, 50, 50, 0.1);
+    border-left: 4px solid #FF5555;
+}
+
+.userMessage {
+    align-self: flex-end;
+    background: linear-gradient(135deg, #1E90FF 0%, #0066CC 100%);
+    color: white;
+    border-bottom-right-radius: 0.5rem;
+}
+
+.botMessage {
+    align-self: flex-start;
+    background: rgba(255, 255, 255, 0.08);
+    color: #e0f2ff;
+    border-bottom-left-radius: 0.5rem;
+}
+
+.messageParagraph {
+    margin: 0.25rem 0;
+    white-space: pre-line;
+}
+
+.loadingIndicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    color: rgba(200, 230, 255, 0.8);
+}
+
+.loadingIcon {
+    animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.inputArea {
+    padding: 1.25rem;
+    border-top: 1px solid rgba(100, 200, 255, 0.1);
+    background: rgba(10, 26, 42, 0.9);
+    position: sticky;
+    bottom: 0;
+}
+
+.inputForm {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.inputField {
+    flex: 1;
+    padding: 0.9rem 1.25rem;
+    border: 1px solid rgba(100, 200, 255, 0.3);
+    border-radius: 2rem;
+    font-size: 0.95rem;
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.inputField:focus {
+    border-color: #1E90FF;
+    box-shadow: 0 0 0 2px rgba(30, 144, 255, 0.3);
+}
+
+.sendButton {
+    padding: 0.9rem;
+    background: linear-gradient(135deg, #1E90FF 0%, #0066CC 100%);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sendButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(30, 144, 255, 0.4);
+}
+
+.sendButton:disabled {
+    background: rgba(100, 200, 255, 0.2);
+    transform: none;
+    box-shadow: none;
+    cursor: not-allowed;
+}
+
+.disclaimer {
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    color: rgba(200, 230, 255, 0.6);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.warningIcon {
+    color: #FFA500;
+    flex-shrink: 0;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 640px) {
+    .modalOverlay {
+        padding: 0;
+        align-items: flex-end;
+    }
+    
+    .modalContainer {
+        max-height: 85vh;
+        border-radius: 1.5rem 1.5rem 0 0;
+        max-width: 100%;
+    }
+    
+    .messagesContainer {
+        padding: 1rem;
+    }
+    
+    .message {
+        max-width: 90%;
+        padding: 0.8rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Smooth scrolling */
+.messagesContainer {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(100, 200, 255, 0.3) transparent;
+}
+
+.messagesContainer::-webkit-scrollbar {
+    width: 6px;
+}
+
+.messagesContainer::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.messagesContainer::-webkit-scrollbar-thumb {
+    background-color: rgba(100, 200, 255, 0.3);
+    border-radius: 3px;
+}
+
+/* Add these to your existing CSS */
+.percentageContainer {
+    margin: 0.75rem 0;
+    width: 100%;
+}
+
+.percentageBar {
+    margin-bottom: 0.5rem;
+}
+
+.percentageLabel {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.25rem;
+    font-size: 0.85rem;
+}
+
+.percentageFill {
+    height: 6px;
+    border-radius: 3px;
+    transition: width 0.5s ease;
+}
+
+.message.analysis {
+    background: rgba(30, 144, 255, 0.05);
+    border-left: 4px solid #1E90FF;
+    padding: 1rem;
+}
+
+.message.welcome {
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 4px solid #00BFFF;
+}
+
+.message.error {
+    background: rgba(255, 50, 50, 0.05);
+    border-left: 4px solid #FF5555;
+}
+
+/* Enhanced typing indicator */
+.loadingIndicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(200, 230, 255, 0.8);
+    font-size: 0.9rem;
+}
+
+.loadingIndicator span {
+    display: flex;
+    align-items: center;
+}
+
+.loadingIcon {
+    margin-right: 0.5rem;
+    animation: spin 1.5s linear infinite;
+}
