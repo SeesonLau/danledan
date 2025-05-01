@@ -17,6 +17,7 @@ import { useRouter } from "next/router";
 import { addEhrRecord, getEhrRecordsByClinic } from "@/config/firestore";
 import { determineDiagnosis } from "@/components/getDiagnosis";
 import { Timestamp } from "firebase/firestore";
+import { FaSearch } from "react-icons/fa";
 
 const ClinicEHR = () => {
   const { user, loading } = useAuth();
@@ -329,6 +330,13 @@ const ClinicEHR = () => {
       setIsPrinting(false);
     }
   };
+
+  const [searchTerm, setSearchTerm] = useState("");
+
+const filteredPatients = patients.filter((patient) =>
+  (patient.name || "").toLowerCase().includes(searchTerm.toLowerCase())
+);
+
 
   // Render
   return (
@@ -699,7 +707,21 @@ const ClinicEHR = () => {
         </div>
 
         <div className={styles.seconddiv}>
-          <h1 className={styles.header}>Patient List</h1>
+         <div className={styles.topBar}>
+          <h1 className={styles.header2}>Patient List</h1>
+          <div className={styles.searchContainer}>
+            <div className={styles.searchWrapper}>
+              <FaSearch className={styles.searchIcon} />
+              <input
+                type="text"
+                placeholder="Search by Case No. or Name..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className={styles.searchInput}
+              />
+            </div>
+          </div>
+        </div>
           <div className={styles.tableContainer}>
             {loadingPatients ? (
               <div style={{ textAlign: "center", padding: "2rem" }}>
@@ -722,7 +744,7 @@ const ClinicEHR = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {patients.map((patient, index) => (
+                  {filteredPatients.map((patient, index) => (
                     <tr
                       key={index}
                       className={styles.tr}

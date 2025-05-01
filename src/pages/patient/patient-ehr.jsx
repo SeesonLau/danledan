@@ -7,6 +7,7 @@ import { EHR2ReadOnly } from "@/components/ehr-textboxread-only";
 import { EHR3ReadOnly } from "@/components/ehr-textboxread-only";
 import { EHR4ReadOnly } from "@/components/ehr-textboxread-only";
 import { EHR5ReadOnly } from "@/components/ehr-textboxread-only";
+import { FaSearch } from "react-icons/fa";
 
 import { FaEye, FaDownload, FaPrint } from "react-icons/fa";
 import PrintEHR from "@/components/export-ehr";
@@ -160,6 +161,7 @@ const PatientEHR = () => {
   useEffect(() => {
     setTotal(analyticalfee + orthopticfee + lensesfee + framefee);
   }, [analyticalfee, orthopticfee, lensesfee, framefee]);
+
 
   //-PLACEHOLDER
   const patients = [
@@ -361,6 +363,13 @@ const PatientEHR = () => {
 
     fetchEhrRecords();
   }, [user]);
+  
+  // Search
+const [searchTerm, setSearchTerm] = useState("");
+const filteredPatients = patients.filter((patient) =>
+  (patient.optometrist || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+  (patient.lastVisit || "").toLowerCase().includes(searchTerm.toLowerCase())
+);
 
   return (
     <div className={styles.recordContainer}>
@@ -758,7 +767,21 @@ const PatientEHR = () => {
         </div>
 
         <div className={styles.seconddiv}>
-          <h1 className={styles.header}>EHR History</h1>
+          <div className={styles.topBar}>
+            <h1 className={styles.header2}>Patient List</h1>
+              <div className={styles.searchContainer}>
+                <div className={styles.searchWrapper}>
+                  <FaSearch className={styles.searchIcon} />
+                  <input
+                    type="text"
+                    placeholder="Search by Visit Date or Optometrist..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className={styles.searchInput}
+                  />
+                </div>
+              </div>
+            </div>
           <div className={styles.tableContainer}>
             <table className={styles.table}>
               <thead className={styles.thead}>
@@ -773,7 +796,7 @@ const PatientEHR = () => {
                 </tr>
               </thead>
               <tbody>
-                {patients.map((patient, index) => (
+               {filteredPatients.map((patient, index) => (
                   <tr
                     key={index}
                     className={styles.tr}
