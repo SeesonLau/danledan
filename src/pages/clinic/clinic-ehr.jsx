@@ -18,6 +18,7 @@ import { addEhrRecord, getEhrRecordsByClinic } from "@/config/firestore";
 import { determineDiagnosis } from "@/components/getDiagnosis";
 import { Timestamp } from "firebase/firestore";
 import { FaSearch } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa"; 
 
 const ClinicEHR = () => {
   const { user, loading } = useAuth();
@@ -331,12 +332,46 @@ const ClinicEHR = () => {
     }
   };
 
+  // Search 
   const [searchTerm, setSearchTerm] = useState("");
-
-const filteredPatients = patients.filter((patient) =>
-  (patient.name || "").toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredPatients = patients.filter((patient) =>
+    (patient.name || "").toLowerCase().includes(searchTerm.toLowerCase())
 );
 
+// Clear EHR
+const clearFields = () => {
+  setCaseno("");
+  setPatientname("");
+  setBirthdate("");
+  setAddress("");
+  setAge("");
+  setPhonenumber("");
+  setOccupation("");
+  setDoctor("");
+  setDistanceOD("");
+  setDistanceOS("");
+  setNearOD("");
+  setNearOS("");
+  setRxOD("");
+  setRxOS("");
+  setODvaU("");
+  setOSvaU("");
+  setODvaRX("");
+  setOSvaRX("");
+  setPD("");
+  setDBL("");
+  setSize1("");
+  setBifocals("");
+  setLens("");
+  setSize2("");
+  setSegment("");
+  setRemarks("");
+  setOF(0);
+  setAF(0);
+  setLF(0);
+  setFF(0);
+  setTotal(0);
+};
 
   // Render
   return (
@@ -344,7 +379,29 @@ const filteredPatients = patients.filter((patient) =>
       <ClinicLayout />
       <main className={styles.maincontent}>
         <div className={styles.firstdiv}>
-          <h1 className={styles.header}>EHR</h1>
+          <div className={styles.headerContainer}>
+            <h1 className={styles.header}>EHR</h1>
+            <div className={styles.buttonGroup}>
+              <button
+                className={styles.button}
+                onClick={() => document.getElementById("file-input").click()}
+              >
+                <FaDownload />
+              </button>
+              <button
+                className={styles.button}
+                onClick={() => exportEHR(printRef, setIsPrinting)}
+              >
+                <FaPrint />
+              </button>
+              <button
+                className={styles.button}
+                onClick={clearFields}
+              >
+                <FaTrash />
+              </button>
+            </div>
+          </div>
           <div
             ref={printRef}
             className={`${styles.ehrContainer} ${
@@ -409,7 +466,11 @@ const filteredPatients = patients.filter((patient) =>
                     value={date}
                     onChange={handleChange(setBirthdate)}
                   />
-                  <EHRTextbox label="Clinic" value={clinic} readOnly disabled />
+                  <EHRTextbox 
+                    label="Clinic" 
+                    value={clinic} 
+                    readOnly disabled 
+                  />
                   <EHRTextbox
                     label="Doctor"
                     value={doctor}
@@ -709,19 +770,19 @@ const filteredPatients = patients.filter((patient) =>
         <div className={styles.seconddiv}>
          <div className={styles.topBar}>
           <h1 className={styles.header2}>Patient List</h1>
-          <div className={styles.searchContainer}>
-            <div className={styles.searchWrapper}>
-              <FaSearch className={styles.searchIcon} />
-              <input
-                type="text"
-                placeholder="Search by Case No. or Name..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className={styles.searchInput}
-              />
+            <div className={styles.searchContainer}>
+              <div className={styles.searchWrapper}>
+                <FaSearch className={styles.searchIcon} />
+                <input
+                  type="text"
+                  placeholder="Search by Case No. or Name..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className={styles.searchInput}
+                />
+              </div>
             </div>
           </div>
-        </div>
           <div className={styles.tableContainer}>
             {loadingPatients ? (
               <div style={{ textAlign: "center", padding: "2rem" }}>
@@ -738,9 +799,6 @@ const filteredPatients = patients.filter((patient) =>
                     <th className={styles.th}>Last Visit</th>
                     <th className={styles.th}>Diagnosis</th>
                     <th className={styles.th}>Prescription</th>
-                    <th className={styles.th} style={{ textAlign: "center" }}>
-                      Actions
-                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -760,35 +818,6 @@ const filteredPatients = patients.filter((patient) =>
                       <td className={styles.td}>{patient.lastVisit}</td>
                       <td className={styles.td}>{patient.diagnosis}</td>
                       <td className={styles.td}>{patient.prescription}</td>
-                      <td
-                        className={`${styles.td} ${styles.actions}`}
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <button
-                          className={styles.button}
-                          onClick={() => viewPatient(patient)}
-                        >
-                          <FaEye />
-                        </button>
-                        <input
-                          id="file-input"
-                          type="file"
-                          accept=".json"
-                          onChange={importEHR}
-                          style={{ display: "none" }}
-                        />
-                        <button
-                          className={styles.button}
-                          onClick={() =>
-                            document.getElementById("file-input").click()
-                          }
-                        >
-                          <FaDownload />
-                        </button>
-                        <button className={styles.button} onClick={handlePrint}>
-                          <FaPrint />
-                        </button>
-                      </td>
                     </tr>
                   ))}
                 </tbody>

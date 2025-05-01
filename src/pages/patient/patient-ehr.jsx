@@ -8,8 +8,9 @@ import { EHR3ReadOnly } from "@/components/ehr-textboxread-only";
 import { EHR4ReadOnly } from "@/components/ehr-textboxread-only";
 import { EHR5ReadOnly } from "@/components/ehr-textboxread-only";
 import { FaSearch } from "react-icons/fa";
-
 import { FaEye, FaDownload, FaPrint } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa"; 
+
 import PrintEHR from "@/components/export-ehr";
 import { useAuth } from "@/config/AuthContext";
 //import { useEffect } from "react";
@@ -371,12 +372,65 @@ const filteredPatients = patients.filter((patient) =>
   (patient.lastVisit || "").toLowerCase().includes(searchTerm.toLowerCase())
 );
 
+// Clear EHR
+const clearFields = () => {
+  setCaseno("");
+  setPatientname("");
+  setBirthdate("");
+  setAddress("");
+  setAge("");
+  setPhonenumber("");
+  setOccupation("");
+  setDoctor("");
+  setDistanceOD("");
+  setDistanceOS("");
+  setNearOD("");
+  setNearOS("");
+  setRxOD("");
+  setRxOS("");
+  setODvaU("");
+  setOSvaU("");
+  setODvaRX("");
+  setOSvaRX("");
+  setPD("");
+  setDBL("");
+  setSize1("");
+  setBifocals("");
+  setLens("");
+  setSize2("");
+  setSegment("");
+  setRemarks("");
+  setClinic("");
+  setOF(0);
+  setAF(0);
+  setLF(0);
+  setFF(0);
+  setTotal(0);
+};
+
+
   return (
     <div className={styles.recordContainer}>
       <PatientLayout />
       <main className={styles.maincontent}>
         <div className={styles.firstdiv}>
-          <h1 className={styles.header}>My EHR</h1>
+          <div className={styles.headerContainer}>
+            <h1 className={styles.header}>My EHR</h1>
+            <div className={styles.buttonGroup}>
+              <button
+                className={styles.button}
+                onClick={() => exportEHR(printRef, setIsPrinting)}
+              >
+                <FaPrint />
+              </button>
+              <button
+                  className={styles.button}
+                  onClick={clearFields}
+                >
+                  <FaTrash />
+                </button>
+            </div>
+          </div>
           <div
             ref={printRef}
             className={`${styles.ehrContainer} ${
@@ -768,7 +822,7 @@ const filteredPatients = patients.filter((patient) =>
 
         <div className={styles.seconddiv}>
           <div className={styles.topBar}>
-            <h1 className={styles.header2}>Patient List</h1>
+            <h1 className={styles.header2}>Record History</h1>
               <div className={styles.searchContainer}>
                 <div className={styles.searchWrapper}>
                   <FaSearch className={styles.searchIcon} />
@@ -790,9 +844,7 @@ const filteredPatients = patients.filter((patient) =>
                   <th className={styles.th}>Diagnosis</th>
                   <th className={styles.th}>Prescription</th>
                   <th className={styles.th}>Optometrist</th>
-                  <th className={styles.th} style={{ textAlign: "center" }}>
-                    Actions
-                  </th>
+                  
                 </tr>
               </thead>
               <tbody>
@@ -806,23 +858,6 @@ const filteredPatients = patients.filter((patient) =>
                     <td className={styles.td}>{patient.diagnosis}</td>
                     <td className={styles.td}>{patient.prescription}</td>
                     <td className={styles.td}>{patient.optometrist}</td>
-                    <td
-                      className={`${styles.td} ${styles.actions}`}
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <button
-                        className={styles.button}
-                        onClick={() => viewPatient(patient)}
-                      >
-                        <FaEye />
-                      </button>
-                      <button
-                        className={styles.button}
-                        onClick={() => exportEHR(printRef, setIsPrinting)}
-                      >
-                        <FaPrint />
-                      </button>
-                    </td>
                   </tr>
                 ))}
               </tbody>
