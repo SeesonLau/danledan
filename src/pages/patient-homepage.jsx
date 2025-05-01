@@ -40,7 +40,26 @@ const patientNotifications = [
 
 const PatientHomePage = () => {
   const [position, setPosition] = useState([10.294951, 123.881070]);
-  
+   // Get user's current location
+   useEffect(() => {
+    if (typeof window !== "undefined" && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const { latitude, longitude } = pos.coords;
+          setPosition([latitude, longitude]);
+        },
+        (err) => {
+          console.warn(`Geolocation error (${err.code}): ${err.message}`);
+          // Optional: show a toast or fallback message
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 0
+        }
+      );
+    }
+  }, []);
   /*EASTER EGG LOGIC*/
   const [clickCount, setClickCount] = useState(0);
   const [timer, setTimer] = useState(null);
@@ -121,22 +140,21 @@ const PatientHomePage = () => {
 
           {/*Profile Info Container*/}
           <div className={styles.mapcontainer}>
-        <MapContainer
-          center={position}
-          zoom={13}
-          scrollWheelZoom={true}
-          style={{ height: '100%', width: '100%' }}
-        >
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          <Marker position={position}>
-            <Popup>
-              You are here.
-            </Popup>
-          </Marker>
-        </MapContainer>
+            <MapContainer
+              center={position}
+              zoom={13}
+              scrollWheelZoom={true}
+              style={{ height: '100%', width: '100%' }}>
+              <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+            <Marker position={position}>
+              <Popup>
+                You are here.
+              </Popup>
+            </Marker>
+            </MapContainer>
       </div>
         </div>
 
