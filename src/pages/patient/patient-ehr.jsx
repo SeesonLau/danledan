@@ -10,6 +10,7 @@ import { EHR5ReadOnly } from "@/components/ehr-textboxread-only";
 import { FaSearch } from "react-icons/fa";
 import { FaEye, FaDownload, FaPrint } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa"; 
+import useSortRecords from "@/components/ehrSortRecords";
 
 import PrintEHR from "@/components/export-ehr";
 import { useAuth } from "@/config/AuthContext";
@@ -371,6 +372,9 @@ const filteredPatients = patients.filter((patient) =>
   (patient.optometrist || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
   (patient.lastVisit || "").toLowerCase().includes(searchTerm.toLowerCase())
 );
+
+// For Sorting
+const { sortedPatients, sortByField, sortOrder, sortField } = useSortRecords(filteredPatients);
 
 // Clear EHR
 const clearFields = () => {
@@ -836,33 +840,57 @@ const clearFields = () => {
                 </div>
               </div>
             </div>
-          <div className={styles.tableContainer}>
-            <table className={styles.table}>
-              <thead className={styles.thead}>
-                <tr>
-                  <th className={styles.th}>Visit Date</th>
-                  <th className={styles.th}>Diagnosis</th>
-                  <th className={styles.th}>Prescription</th>
-                  <th className={styles.th}>Optometrist</th>
-                  
-                </tr>
-              </thead>
-              <tbody>
-               {filteredPatients.map((patient, index) => (
-                  <tr
-                    key={index}
-                    className={styles.tr}
-                    onClick={() => viewPatient(patient)}
-                  >
-                    <td className={styles.td}>{patient.lastVisit}</td>
-                    <td className={styles.td}>{patient.diagnosis}</td>
-                    <td className={styles.td}>{patient.prescription}</td>
-                    <td className={styles.td}>{patient.optometrist}</td>
+            <div className={styles.tableContainer}>
+              <table className={styles.table}>
+                <thead className={styles.thead}>
+                  <tr>
+                    <th
+                      className={styles.th}
+                      onClick={() => sortByField("lastVisit")}
+                      style={{ cursor: "pointer" }}
+                    >
+                      Visit Date
+                      {sortField === "lastVisit" ? (sortOrder === "asc" ? " ▲" : " ▼") : ""}
+                    </th>
+                    <th 
+                      className={styles.th} 
+                      onClick={() => sortByField("otherColumn")} 
+                      style={{ cursor: "pointer" }}
+                    >
+                      Diagnosis
+                    </th>
+                    <th 
+                      className={styles.th} 
+                      onClick={() => sortByField("otherColumn")} 
+                      style={{ cursor: "pointer" }}
+                    >
+                      Prescription
+                    </th>
+                    <th 
+                      className={styles.th} 
+                      onClick={() => sortByField("otherColumn")} 
+                      style={{ cursor: "pointer" }}
+                    >
+                      Optometrist
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {sortedPatients.map((patient, index) => (
+                    <tr
+                      key={index}
+                      className={styles.tr}
+                      onClick={() => viewPatient(patient)}
+                    >
+                      <td className={styles.td}>{patient.lastVisit}</td>
+                      <td className={styles.td}>{patient.diagnosis}</td>
+                      <td className={styles.td}>{patient.prescription}</td>
+                      <td className={styles.td}>{patient.optometrist}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
         </div>
       </main>
     </div>

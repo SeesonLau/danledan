@@ -19,6 +19,8 @@ import { determineDiagnosis } from "@/components/getDiagnosis";
 import { Timestamp } from "firebase/firestore";
 import { FaSearch } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa"; 
+import useSortPatients from "@/components/ehrSortPatients";
+
 
 const ClinicEHR = () => {
   const { user, loading } = useAuth();
@@ -332,11 +334,14 @@ const ClinicEHR = () => {
     }
   };
 
-  // Search 
+// Search 
   const [searchTerm, setSearchTerm] = useState("");
   const filteredPatients = patients.filter((patient) =>
     (patient.name || "").toLowerCase().includes(searchTerm.toLowerCase())
 );
+
+const { sortedPatients, sortByField, sortOrder, sortField } = useSortPatients(filteredPatients);
+
 
 // Clear EHR
 const clearFields = () => {
@@ -794,15 +799,45 @@ const clearFields = () => {
               <table className={styles.table}>
                 <thead className={styles.thead}>
                   <tr>
-                    <th className={styles.th}>Case No.</th>
-                    <th className={styles.th}>Patient Name</th>
-                    <th className={styles.th}>Last Visit</th>
-                    <th className={styles.th}>Diagnosis</th>
-                    <th className={styles.th}>Prescription</th>
+                    <th
+                      className={styles.th}
+                      onClick={() => sortByField("caseNo")}
+                      style={{ cursor: "pointer" }}
+                    >
+                      Case No. {sortField === "caseNo" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
+                    </th>
+                    <th
+                      className={styles.th}
+                      onClick={() => sortByField("otherColumn")} // Clicking other columns will reset the sort to "Case No."
+                      style={{ cursor: "pointer" }}
+                    >
+                      Patient Name
+                    </th>
+                    <th
+                      className={styles.th}
+                      onClick={() => sortByField("otherColumn")} // Same for other headers
+                      style={{ cursor: "pointer" }}
+                    >
+                      Last Visit
+                    </th>
+                    <th
+                      className={styles.th}
+                      onClick={() => sortByField("otherColumn")}
+                      style={{ cursor: "pointer" }}
+                    >
+                      Diagnosis
+                    </th>
+                    <th
+                      className={styles.th}
+                      onClick={() => sortByField("otherColumn")}
+                      style={{ cursor: "pointer" }}
+                    >
+                      Prescription
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredPatients.map((patient, index) => (
+                  {sortedPatients.map((patient, index) => (
                     <tr
                       key={index}
                       className={styles.tr}

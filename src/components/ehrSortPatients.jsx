@@ -1,30 +1,33 @@
-// useSortPatients.js
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 const useSortPatients = (patients) => {
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [sortField, setSortField] = useState("caseNo"); 
 
-  const sortTable = (key) => {
-    let direction = "asc";
-    if (sortConfig.key === key && sortConfig.direction === "asc") {
-      direction = "desc";
-    }
+  const sortedPatients = useMemo(() => {
+    const sorted = [...patients].sort((a, b) => {
+      const aVal = a[sortField]?.toString().toLowerCase() || "";
+      const bVal = b[sortField]?.toString().toLowerCase() || "";
 
-    const sortedPatients = [...patients].sort((a, b) => {
-      if (a[key] < b[key]) {
-        return direction === "asc" ? -1 : 1;
-      }
-      if (a[key] > b[key]) {
-        return direction === "asc" ? 1 : -1;
-      }
-      return 0;
+      return sortOrder === "asc"
+        ? aVal.localeCompare(bVal, undefined, { numeric: true })
+        : bVal.localeCompare(aVal, undefined, { numeric: true });
     });
 
-    setSortConfig({ key, direction });
-    return sortedPatients;
+    return sorted;
+  }, [patients, sortOrder, sortField]);
+
+  const sortByField = (field) => {
+    if (field === sortField) {
+
+      setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
+    } else {
+      setSortField(field);
+      setSortOrder("asc");
+    }
   };
 
-  return { sortTable, sortConfig };
+  return { sortedPatients, sortByField, sortOrder, sortField };
 };
 
 export default useSortPatients;
