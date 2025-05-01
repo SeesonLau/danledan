@@ -5,21 +5,14 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import { auth, getFullName } from "../config/firebase";
 import dynamic from 'next/dynamic';
-const MapContainer = dynamic(() => import('react-leaflet').then(mod => mod.MapContainer), {
-  ssr: false, // This ensures the map is only rendered client-side
-});
-const TileLayer = dynamic(() => import('react-leaflet').then(mod => mod.TileLayer), {
-  ssr: false,
-});
-const Marker = dynamic(() => import('react-leaflet').then(mod => mod.Marker), {
-  ssr: false,
-});
-const Popup = dynamic(() => import('react-leaflet').then(mod => mod.Popup), {
-  ssr: false,
-});
-{
-  /*OVERFLOWING PURPOSES DO YOUR BACKEND HERE BROSKI*/
-}
+import 'leaflet/dist/leaflet.css';
+
+// Dynamic imports for Leaflet (Next.js + Vercel safe)
+const MapContainer = dynamic(() => import('react-leaflet').then(mod => mod.MapContainer), { ssr: false });
+const TileLayer = dynamic(() => import('react-leaflet').then(mod => mod.TileLayer), { ssr: false });
+const Marker = dynamic(() => import('react-leaflet').then(mod => mod.Marker), { ssr: false });
+const Popup = dynamic(() => import('react-leaflet').then(mod => mod.Popup), { ssr: false });
+
 const patientNotifications = [
   {
     id: 1,
@@ -46,8 +39,8 @@ const patientNotifications = [
 ];
 
 const PatientHomePage = () => {
-  const [position, setPosition] = useState([10.294951, 123.881070]); // Default position (change it to your own)
-
+  const [position, setPosition] = useState([10.294951, 123.881070]);
+  
   /*EASTER EGG LOGIC*/
   const [clickCount, setClickCount] = useState(0);
   const [timer, setTimer] = useState(null);
@@ -128,18 +121,23 @@ const PatientHomePage = () => {
 
           {/*Profile Info Container*/}
           <div className={styles.mapcontainer}>
-          <MapContainer center={position} zoom={13} style={{ height: '100%', width: '100%' }}>
-            <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        <MapContainer
+          center={position}
+          zoom={13}
+          scrollWheelZoom={true}
+          style={{ height: '100%', width: '100%' }}
+        >
+          <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            />
-        <Marker position={position}>
-        <Popup>
-          A default popup for the marker
-        </Popup>
-      </Marker>
-    </MapContainer>
-          </div>
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <Marker position={position}>
+            <Popup>
+              You are here.
+            </Popup>
+          </Marker>
+        </MapContainer>
+      </div>
         </div>
 
         {/* Second div layer */}

@@ -185,7 +185,10 @@
   bottom: 0; /* Locks it to the bottom of the parent div */
   left: 0; /* Ensure it stretches full width inside the parent */
   }
-  
+  .leaflet-container {
+    height: 100% !important;
+    width: 100% !important;
+  }
   @media (max-width: 1024px) {
   .userprofilecontainer {
     height: auto; /* Allow it to shrink */
