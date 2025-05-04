@@ -17,6 +17,10 @@ import { useRouter } from "next/router";
 import { addEhrRecord, getEhrRecordsByClinic } from "@/config/firestore";
 import { determineDiagnosis } from "@/components/getDiagnosis";
 import { Timestamp } from "firebase/firestore";
+import { FaSearch } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa"; 
+import useSortPatients from "@/components/ehrSortPatients";
+
 
 const ClinicEHR = () => {
   const { user, loading } = useAuth();
@@ -330,13 +334,79 @@ const ClinicEHR = () => {
     }
   };
 
+// Search 
+  const [searchTerm, setSearchTerm] = useState("");
+  const filteredPatients = patients.filter((patient) =>
+    (patient.name || "").toLowerCase().includes(searchTerm.toLowerCase())
+);
+
+const { sortedPatients, sortByField, sortOrder, sortField } = useSortPatients(filteredPatients);
+
+
+// Clear EHR
+const clearFields = () => {
+  setCaseno("");
+  setPatientname("");
+  setBirthdate("");
+  setAddress("");
+  setAge("");
+  setPhonenumber("");
+  setOccupation("");
+  setDoctor("");
+  setDistanceOD("");
+  setDistanceOS("");
+  setNearOD("");
+  setNearOS("");
+  setRxOD("");
+  setRxOS("");
+  setODvaU("");
+  setOSvaU("");
+  setODvaRX("");
+  setOSvaRX("");
+  setPD("");
+  setDBL("");
+  setSize1("");
+  setBifocals("");
+  setLens("");
+  setSize2("");
+  setSegment("");
+  setRemarks("");
+  setOF(0);
+  setAF(0);
+  setLF(0);
+  setFF(0);
+  setTotal(0);
+};
+
   // Render
   return (
     <div className={styles.recordContainer}>
       <ClinicLayout />
       <main className={styles.maincontent}>
         <div className={styles.firstdiv}>
-          <h1 className={styles.header}>EHR</h1>
+          <div className={styles.headerContainer}>
+            <h1 className={styles.header}>EHR</h1>
+            <div className={styles.buttonGroup}>
+              <button
+                className={styles.button}
+                onClick={() => document.getElementById("file-input").click()}
+              >
+                <FaDownload />
+              </button>
+              <button
+                className={styles.button}
+                onClick={() => exportEHR(printRef, setIsPrinting)}
+              >
+                <FaPrint />
+              </button>
+              <button
+                className={styles.button}
+                onClick={clearFields}
+              >
+                <FaTrash />
+              </button>
+            </div>
+          </div>
           <div
             ref={printRef}
             className={`${styles.ehrContainer} ${
@@ -401,7 +471,11 @@ const ClinicEHR = () => {
                     value={date}
                     onChange={handleChange(setBirthdate)}
                   />
-                  <EHRTextbox label="Clinic" value={clinic} readOnly disabled />
+                  <EHRTextbox 
+                    label="Clinic" 
+                    value={clinic} 
+                    readOnly disabled 
+                  />
                   <EHRTextbox
                     label="Doctor"
                     value={doctor}
@@ -699,7 +773,21 @@ const ClinicEHR = () => {
         </div>
 
         <div className={styles.seconddiv}>
-          <h1 className={styles.header}>Patient List</h1>
+         <div className={styles.topBar}>
+          <h1 className={styles.header2}>Patient List</h1>
+            <div className={styles.searchContainer}>
+              <div className={styles.searchWrapper}>
+                <FaSearch className={styles.searchIcon} />
+                <input
+                  type="text"
+                  placeholder="Search by Case No. or Name..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className={styles.searchInput}
+                />
+              </div>
+            </div>
+          </div>
           <div className={styles.tableContainer}>
             {loadingPatients ? (
               <div style={{ textAlign: "center", padding: "2rem" }}>
@@ -711,18 +799,45 @@ const ClinicEHR = () => {
               <table className={styles.table}>
                 <thead className={styles.thead}>
                   <tr>
-                    <th className={styles.th}>Case No.</th>
-                    <th className={styles.th}>Patient Name</th>
-                    <th className={styles.th}>Last Visit</th>
-                    <th className={styles.th}>Diagnosis</th>
-                    <th className={styles.th}>Prescription</th>
-                    <th className={styles.th} style={{ textAlign: "center" }}>
-                      Actions
+                    <th
+                      className={styles.th}
+                      onClick={() => sortByField("caseNo")}
+                      style={{ cursor: "pointer" }}
+                    >
+                      Case No. {sortField === "caseNo" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
+                    </th>
+                    <th
+                      className={styles.th}
+                      onClick={() => sortByField("otherColumn")} // Clicking other columns will reset the sort to "Case No."
+                      style={{ cursor: "pointer" }}
+                    >
+                      Patient Name
+                    </th>
+                    <th
+                      className={styles.th}
+                      onClick={() => sortByField("otherColumn")} // Same for other headers
+                      style={{ cursor: "pointer" }}
+                    >
+                      Last Visit
+                    </th>
+                    <th
+                      className={styles.th}
+                      onClick={() => sortByField("otherColumn")}
+                      style={{ cursor: "pointer" }}
+                    >
+                      Diagnosis
+                    </th>
+                    <th
+                      className={styles.th}
+                      onClick={() => sortByField("otherColumn")}
+                      style={{ cursor: "pointer" }}
+                    >
+                      Prescription
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {patients.map((patient, index) => (
+                  {sortedPatients.map((patient, index) => (
                     <tr
                       key={index}
                       className={styles.tr}
@@ -738,35 +853,6 @@ const ClinicEHR = () => {
                       <td className={styles.td}>{patient.lastVisit}</td>
                       <td className={styles.td}>{patient.diagnosis}</td>
                       <td className={styles.td}>{patient.prescription}</td>
-                      <td
-                        className={`${styles.td} ${styles.actions}`}
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <button
-                          className={styles.button}
-                          onClick={() => viewPatient(patient)}
-                        >
-                          <FaEye />
-                        </button>
-                        <input
-                          id="file-input"
-                          type="file"
-                          accept=".json"
-                          onChange={importEHR}
-                          style={{ display: "none" }}
-                        />
-                        <button
-                          className={styles.button}
-                          onClick={() =>
-                            document.getElementById("file-input").click()
-                          }
-                        >
-                          <FaDownload />
-                        </button>
-                        <button className={styles.button} onClick={handlePrint}>
-                          <FaPrint />
-                        </button>
-                      </td>
                     </tr>
                   ))}
                 </tbody>

@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import CloseIcon from "@mui/icons-material/Close";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import styles from "../styles/login-modal.module.css";
 import {
   auth,
@@ -133,7 +131,6 @@ const Modal = ({ isOpen, onClose, onSwitch }) => {
             onClick={() => setShowPassword(!showPassword)}
             className={styles["toggle-password"]}
           >
-            {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
           </button>
         </div>
 
