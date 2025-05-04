@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import CloseIcon from "@mui/icons-material/Close";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import styles from "../styles/signup-modal.module.css";
-import { registerWithEmail } from "@/config/firebase";
+import {
+  registerWithEmail,
+  registerWithGoogle,
+  updateUserInfo,
+  auth,
+} from "@/config/firebase";
+import { reregisterInfo, setReregisterInfo } from "./login-modal";
 
 const RegisterModal = ({ isOpen, onClose, onSwitch }) => {
   const [formData, setFormData] = useState({
@@ -15,7 +21,9 @@ const RegisterModal = ({ isOpen, onClose, onSwitch }) => {
     licenseNumber: "",
   });
   const [showPassword, setShowPassword] = useState(false);
-  const [userType, setUserType] = useState("Patient");
+  const [userType, setUserType] = useState(
+    reregisterInfo && reregisterInfo?.role === "clinic" ? "Clinic" : "Patient"
+  );
   const router = useRouter();
 
   if (!isOpen) return null;
@@ -26,30 +34,95 @@ const RegisterModal = ({ isOpen, onClose, onSwitch }) => {
       ...prev,
       [name]: value,
     }));
+    if (name != "licenseNumber") {
+      setIsSecondRole(false);
+      setReregisterInfo(null);
+    }
   };
 
-  const handleSignUp = async () => {
-    const requiredFields =
-      userType === "Patient"
-        ? ["firstName", "lastName", "email", "password"]
-        : ["firstName", "lastName", "licenseNumber", "email", "password"];
+  //for Google SignUp
+  const [isGoogleSignUp, setIsGoogleSignUp] = useState(false);
+  const [infoUid, setInfo] = useState();
 
-    const missingFields = requiredFields.filter((field) => !formData[field]);
-    if (missingFields.length > 0) {
-      alert("Please fill in all required fields");
+  //for 2nd role registration
+  const [isSecondRole, setIsSecondRole] = useState(false);
+
+  //console.log(reregisterInfo);
+  const isInitialRender = useRef(true);
+
+  useEffect(() => {
+    if (reregisterInfo) {
+      setIsSecondRole(true);
+      //setUserType(reregisterInfo.role === "clinic" ? "Clinic" : "Patient");
+      setFormData({
+        firstName: reregisterInfo.userData.firstName,
+        lastName: reregisterInfo.userData.lastName,
+        email: reregisterInfo.userData.email,
+        password: "*****************", // Masked password
+      });
+    }
+    isInitialRender.current = true;
+  }, [reregisterInfo]); // Runs only when reregisterInfo changes
+
+  useEffect(() => {
+    if (isInitialRender.current) {
+      isInitialRender.current = false;
       return;
     }
+    if (reregisterInfo) {
+      setIsSecondRole(false);
+      setReregisterInfo(null);
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+      });
+    }
+  }, [userType]); // Runs only when userType changes *needs change*
 
-    const result = await registerWithEmail(
-      formData.firstName,
-      formData.lastName,
-      formData.email,
-      formData.password,
-      userType,
-      userType === "Clinic" ? formData.licenseNumber : undefined // Pass licenseNumber only for clinics
-    );
+  const handleSignUp = async () => {
+    let result = null;
+    if (isGoogleSignUp) {
+      if (formData.licenseNumber) {
+        result = await updateUserInfo(
+          infoUid,
+          userType,
+          formData.licenseNumber
+        );
+      } else {
+        alert("Please fill in all required fields");
+        return;
+      }
+    } else {
+      const requiredFields =
+        userType === "Patient"
+          ? ["firstName", "lastName", "email", "password"]
+          : ["firstName", "lastName", "licenseNumber", "email", "password"];
 
+      const missingFields = requiredFields.filter((field) => !formData[field]);
+      if (missingFields.length > 0) {
+        alert("Please fill in all required fields");
+        return;
+      }
+
+      result = await registerWithEmail(
+        formData.firstName,
+        formData.lastName,
+        formData.email,
+        formData.password,
+        userType,
+        userType === "Clinic" ? formData.licenseNumber : undefined, // Pass licenseNumber only for clinics
+        isSecondRole ? true : false,
+        reregisterInfo ? reregisterInfo?.uid : null
+      );
+      //alert(reregisterInfo?.uid);
+    }
+    //alert(result.success);
     if (result.success) {
+      setIsSecondRole(false);
+      setReregisterInfo(null);
+      //alert(userType);
       const route =
         userType === "Patient" ? "/patient-homepage" : "/clinic-homepage";
       router.push(route);
@@ -58,8 +131,51 @@ const RegisterModal = ({ isOpen, onClose, onSwitch }) => {
     }
   };
 
-  const handleGoogleSignUp = () => {
-    // Handle Google sign up logic here
+  const handleGoogleSignUp = async () => {
+    try {
+      if (isSecondRole) {
+        handleSignUp();
+        setIsSecondRole(false);
+        setReregisterInfo(null);
+        return;
+      }
+      const confirmation = window.confirm(
+        `Creating a ${
+          userType === "Patient" ? "Patient" : "Clinic"
+        } user with a Google Account`
+      );
+      if (confirmation) {
+        const result = await registerWithGoogle(userType);
+        if (!result) {
+          return;
+        }
+        if (result.success) {
+          if (userType === "Clinic") {
+            const user = result?.userData;
+            setFormData((prev) => ({
+              ...prev, // Keep existing form data
+              firstName: user?.firstName || "", // Ensure safe access
+              lastName: user?.lastName || "",
+              email: user?.email || "",
+              password: "****************", // Mask password
+            }));
+            setInfo(result?.uid);
+            setIsGoogleSignUp(true);
+            alert(
+              "Finish by entering your Clinic's license number and clicking the Sign Up button afterwards."
+            );
+            return;
+          }
+          const route =
+            userType === "Patient" ? "/patient-homepage" : "/clinic-homepage";
+          router.push(route);
+        } else {
+          alert(result.message);
+        }
+      }
+    } catch (error) {
+      console.error("Google registration error:", error);
+    }
   };
 
   return (
