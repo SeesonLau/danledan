@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import CloseIcon from "@mui/icons-material/Close";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -11,7 +11,14 @@ import {
   googleProvider,
   loginWithEmail,
   loginWithGoogle,
+  logout,
 } from "../config/firebase";
+
+export let reregisterInfo = null;
+
+export const setReregisterInfo = (value) => {
+  reregisterInfo = value;
+};
 
 const Modal = ({ isOpen, onClose, onSwitch }) => {
   const [email, setEmail] = useState("");
@@ -40,10 +47,31 @@ const Modal = ({ isOpen, onClose, onSwitch }) => {
   const handleGoogleLogin = async () => {
     // Handle Google login logic here
     try {
+      const confirmation = window.confirm(
+        `Logging in as ${userType} using Google`
+      );
       const validatedRole = await loginWithGoogle(userType);
-      const route =
-        validatedRole === "Patient" ? "/patient-homepage" : "/clinic-homepage";
-      router.push(route);
+      if (!validatedRole) {
+        return null;
+      }
+      if (!validatedRole.success) {
+        const confirmation = window.confirm(
+          `You do not have a "${userType}" profile. Do you want to create one?`
+        );
+        if (confirmation) {
+          onSwitch();
+          console.log(`1 ${validatedRole.userData}`);
+          setReregisterInfo(validatedRole);
+          console.log(`2 ${reregisterInfo.role}`);
+        } else {
+          alert(`Please select the correct role.`);
+          await logout();
+        }
+      } else {
+        const route =
+          userType === "Patient" ? "/patient-homepage" : "/clinic-homepage";
+        router.push(route);
+      }
     } catch (error) {
       alert(error.message);
     }
