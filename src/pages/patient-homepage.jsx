@@ -44,9 +44,7 @@ const PatientHomePage = () => {
     }
   }, []);
 
-  const [position, setPosition] = useState([10.294297039450635, 123.88040590457176]); // Fallback position
-  const [loading, setLoading] = useState(true); // Loading state to handle initial rendering
-  
+  const [position] = useState([10.294297039450635, 123.88040590457176]); // Fallback position
   const [position1] = useState([10.314381488873737, 123.8918673410041]); // Wellness Center
   const [position2] = useState([10.282355903597807, 123.9901564268958]); // Cebu Health Center
 
