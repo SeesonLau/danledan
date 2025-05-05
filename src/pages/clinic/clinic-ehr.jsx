@@ -8,6 +8,7 @@ import {
   EHR3Textbox,
   EHR4Textbox,
   EHR5Textbox,
+  EHR6Textbox,
 } from "@/components/ehr-textbox";
 import SaveButton from "@/components/save-button";
 import { FaEye, FaDownload, FaPrint } from "react-icons/fa";
@@ -340,6 +341,7 @@ const ClinicEHR = () => {
     (patient.name || "").toLowerCase().includes(searchTerm.toLowerCase())
 );
 
+// For Sorting
 const { sortedPatients, sortByField, sortOrder, sortField } = useSortPatients(filteredPatients);
 
 
@@ -466,7 +468,7 @@ const clearFields = () => {
                 </div>
 
                 <div className={styles.profileColumn}>
-                  <EHRTextbox
+                  <EHR6Textbox
                     label="Birth Date"
                     value={date}
                     onChange={handleChange(setBirthdate)}
@@ -808,14 +810,14 @@ const clearFields = () => {
                     </th>
                     <th
                       className={styles.th}
-                      onClick={() => sortByField("otherColumn")} // Clicking other columns will reset the sort to "Case No."
+                      onClick={() => sortByField("otherColumn")} 
                       style={{ cursor: "pointer" }}
                     >
                       Patient Name
                     </th>
                     <th
                       className={styles.th}
-                      onClick={() => sortByField("otherColumn")} // Same for other headers
+                      onClick={() => sortByField("otherColumn")}
                       style={{ cursor: "pointer" }}
                     >
                       Last Visit

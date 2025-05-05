@@ -25,23 +25,7 @@
     line-height: 1;
     color: var(--Color-Blue-Blue-500, #559DDC);
   }
-
-  
-  @media (max-width: 768px) {
-    .ehrTextbox {
-      max-width: 100%; 
-    }
-  
-    .ehrTextboxLabel {
-      font-size: 0.85rem; 
-    }
-  
-    .ehrTextboxContent {
-      font-size: 0.85rem;
-      padding: 0.6em 0.8em;
-    }
-  }
-  
+    
   .ehrTextbox2 {
     display: flex;
     align-items: flex-start;
@@ -57,19 +41,7 @@
     margin-right: 7.5px;
   
   }
-  
-  @media (max-width: 768px) {
-    .ehrTextbox2, .ehrTextbox3, .ehrTextbox4 {
-      max-width: 90%;
-      height: auto;
-      flex-direction: column;
-    }
-  
-    .ehrTextboxLabel2, .ehrTextboxLabel3, .ehrTextboxLabel4 {
-      font-size: 0.7rem;
-    }
-  }
-  
+    
   .ehrTextbox3 {
     display: flex;
     flex-direction: column;
@@ -161,12 +133,57 @@
     resize: none; 
   }
 
+  .ehrTextbox6 {
+    display: flex;
+    flex-direction: column;
+    width: 86%;
+  }
+
+  .ehrTextboxWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .ehrTextboxContent6 {
+    padding: 0.7em 1em;
+    border: 1px solid var(--Color-Blue-Blue-500, #559DDC);
+    border-radius: 5px;
+    background: var(--Color-Blue-Blue-100, #E0EFF9);
+    width: 100%;
+    font-size: 0.95rem;
+    font-family: Montserrat, sans-serif;
+    font-weight: 600;
+    color: var(--Color-Blue-Blue-500, #559DDC);
+  }
+
+  /* Remove built-in icons from browsers */
+  /* Chrome, Safari */
+  .ehrTextboxContent6::-webkit-calendar-picker-indicator {
+    display: none;  
+    -webkit-appearance: none;
+  }
+  /* Firefox */
+  .ehrTextboxContent6[type="date"]::-moz-focus-inner {
+    border: 0;
+  }
+  .calendarIcon {
+    position: absolute;
+    right: 0.7rem;
+    color: #1f6bb5;
+    cursor: pointer;
+    pointer-events: auto;
+  }
+
   @media (max-width: 1440px) {
     .ehrTextbox5 {
       width: 90%;
       margin-left: 0;
       margin-right: 0;
       padding: 0 1rem; 
+    }
+    .ehrTextbox6 {
+      width: 81%;
     }
   }
   
@@ -176,6 +193,10 @@
       margin-left: 0;
       margin-right: 0;
       padding: 0 1rem; 
+    }
+    .ehrTextbox6 {
+      width: 77%;
+      padding-left: 2rem;
     }
     
     .ehrTextarea5 {
@@ -198,6 +219,10 @@
       font-size: 0.8rem; 
       height: 100%;
     }
+
+    .ehrTextbox6 {
+      width: 80%;
+    }
   }
   
   @media (max-width: 480px) {
@@ -219,16 +244,21 @@
   }
 
   @media (max-width: 390px) {
-    .ehrTextbox{
+    .ehrTextbox {
       width: 50%; 
       margin: -5px;
+    }
+
+    .ehrTextbox6{
+      width: 57.5%;
+      margin-left: -0.6rem;
     }
   
     .ehrTextboxLabel, .ehrTextboxLabel2 {
       font-size: 0.65rem; 
     }
   
-    .ehrTextboxContent, .ehrTextboxContent3, .ehrTextboxContent4{
+    .ehrTextboxContent, .ehrTextboxContent3, .ehrTextboxContent4, .ehrTextboxContent6 {
       padding: 0.6em 0.8em; 
       font-size: 0.65rem; 
       

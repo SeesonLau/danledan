@@ -1,5 +1,7 @@
 import React from "react";
 import styles from "../styles/clinic-ehr/clinic-ehr-textbox.module.css";
+import { useRef } from 'react';
+import { FaRegCalendarAlt } from 'react-icons/fa'; 
 
 export const EHR1ReadOnly = ({ label, value, onChange, readOnly, disabled }) => {
     return (
@@ -79,6 +81,36 @@ export const EHR5ReadOnly = ({ label, value, onChange, readOnly, disabled }) => 
         readOnly={readOnly}
         disabled={disabled}
       />
+    </div>
+  );
+};
+
+export const EHR6ReadOnly = ({ label, value, onChange }) => {
+  const inputRef = useRef(null);
+
+  const handleIconClick = () => {
+
+    inputRef.current?.showPicker?.(); 
+    inputRef.current?.focus();   
+  };
+
+  return (
+    <div className={styles.ehrTextbox6}>
+      <label className={styles.ehrTextboxLabel}>{label}</label>
+      <div className={styles.ehrTextboxWrapper}>
+        <input
+          ref={inputRef}
+          type="date"
+          value={value}
+          onChange={onChange}
+          className={styles.ehrTextboxContent6}
+        />
+        <FaRegCalendarAlt
+          className={styles.calendarIcon}
+          onClick={handleIconClick}
+          style={{ cursor: 'pointer' }}
+        />
+      </div>
     </div>
   );
 };
