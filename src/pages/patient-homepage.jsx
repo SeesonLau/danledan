@@ -14,52 +14,37 @@ const Marker = dynamic(() => import('react-leaflet').then(mod => mod.Marker), { 
 const Popup = dynamic(() => import('react-leaflet').then(mod => mod.Popup), { ssr: false });
 
 const patientNotifications = [
-  {
-    id: 1,
-    name: "Meeting with Eye Doctor at Mercado, Lapu-Lapu",
-    time: "5:30pm",
-  },
-  {
-    id: 2,
-    name: "Your eye check-up is tomorrow. See you soon!",
-    time: "10:30pm",
-  },
+  { id: 1, name: "Meeting with Eye Doctor at Mercado, Lapu-Lapu", time: "5:30pm" },
+  { id: 2, name: "Your eye check-up is tomorrow. See you soon!", time: "10:30pm" },
   { id: 3, name: "Your appointment is confirmed. See you!", time: "5:30pm" },
-  {
-    id: 4,
-    name: "Consultation scheduled. Bring your records!",
-    time: "2:00pm",
-  },
+  { id: 4, name: "Consultation scheduled. Bring your records!", time: "2:00pm" },
   { id: 5, name: "Reminder: Follow-up check-up set.", time: "3:15pm" },
   { id: 6, name: "Your request is approved. Arrive on time!", time: "4:45pm" },
   { id: 7, name: "New schedule added for you.", time: "5:30pm" },
   { id: 8, name: "Your session is confirmed. Questions?", time: "5:30pm" },
   { id: 9, name: "Update available for your session.", time: "5:30pm" },
-  { id: 10, name: "See you at your appointment!", time: "5:30pm" },
+  { id: 10, name: "See you at your appointment!", time: "5:30pm" }
 ];
 
 const PatientHomePage = () => {
   const [position, setPosition] = useState([10.294951, 123.881070]);
-   // Get user's current location
-   useEffect(() => {
-    if (typeof window !== "undefined" && navigator.geolocation) {
+  useEffect(() => {
+    // Check if geolocation is available
+    if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          const { latitude, longitude } = pos.coords;
-          setPosition([latitude, longitude]);
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setPosition([latitude, longitude]); // update position state with geolocation
         },
-        (err) => {
-          console.warn(`Geolocation error (${err.code}): ${err.message}`);
-          // Optional: show a toast or fallback message
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 10000,
-          maximumAge: 0
+        (error) => {
+          console.error("Error getting geolocation:", error);
         }
       );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
     }
   }, []);
+  
   /*EASTER EGG LOGIC*/
   const [clickCount, setClickCount] = useState(0);
   const [timer, setTimer] = useState(null);
