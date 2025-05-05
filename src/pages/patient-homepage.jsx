@@ -27,23 +27,54 @@ const patientNotifications = [
 ];
 
 const PatientHomePage = () => {
-  const [position, setPosition] = useState([10.294951, 123.881070]);
+  const [customMarkerIcon, setCustomMarkerIcon] = useState(null);
+
   useEffect(() => {
-    // Check if geolocation is available
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setPosition([latitude, longitude]); // update position state with geolocation
-        },
-        (error) => {
-          console.error("Error getting geolocation:", error);
-        }
+    if (typeof window !== "undefined") {
+      // Create the custom marker icon only in the client-side environment (when window is defined)
+      const { Icon } = require("leaflet");  // Dynamically import the 'Icon' from leaflet on the client-side
+      setCustomMarkerIcon(
+        new Icon({
+          iconUrl: "/landing-page-iamge/Marker1.png",  // Path to your icon image
+          iconSize: [38, 38],  // Adjust as needed
+          iconAnchor: [19, 38],  // Bottom center point of the icon
+          popupAnchor: [0, -38]  // Popup positioning
+        })
       );
-    } else {
-      console.error("Geolocation is not supported by this browser.");
     }
   }, []);
+
+  const [position, setPosition] = useState([10.294297039450635, 123.88040590457176]); // Fallback position
+  const [loading, setLoading] = useState(true); // Loading state to handle initial rendering
+  
+  const [position1] = useState([10.314381488873737, 123.8918673410041]); // Wellness Center
+  const [position2] = useState([10.282355903597807, 123.9901564268958]); // Cebu Health Center
+
+  //  useEffect(() => {
+  //   // Check if geolocation is available
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition(
+  //       (position) => {
+  //         const { latitude, longitude } = position.coords;
+  //         console.log("Updated position:", latitude, longitude); // Debugging to check values
+  //         setPosition([latitude, longitude]); // Update position state with geolocation
+  //         setLoading(false); // Set loading to false after position is updated
+  //       },
+  //       (error) => {
+  //         console.error("Error getting geolocation:", error);
+  //         setLoading(false); // Even in case of error, stop loading
+  //       },
+  //       {
+  //         enableHighAccuracy: true,  // Request high accuracy
+  //         timeout: 5000,             // Set a timeout in milliseconds
+  //         maximumAge: 0              // Don't use a cached position
+  //       }
+  //     );
+  //   } else {
+  //     console.error("Geolocation is not supported by this browser.");
+  //     setLoading(false); // Stop loading if geolocation is not supported
+  //   }
+  // }, []);
   
   /*EASTER EGG LOGIC*/
   const [clickCount, setClickCount] = useState(0);
@@ -127,18 +158,33 @@ const PatientHomePage = () => {
           <div className={styles.mapcontainer}>
             <MapContainer
               center={position}
-              zoom={13}
+              zoom={15}
               scrollWheelZoom={true}
               style={{ height: '100%', width: '100%' }}>
               <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
-            <Marker position={position}>
+            <Marker position={position} icon={customMarkerIcon}>
               <Popup>
                 You are here.
               </Popup>
             </Marker>
+
+            {/* WELLNESS CEBU HARDCODED LOCATION */}
+            <Marker position={position1} icon={customMarkerIcon}>
+              <Popup>
+                Wellness Cebu Clinic
+              </Popup>
+            </Marker>
+            
+            {/* CEBU HEALTH CENTER HARDCODED LOCATION */}
+            <Marker position={position2} icon={customMarkerIcon}>
+              <Popup>
+                Cebu Health Center
+              </Popup>
+            </Marker>
+
             </MapContainer>
       </div>
         </div>
