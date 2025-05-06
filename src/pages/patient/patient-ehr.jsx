@@ -7,6 +7,7 @@ import { EHR2ReadOnly } from "@/components/ehr-textboxread-only";
 import { EHR3ReadOnly } from "@/components/ehr-textboxread-only";
 import { EHR4ReadOnly } from "@/components/ehr-textboxread-only";
 import { EHR5ReadOnly } from "@/components/ehr-textboxread-only";
+import { EHR6ReadOnly } from "@/components/ehr-textboxread-only";
 import { FaSearch } from "react-icons/fa";
 import { FaEye, FaDownload, FaPrint } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa"; 
@@ -294,7 +295,7 @@ const PatientEHR = () => {
     if (patient.lastVisit == "15/02/2025") {
       setCaseno(patient.caseNo || "0001");
       setPatientname(patient.name || "John Doe");
-      setBirthdate(patient.birthdate || "01/01/1990");
+      setBirthdate(patient.birthdate || "1990-01-01");
       setAddress(patient.address || "123 Main St, City");
       setAge(patient.age || "30");
       setClinic(patient.clinic || "City Clinic");
@@ -321,7 +322,7 @@ const PatientEHR = () => {
     } else if (patient.lastVisit == "20/02/2025") {
       setCaseno(patient.caseNo || "0001");
       setPatientname(patient.name || "John Doe");
-      setBirthdate(patient.birthdate || "01/01/1990");
+      setBirthdate(patient.birthdate || "1990-01-01");
       setAddress(patient.address || "123 Main St, City");
       setAge(patient.age || "30");
       setClinic(patient.clinic || "Town Medical Center");
@@ -494,7 +495,7 @@ const clearFields = () => {
                 </div>
 
                 <div className={styles.profileColumn}>
-                  <EHR1ReadOnly
+                  <EHR6ReadOnly
                     label="Birth Date"
                     value={date}
                     readOnly
