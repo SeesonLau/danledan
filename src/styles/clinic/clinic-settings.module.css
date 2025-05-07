@@ -1,245 +1,245 @@
 /* ====================
    COMMON CONTAINER STYLES
    ==================== */
-   .cliniccontainer {
-    display: flex;
-    height: 100vh;
-    width: 100%;
-    background-color: lightblue;
-    overflow: hidden;
-    flex-wrap: wrap;
-  }
-  
-  .clinicmaincontent {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px 20px;
-  }
-  
-  /* ====================
+.cliniccontainer {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  background-color: lightblue;
+  overflow: hidden;
+  flex-wrap: wrap;
+}
+
+.clinicmaincontent {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+/* ====================
      TAB LAYOUT & COMMON STYLES
      ==================== */
-  .tabWrapper {
-    background-color: white;
-    border-radius: 10px;
-    width: 100%;
-    height: 100%;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .tabHeader {
-    padding: 0 30px;
-  }
-  
-  .tabTitle {
-    font-size: 48px;
-    font-weight: 600;
-    color: #333;
-    margin: 0;
-    padding: 30px 0 12px 12px;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .tabBar {
-    display: flex;
-    background-color: #2d88a0;
-    margin: 0;
-    padding: 8px 10px;
-    gap: 6px;
-  }
-  
-  .tab {
-    background-color: transparent;
-    color: white;
-    border: 2px solid transparent;
-    padding: 10px 18px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 20px;
-    transition: all 0.2s ease;
-    font-weight: 500;
-  }
-  
-  .tab:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-  }
-  
-  .active {
-    background-color: white;
-    color: #2d88a0;
-    font-weight: bold;
-    border: 2px solid #2d88a0;
-  }
-  
-  .tabContent {
-    padding: 30px;
-    font-size: 18px;
-    background-color: white;
-    color: #333;
-    border-top: 1px solid #ddd;
-    flex-grow: 1;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* Special class when about tab is active */
-  .aboutTabActive {
-    padding: 0 0 0 30px;
-  }
-  
-  /* ====================
+.tabWrapper {
+  background-color: white;
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.tabHeader {
+  padding: 0 30px;
+}
+
+.tabTitle {
+  font-size: 48px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  padding: 30px 0 12px 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.tabBar {
+  display: flex;
+  background-color: #2d88a0;
+  margin: 0;
+  padding: 8px 10px;
+  gap: 6px;
+}
+
+.tab {
+  background-color: transparent;
+  color: white;
+  border: 2px solid transparent;
+  padding: 10px 18px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 20px;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.tab:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.active {
+  background-color: white;
+  color: #2d88a0;
+  font-weight: bold;
+  border: 2px solid #2d88a0;
+}
+
+.tabContent {
+  padding: 30px;
+  font-size: 18px;
+  background-color: white;
+  color: #333;
+  border-top: 1px solid #ddd;
+  flex-grow: 1;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Special class when about tab is active */
+.aboutTabActive {
+  padding: 0 0 0 30px;
+}
+
+/* ====================
      COMMON FORM ELEMENTS
      ==================== */
-  .selectInput {
-    padding: 12px;
-    border: none;
-    border-radius: 14px;
-    background-color: #f0f8ff;
-    font-size: 16px;
-    color: #333;
-    outline: none;
-    transition: box-shadow 0.2s;
-    width: 100%;
-    appearance: none;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 16px;
-  }
-  
-  .selectInput:focus {
-    box-shadow: 0 0 0 3px #a3dcf4;
-  }
-  
-  .disabledInput {
-    padding: 12px;
-    border: none;
-    border-radius: 14px;
-    background-color: #e6e6e6;
-    font-size: 16px;
-    color: #666;
-    outline: none;
-    cursor: not-allowed;
-  }
-  
-  .saveButton {
-    align-self: center;
-    margin-top: 10px;
-    padding: 12px 24px;
-    background-color: #2d88a0;
-    color: white;
-    font-size: 16px;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .saveButton:hover {
-    background-color: #246e84;
-  }
-  
-  .saveButton:disabled {
-    background-color: #b3b3b3;
-    cursor: not-allowed;
-  }
-  
-  .saveButton:disabled:hover {
-    background-color: #b3b3b3;
-  }
-  
-  /* Message notifications */
-  .errorMessage {
-    background-color: rgba(231, 76, 60, 0.1);
-    color: #e74c3c;
-    padding: 12px 16px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    text-align: center;
-    font-weight: 500;
-  }
-  
-  .successMessage {
-    background-color: rgba(46, 204, 113, 0.1);
-    color: #2ecc71;
-    padding: 12px 16px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    text-align: center;
-    font-weight: 500;
-  }
-  
-  /* ====================
+.selectInput {
+  padding: 12px;
+  border: none;
+  border-radius: 14px;
+  background-color: #f0f8ff;
+  font-size: 16px;
+  color: #333;
+  outline: none;
+  transition: box-shadow 0.2s;
+  width: 100%;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+}
+
+.selectInput:focus {
+  box-shadow: 0 0 0 3px #a3dcf4;
+}
+
+.disabledInput {
+  padding: 12px;
+  border: none;
+  border-radius: 14px;
+  background-color: #e6e6e6;
+  font-size: 16px;
+  color: #666;
+  outline: none;
+  cursor: not-allowed;
+}
+
+.saveButton {
+  align-self: center;
+  margin-top: 10px;
+  padding: 12px 24px;
+  background-color: #2d88a0;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.saveButton:hover {
+  background-color: #246e84;
+}
+
+.saveButton:disabled {
+  background-color: #b3b3b3;
+  cursor: not-allowed;
+}
+
+.saveButton:disabled:hover {
+  background-color: #b3b3b3;
+}
+
+/* Message notifications */
+.errorMessage {
+  background-color: rgba(231, 76, 60, 0.1);
+  color: #e74c3c;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.successMessage {
+  background-color: rgba(46, 204, 113, 0.1);
+  color: #2ecc71;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* ====================
      PROFILE TAB STYLES
      ==================== */
-     .profileFormWrapper {
-      height: 100%;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .profileFormScroll {
-      height: 100%;
-      padding-right: 10px;
-      overflow-y: auto;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-    }
-  .profileForm {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    background: linear-gradient(to bottom, #cbeafd, #97d2f3);
-    padding: 40px 30px;
-    padding-bottom: 15px;
-    border-radius: 20px;
-    width: 96%; 
-    margin: 0 auto;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-  }
-  
-  .formRow {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-  }
-  
-  .inputGroup {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .inputGroup label {
-    font-weight: 500;
-    margin-bottom: 6px;
-    color: #333;
-  }
-  
-  .inputGroup input {
-    padding: 12px;
-    border: none;
-    border-radius: 14px;
-    background-color: #f0f8ff;
-    font-size: 16px;
-    color: #333;
-    outline: none;
-    transition: box-shadow 0.2s;
-  }
-  
-  .inputGroup input:focus {
-    box-shadow: 0 0 0 3px #a3dcf4;
-  }
+.profileFormWrapper {
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.profileFormScroll {
+  height: 100%;
+  padding-right: 10px;
+  overflow-y: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.profileForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: linear-gradient(to bottom, #cbeafd, #97d2f3);
+  padding: 40px 30px;
+  padding-bottom: 15px;
+  border-radius: 20px;
+  width: 96%;
+  margin: 0 auto;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.formRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.inputGroup {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.inputGroup label {
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+.inputGroup input {
+  padding: 12px;
+  border: none;
+  border-radius: 14px;
+  background-color: #f0f8ff;
+  font-size: 16px;
+  color: #333;
+  outline: none;
+  transition: box-shadow 0.2s;
+}
+
+.inputGroup input:focus {
+  box-shadow: 0 0 0 3px #a3dcf4;
+}
 
 /* Profile Picture Section */
 .profilePictureSection {
@@ -327,7 +327,6 @@
   font-style: italic;
 }
 
-
 .addressGroup {
   display: flex;
   flex-direction: column;
@@ -367,560 +366,566 @@
 .fullWidthInputGroup input:focus {
   box-shadow: 0 0 0 3px #a3dcf4;
 }
-  
+
 .profilePictureContainer svg {
   width: 100%;
   height: 100%;
   display: block;
-  fill: rgb(106, 168, 195); 
+  fill: rgb(106, 168, 195);
 }
-  /* ====================
+/* ====================
      SECURITY TAB STYLES
      ==================== */
-  .securityForm {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    background: linear-gradient(to bottom, #cbeafd, #97d2f3);
-    padding: 0 30px 70px 30px;
-    border-radius: 20px;
-    width: 96%; 
-    margin: 0 auto;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-  }
-  
-  .securityHeader {
-    margin-bottom: 20px;
-  }
-  
-  .securityHeader h3 {
-    font-size: 28px;
-    color: #2d88a0;
-    margin-bottom: 8px;
-  }
-  
-  .securityHeader p {
-    color: #555;
-    font-size: 16px;
-  }
-  
-  .securitySection {
-    background-color: #f0f8ff;
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  }
-  
-  .passwordField {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    position: relative; 
-  }
-  
-  .passwordHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-  
-  .passwordHeader h4 {
-    font-size: 20px;
-    color: #2d88a0;
-    margin: 0 0 6px 0;
-  }
-  
-  .passwordHeader p {
-    color: #666;
-    font-size: 14px;
-    margin: 0;
-  }
-  
-  .changePasswordBtn {
-    background-color: #2d88a0;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    padding: 8px 16px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .changePasswordBtn:hover {
-    background-color: #246e84;
-  }
-  
-  .currentPasswordDisplay {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .currentPasswordDisplay label {
-    font-weight: 500;
-    color: #333;
-    font-size: 16px;
-  }
-  
-  .changePasswordSection {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 14px;
-    padding: 20px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    z-index: 10;
-    margin-top: 10px;
-  }
-  
-  .passwordError {
-    color: #e74c3c;
-    font-size: 14px;
-    background-color: rgba(231, 76, 60, 0.1);
-    padding: 8px 12px;
-    border-radius: 8px;
-    margin-top: 5px;
-  }
-  
-  .securityTips {
-    background-color: #f0f8ff;
-    border-radius: 16px;
-    padding: 24px;
-    border-left: 4px solid #2d88a0;
-  }
-  
-  .securityTips h4 {
-    color: #2d88a0;
-    margin: 0 0 12px 0;
-    font-size: 20px;
-  }
-  
-  .securityTips ul {
-    padding-left: 20px;
-    margin: 0;
-  }
-  
-  .securityTips li {
-    margin-bottom: 8px;
-    color: #555;
-  }
-  
-  /* ====================
+.securityForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: linear-gradient(to bottom, #cbeafd, #97d2f3);
+  padding: 0 30px 70px 30px;
+  border-radius: 20px;
+  width: 96%;
+  margin: 0 auto;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.securityHeader {
+  margin-bottom: 20px;
+}
+
+.securityHeader h3 {
+  font-size: 28px;
+  color: #2d88a0;
+  margin-bottom: 8px;
+}
+
+.securityHeader p {
+  color: #555;
+  font-size: 16px;
+}
+
+.securitySection {
+  background-color: #f0f8ff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.passwordField {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+}
+
+.passwordHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.passwordHeader h4 {
+  font-size: 20px;
+  color: #2d88a0;
+  margin: 0 0 6px 0;
+}
+
+.passwordHeader p {
+  color: #666;
+  font-size: 14px;
+  margin: 0;
+}
+
+.changePasswordBtn {
+  background-color: #2d88a0;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.changePasswordBtn:hover {
+  background-color: #246e84;
+}
+
+.currentPasswordDisplay {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.currentPasswordDisplay label {
+  font-weight: 500;
+  color: #333;
+  font-size: 16px;
+}
+
+.changePasswordSection {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  margin-top: 10px;
+}
+
+.passwordError {
+  color: #e74c3c;
+  font-size: 14px;
+  background-color: rgba(231, 76, 60, 0.1);
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-top: 5px;
+}
+
+.securityTips {
+  background-color: #f0f8ff;
+  border-radius: 16px;
+  padding: 24px;
+  border-left: 4px solid #2d88a0;
+}
+
+.securityTips h4 {
+  color: #2d88a0;
+  margin: 0 0 12px 0;
+  font-size: 20px;
+}
+
+.securityTips ul {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.securityTips li {
+  margin-bottom: 8px;
+  color: #555;
+}
+
+/* ====================
      PRIVACY POLICY TAB STYLES
      ==================== */
-  .privacyPolicy {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    font-size: 16px;
-    line-height: 1.6;
-    color: #333;
-    background-color: white;
-    overflow: hidden;
-  }
-  
-  .policyHeader {
-    margin-bottom: 24px;
-    padding-bottom: 12px;
-    border-bottom: 2px solid #5fbdd4;
-  }
-  
-  .policyHeader h3 {
-    font-size: 36px;
-    font-weight: 600;
-    margin: 0 0 5px 0;
-    color: #2d88a0;
-  }
-  
-  .policyContent {
-    overflow-y: auto;
-    padding-right: 10px;
-    flex-grow: 1;
-    height: 0;
-  }
-  
-  .privacyPolicy p {
-    font-size: 18px;
-    line-height: 1.7;
-    margin-bottom: 20px;
-  }
-  
-  .privacyPolicy h4 {
-    font-size: 24px;
-    margin: 28px 0 16px 0;
-    color: #2d88a0;
-    font-weight: 600;
-  }
-  
-  .privacyPolicy ul {
-    padding-left: 22px;
-    list-style-type: disc;
-    margin-bottom: 24px;
-  }
-  
-  .privacyPolicy li {
-    font-size: 18px;
-    margin-bottom: 10px;
-    line-height: 1.6;
-  }
-  
-  .privacyPolicy strong {
-    font-weight: 600;
-    color: #246e84;
-  }
-  
-  .privacyPolicy bold {
-    font-weight: 600;
-    color:#1e1d1d ;
-  }
-  
-  .privacyPolicy a {
-    color: #2d88a0;
-    text-decoration: underline;
-  }
-  
-  /* ====================
+.privacyPolicy {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  background-color: white;
+  overflow: hidden;
+}
+
+.policyHeader {
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #5fbdd4;
+}
+
+.policyHeader h3 {
+  font-size: 36px;
+  font-weight: 600;
+  margin: 0 0 5px 0;
+  color: #2d88a0;
+}
+
+.policyContent {
+  overflow-y: auto;
+  padding-right: 10px;
+  flex-grow: 1;
+  height: 0;
+}
+
+.privacyPolicy p {
+  font-size: 18px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.privacyPolicy h4 {
+  font-size: 24px;
+  margin: 28px 0 16px 0;
+  color: #2d88a0;
+  font-weight: 600;
+}
+
+.privacyPolicy ul {
+  padding-left: 22px;
+  list-style-type: disc;
+  margin-bottom: 24px;
+}
+
+.privacyPolicy li {
+  font-size: 18px;
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.privacyPolicy strong {
+  font-weight: 600;
+  color: #246e84;
+}
+
+.privacyPolicy bold {
+  font-weight: 600;
+  color: #1e1d1d;
+}
+
+.privacyPolicy a {
+  color: #2d88a0;
+  text-decoration: underline;
+}
+
+/* ====================
      ABOUT TAB STYLES
      ==================== */
-  .aboutPage {
-    display: flex;
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-  }
-  
-  .aboutContainer {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    margin-right: -30px;
-  }
-  
-  .aboutTextContent {
-    flex: 2;
-    height: 100%;
-    position: relative;
-    overflow: hidden;
-    padding-right: 20px;
-  }
-  
-  .aboutScrollContent {
-    height: 100%;
-    padding-right: 10px;
-    overflow-y: auto;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  }
-  
-  .aboutScrollInner {
-    padding: 38px 10px 30px 0;
-  }
-  
-  .aboutImageSection {
-    flex: 1;
-    height: 100%;
-    position: relative;
-    overflow: hidden;
-    margin: 0;
-  }
-  
-  .imageContainer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-  }
-  
-  .aboutImage {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-  }
-  
-  .imageOverlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(45, 136, 160, 0.4);
-    z-index: 1;
-  }
-  
-  .aboutTitle {
-    font-size: 36px;
-    font-weight: 600;
-    margin: 0 0 24px 0;
-    color: #2d88a0;
-    border-bottom: 2px solid #5fbdd4;
-    padding-bottom: 12px;
-  }
-  
-  .aboutIntro {
-    font-size: 20px;
-    line-height: 1.6;
-    margin-bottom: 20px;
-    font-weight: 500;
-  }
-  
-  .aboutPage p {
-    font-size: 18px;
-    line-height: 1.7;
-    margin-bottom: 20px;
-  }
-  
-  .aboutPage h4 {
-    font-size: 24px;
-    margin: 28px 0 16px 0;
-    color: #2d88a0;
-    font-weight: 600;
-  }
-  
-  .aboutPage ul {
-    padding-left: 22px;
-    list-style-type: disc;
-    margin-bottom: 24px;
-  }
-  
-  .aboutPage li {
-    font-size: 18px;
-    margin-bottom: 10px;
-    line-height: 1.6;
-  }
-  
-  .aboutPage strong {
-    font-weight: 600;
-    color: #246e84;
-  }
-  
-  .aboutClosing {
-    font-size: 20px;
-    margin-top: 24px;
-  }
-  
-  .aboutTagline {
-    font-size: 22px;
-    font-style: italic;
-    color: #2d88a0;
-    font-weight: 500;
-  }
-  
-  /* ====================
+.aboutPage {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.aboutContainer {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  margin-right: -30px;
+}
+
+.aboutTextContent {
+  flex: 2;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  padding-right: 20px;
+}
+
+.aboutScrollContent {
+  height: 100%;
+  padding-right: 10px;
+  overflow-y: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.aboutScrollInner {
+  padding: 38px 10px 30px 0;
+}
+
+.aboutImageSection {
+  flex: 1;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+}
+
+.imageContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.aboutImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.imageOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(45, 136, 160, 0.4);
+  z-index: 1;
+}
+
+.aboutTitle {
+  font-size: 36px;
+  font-weight: 600;
+  margin: 0 0 24px 0;
+  color: #2d88a0;
+  border-bottom: 2px solid #5fbdd4;
+  padding-bottom: 12px;
+}
+
+.aboutIntro {
+  font-size: 20px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.aboutPage p {
+  font-size: 18px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.aboutPage h4 {
+  font-size: 24px;
+  margin: 28px 0 16px 0;
+  color: #2d88a0;
+  font-weight: 600;
+}
+
+.aboutPage ul {
+  padding-left: 22px;
+  list-style-type: disc;
+  margin-bottom: 24px;
+}
+
+.aboutPage li {
+  font-size: 18px;
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.aboutPage strong {
+  font-weight: 600;
+  color: #246e84;
+}
+
+.aboutClosing {
+  font-size: 20px;
+  margin-top: 24px;
+}
+
+.aboutTagline {
+  font-size: 22px;
+  font-style: italic;
+  color: #2d88a0;
+  font-weight: 500;
+}
+
+/* ====================
      HELP TAB STYLES
      ==================== */
-  .helpPage {
-    display: flex;
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-  }
-  
-  .helpContainer {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .helpScrollContent {
-    height: 100%;
-    padding-right: 10px;
-    overflow-y: auto;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  }
-  
-  .helpTitle {
-    font-size: 36px;
-    font-weight: 600;
-    margin: 0 0 24px 0;
-    color: #2d88a0;
-    border-bottom: 2px solid #5fbdd4;
-    padding-bottom: 12px;
-  }
-  
-  .helpIntro {
-    font-size: 20px;
-    line-height: 1.6;
-    margin-bottom: 24px;
-    font-weight: 500;
-  }
-  
-  .helpPage p {
-    font-size: 18px;
-    line-height: 1.7;
-    margin-bottom: 18px;
-  }
-  
-  .helpPage h4 {
-    font-size: 24px;
-    margin: 28px 0 16px 0;
-    color: #2d88a0;
-    font-weight: 600;
-  }
-  
-  .helpPage strong {
-    font-weight: 600;
-    color: #246e84;
-  }
-  
-  .contactSection {
-    background-color: #f3f9fc;
-    padding: 20px 24px;
-    border-radius: 14px;
-    border-left: 4px solid #2d88a0;
-    margin-bottom: 30px;
-  }
-  
-  .contactInfo {
-    font-weight: 500;
-    color: #2d88a0;
-  }
-  
-  .faqSection {
-    margin-top: 16px;
-  }
-  
-  .faqList {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-bottom: 24px;
-  }
-  
-  .faqItem {
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  }
-  
-  .faqQuestion {
-    width: 100%;
-    background-color: #f3f9fc;
-    border: none;
-    padding: 16px 20px;
-    font-size: 18px;
-    font-weight: 700;
-    color: #333;
-    text-align: left;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 14px;
-    transition: all 0.3s ease;
-  }
-  
-  .faqQuestion:hover {
-    background-color: #e5f3fa;
-  }
-  
-  .faqOpen {
-    background-color: #2d88a0;
-    color: white;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-  
-  .faqToggle {
-    font-size: 24px;
-    font-weight: bold;
-    color: inherit;
-  }
-  
-  .faqAnswer {
-    background-color: white;
-    padding: 0 20px;
-    max-height: 0;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    border-bottom-left-radius: 14px;
-    border-bottom-right-radius: 14px;
-    font-size: 17px;
-    line-height: 1.6;
-    opacity: 0;
-  }
-  
-  .faqAnswerOpen {
-    padding: 16px 20px;
-    max-height: 300px;
-    opacity: 1;
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
-  }
-  
-  .faqClosing {
-    margin-top: 24px;
-    font-style: italic;
-  }
-  
-  /* ====================
+.helpPage {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.helpContainer {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.helpScrollContent {
+  height: 100%;
+  padding-right: 10px;
+  overflow-y: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.helpTitle {
+  font-size: 36px;
+  font-weight: 600;
+  margin: 0 0 24px 0;
+  color: #2d88a0;
+  border-bottom: 2px solid #5fbdd4;
+  padding-bottom: 12px;
+}
+
+.helpIntro {
+  font-size: 20px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+
+.helpPage p {
+  font-size: 18px;
+  line-height: 1.7;
+  margin-bottom: 18px;
+}
+
+.helpPage h4 {
+  font-size: 24px;
+  margin: 28px 0 16px 0;
+  color: #2d88a0;
+  font-weight: 600;
+}
+
+.helpPage strong {
+  font-weight: 600;
+  color: #246e84;
+}
+
+.contactSection {
+  background-color: #f3f9fc;
+  padding: 20px 24px;
+  border-radius: 14px;
+  border-left: 4px solid #2d88a0;
+  margin-bottom: 30px;
+}
+
+.contactInfo {
+  font-weight: 500;
+  color: #2d88a0;
+}
+
+.faqSection {
+  margin-top: 16px;
+}
+
+.faqList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.faqItem {
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.faqQuestion {
+  width: 100%;
+  background-color: #f3f9fc;
+  border: none;
+  padding: 16px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 14px;
+  transition: all 0.3s ease;
+}
+
+.faqQuestion:hover {
+  background-color: #e5f3fa;
+}
+
+.faqOpen {
+  background-color: #2d88a0;
+  color: white;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.faqToggle {
+  font-size: 24px;
+  font-weight: bold;
+  color: inherit;
+}
+
+.faqAnswer {
+  background-color: white;
+  padding: 0 20px;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+  font-size: 17px;
+  line-height: 1.6;
+  opacity: 0;
+}
+
+.faqAnswerOpen {
+  padding: 16px 20px;
+  max-height: 300px;
+  opacity: 1;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.faqClosing {
+  margin-top: 24px;
+  font-style: italic;
+}
+
+.notice {
+  font-size: 14px;
+  color: #ff0000;
+  text-align: center;
+  margin: 0 0 0 0;
+}
+/* ====================
      RESPONSIVE STYLES
      ==================== */
-  @media (max-width: 900px) {
-    .aboutContainer {
-      flex-direction: column;
-      margin-right: 0;
-    }
-    
-    .aboutTextContent {
-      flex: 1;
-      min-height: 60%;
-      padding-right: 0;
-    }
-    
-    .aboutImageSection {
-      flex: 1;
-      min-height: 40%;
-      margin-top: 20px;
-    }
-  
-    .faqQuestion {
-      font-size: 16px;
-      padding: 14px 16px;
-    }
-  
-    .faqAnswer {
-      font-size: 15px;
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .formRow {
-      flex-direction: column;
-    }
-  }
-  
-  @media (max-width: 600px) {
-    .tab {
-      font-size: 14px;
-      padding: 8px 12px;
-    }
-  
-    .tabContent {
-      font-size: 16px;
-      padding: 20px;
-    }
-  
-    .tabTitle {
-      font-size: 32px;
-    }
+@media (max-width: 900px) {
+  .aboutContainer {
+    flex-direction: column;
+    margin-right: 0;
   }
 
-  /* ====================
+  .aboutTextContent {
+    flex: 1;
+    min-height: 60%;
+    padding-right: 0;
+  }
+
+  .aboutImageSection {
+    flex: 1;
+    min-height: 40%;
+    margin-top: 20px;
+  }
+
+  .faqQuestion {
+    font-size: 16px;
+    padding: 14px 16px;
+  }
+
+  .faqAnswer {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .formRow {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  .tab {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  .tabContent {
+    font-size: 16px;
+    padding: 20px;
+  }
+
+  .tabTitle {
+    font-size: 32px;
+  }
+}
+
+/* ====================
    MOBILE RESPONSIVE (max-width: 480px)
    ==================== */
 @media (max-width: 480px) {
@@ -1032,7 +1037,7 @@
   .policyHeader h3 {
     font-size: 28px;
   }
-  
+
   .profileForm,
   .securityForm {
     padding-right: 20px;

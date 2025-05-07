@@ -18,6 +18,8 @@ import {
   arrayUnion,
 } from "firebase/firestore";
 
+import { getStorage } from "firebase/storage";
+
 const firebaseConfig = {
   apiKey: "AIzaSyAU6pu8Kq4oOSRep6tEp_41ZiPz6uV3Lps",
   authDomain: "opticare-firebase.firebaseapp.com",
@@ -34,11 +36,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app);
 const googleProvider = new GoogleAuthProvider();
 
 export {
   auth,
   db,
+  storage,
   signInWithEmailAndPassword,
   signInWithPopup,
   googleProvider,
@@ -186,7 +190,7 @@ export const registerWithEmail = async (
   try {
     //for Second Role
     if (isSecondRole) {
-      alert("1");
+      //alert("1");
       const userData = { email, firstName, lastName };
       const secondAccount = await addSecondRole(
         uid,
@@ -208,7 +212,7 @@ export const registerWithEmail = async (
     // Save user details in "users" collection
     await setDoc(doc(db, "users", user.uid), {
       email,
-      role,
+      role: role.toLowerCase(),
     });
 
     // Determine the collection based on role
@@ -219,6 +223,7 @@ export const registerWithEmail = async (
       firstName,
       lastName,
       email,
+      role: role.toLowerCase(),
     };
 
     if (role === "Clinic") {
@@ -269,6 +274,7 @@ export const addSecondRole = async (uid, userData, userType, licenseNumber) => {
       email: userData.email,
       firstName: userData.firstName,
       lastName: userData.lastName,
+      role: userType.toLowerCase,
     };
 
     if (userType === "Clinic" && licenseNumber) {
@@ -296,7 +302,7 @@ export const registerWithGoogle = async (role, licenseNumber = null) => {
     // Save user details in "users" collection
     await setDoc(doc(db, "users", uid), {
       email,
-      role,
+      role: role.toLowerCase(),
     });
 
     // Determine the collection based on role
@@ -307,6 +313,7 @@ export const registerWithGoogle = async (role, licenseNumber = null) => {
       firstName,
       lastName,
       email,
+      role: role.toLowerCase(),
     };
 
     if (role === "Clinic") {
