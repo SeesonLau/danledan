@@ -16,6 +16,70 @@ import {
 import { db } from "./firebase";
 import { determineDiagnosis } from "@/components/getDiagnosis";
 
+// Fetching Clinics from Firestore
+export const getClinics = async (province, city) => {
+  try {
+    const clinicsRef = collection(db, "clinics");
+    let q = clinicsRef;
+
+    if (province) {
+      q = query(q, where("province", "==", province));
+    }
+    if (city) {
+      q = query(q, where("city", "==", city));
+    }
+
+    const querySnapshot = await getDocs(q);
+    const clinics = querySnapshot.docs.map((doc) => {
+      const data = doc.data();
+      return {
+        name: data.clinicName,
+        address: data.address,
+        contact: data.phone,
+        id: doc.id,
+      };
+    });
+
+    return {
+      [city]: clinics, // Return an object with a 'city' property
+    };
+  } catch (error) {
+    console.error("Error getting clinics:", error);
+    return { clinics: [] }; // Return an object with an empty 'clinics' array on error
+  }
+};
+
+export const getPatientDoc = async (patientId) => {
+  try {
+    // Create a reference to the patient document in the "patients" collection
+    const patientDocRef = doc(db, "patients", patientId);
+
+    // Retrieve the document using getDoc()
+    const patientDocSnapshot = await getDoc(patientDocRef);
+    const patient = patientDocSnapshot.data();
+
+    // Check if the document exists
+    if (patientDocSnapshot.exists()) {
+      // Return the document data as an object
+      return {
+        name: `${patient.firstName || ""} ${patient.middleName || ""} ${
+          patient.lastName || ""
+        }`,
+        sex: patient.sex,
+        email: patient.email,
+        contact: patient.phone,
+      };
+    } else {
+      // Document does not exist
+      return null;
+    }
+  } catch (error) {
+    // Handle errors appropriately
+    console.error("Error retrieving patient document:", error);
+    throw error; // Re-throw the error so the caller can handle it
+  }
+};
+
 // --- Collection References ---
 const ehrCollGroupRef = collectionGroup(db, "ehr");
 const ehrCollectionRef = collection(db, "ehr");
@@ -238,5 +302,26 @@ export const saveAppointment = async (appointmentData) => {
   } catch (error) {
     window.alert("Error saving appointment: " + error.message);
     throw error;
+  }
+};
+
+export const fetchAppointmentPatient = async (patientId) => {
+  try {
+    const appointmentsRef = collection(db, "appointments"); // Get reference to the 'appointments' collection
+    const q = query(appointmentsRef, where("userUid", "==", patientId)); // Create a query to filter by patientId
+
+    const querySnapshot = await getDocs(q); // Execute the query
+
+    const appointments = querySnapshot.docs.map((doc) => {
+      // Map each document to an object containing its ID and data
+      return {
+        id: doc.id,
+        ...doc.data(),
+      };
+    });
+    return appointments;
+  } catch (error) {
+    console.error("Error fetching appointments:", error);
+    throw error; // Re-throw the error to be handled by the caller
   }
 };

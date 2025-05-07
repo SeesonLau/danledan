@@ -335,6 +335,7 @@ const PatientAppointments = () => {
 
         {currentStep === 2 && (
           <ClinicSelection
+            province={province}
             city={city}
             clinic={clinic}
             setClinic={setClinic}
