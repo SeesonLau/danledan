@@ -314,9 +314,43 @@ export const fetchAppointmentPatient = async (patientId) => {
 
     const appointments = querySnapshot.docs.map((doc) => {
       // Map each document to an object containing its ID and data
+      const info = doc.data();
+      console.log(info);
+      console.log(info.clinic.date);
+      let mm, dd, yy;
+
+      if (info?.clinic?.date) {
+        const months = {
+          January: 0,
+          February: 1,
+          March: 2,
+          April: 3,
+          May: 4,
+          June: 5,
+          July: 6,
+          August: 7,
+          September: 8,
+          October: 9,
+          November: 10,
+          December: 11,
+        };
+
+        const parts = info.clinic.date.split(" ");
+        const monthName = parts[0];
+        const day = parseInt(parts[1].replace(",", ""), 10); // Remove the comma and parse
+        const year = parseInt(parts[2], 10);
+        const month = months[monthName];
+        const date = new Date(year, month, day);
+
+        mm = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
+        dd = String(date.getDate()).padStart(2, "0");
+        yy = String(date.getFullYear()).slice(-2);
+      }
+
       return {
         id: doc.id,
-        ...doc.data(),
+        name: `${info.reason} at ${info.clinic.name} on ${info.date} `,
+        time: `${info.time}`,
       };
     });
     return appointments;
