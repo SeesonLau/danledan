@@ -1,6 +1,8 @@
-import styles from '@/styles/clinic/clinic-appointments.module.css';
+import styles from "@/styles/clinic/clinic-appointments.module.css";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
-const AppointmentModal = ({ appointment, onClose }) => {
+const AppointmentModal = ({ appointment, onClose, handleViewEHR }) => {
   if (!appointment) return null;
 
   return (
@@ -8,7 +10,9 @@ const AppointmentModal = ({ appointment, onClose }) => {
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
           <h2>Appointment Details</h2>
-          <button onClick={onClose} className={styles.modalClose}>&times;</button>
+          <button onClick={onClose} className={styles.modalClose}>
+            &times;
+          </button>
         </div>
         <div className={styles.modalBody}>
           <DetailRow label="Patient ID" value={appointment.patientId} />
@@ -16,40 +20,45 @@ const AppointmentModal = ({ appointment, onClose }) => {
           <DetailRow label="Sex" value={appointment.sex} />
           <DetailRow label="Email" value={appointment.email} />
           <DetailRow label="Contact Number" value={appointment.contactNumber} />
-          <DetailRow 
-            label="Appointment Date" 
-            value={`${new Date(appointment.appointmentDate).toLocaleDateString()} at ${appointment.appointmentTime}`} 
+          <DetailRow
+            label="Appointment Date"
+            value={`${new Date(
+              appointment.appointmentDate
+            ).toLocaleDateString()} at ${appointment.appointmentTime}`}
           />
-          <DetailRow 
-            label="Reason" 
+          <DetailRow
+            label="Reason"
             value={
-              appointment.reason === "Other (Please specify)" 
-                ? appointment.otherReason 
+              appointment.reason === "Other (Please specify)"
+                ? appointment.otherReason
                 : appointment.reason
-            } 
+            }
           />
-          <DetailRow 
-            label="Status" 
-            value={appointment.status} 
-            status={appointment.status.toLowerCase()} 
+          <DetailRow
+            label="Status"
+            value={appointment.status}
+            status={appointment.status.toLowerCase()}
           />
           {appointment.pdfFile && (
-            <DetailRow 
-              label="Uploaded File" 
+            <DetailRow
+              label="Uploaded File"
               value={
-                <a 
-                  href={`/uploads/${appointment.pdfFile}`} 
-                  target="_blank" 
+                <a
+                  href={`/uploads/${appointment.pdfFile}`}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className={styles.fileLink}
                 >
                   {appointment.pdfFile}
                 </a>
-              } 
+              }
             />
           )}
         </div>
         <div className={styles.modalFooter}>
+          <Link href="/clinic/clinic-ehr" passHref>
+            <div className={styles.modalButton}>View EHR</div>
+          </Link>
           <button onClick={onClose} className={styles.modalButton}>
             Close
           </button>
@@ -62,7 +71,7 @@ const AppointmentModal = ({ appointment, onClose }) => {
 const DetailRow = ({ label, value, status }) => (
   <div className={styles.detailRow}>
     <span className={styles.detailLabel}>{label}:</span>
-    <span className={`${styles.detailValue} ${status ? styles[status] : ''}`}>
+    <span className={`${styles.detailValue} ${status ? styles[status] : ""}`}>
       {value}
     </span>
   </div>

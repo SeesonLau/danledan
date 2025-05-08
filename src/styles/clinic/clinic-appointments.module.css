@@ -4,7 +4,7 @@
   min-height: 100vh;
   background-color: #f5f7fa;
   box-sizing: border-box;
-  flex-direction: column; 
+  flex-direction: column;
   display: flex;
 }
 
@@ -31,7 +31,7 @@
 
 .refreshButton {
   padding: 0.5rem 1rem;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border: none;
   border-radius: 6px;
@@ -55,24 +55,27 @@
   background: white;
   padding: 1rem;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-.filterGroup, .searchGroup {
+.filterGroup,
+.searchGroup {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
   min-width: 0;
 }
 
-.filterGroup label, .searchLabel {
+.filterGroup label,
+.searchLabel {
   font-weight: 500;
   font-size: 0.875rem;
   color: #555;
   white-space: nowrap;
 }
 
-.filterInput, .filterSelect {
+.filterInput,
+.filterSelect {
   padding: 0.5rem;
   border: 1px solid #ddd;
   border-radius: 6px;
@@ -108,10 +111,9 @@
 .tableContainer {
   background: white;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   overflow-x: auto;
   width: 100%;
-  
 }
 
 .appointmentsTable {
@@ -119,7 +121,6 @@
   border-collapse: collapse;
   font-size: 0.875rem;
   color: #2c3e50;
-  
 }
 
 .appointmentsTable th,
@@ -357,7 +358,7 @@
   padding: 1rem 1.5rem;
   border-top: 1px solid #eee;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 
 .modalButton {
@@ -402,12 +403,12 @@
   .filters {
     grid-template-columns: 1fr;
   }
-  
+
   .appointmentsTable th,
   .appointmentsTable td {
     padding: 0.75rem 0.5rem;
   }
-  
+
   .actions {
     flex-direction: column;
     gap: 0.5rem;
@@ -417,29 +418,28 @@
 @media (max-width: 480px) {
   .container {
     padding: 0.75rem;
-    
   }
-  
+
   .header {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .appointmentsTable {
     display: block;
   }
-  
+
   .appointmentsTable thead {
     display: none;
   }
-  
+
   .appointmentsTable tr {
     display: block;
     margin-bottom: 1rem;
     border: 1px solid #eee;
     border-radius: 8px;
   }
-  
+
   .appointmentsTable td {
     display: flex;
     justify-content: space-between;
@@ -447,11 +447,11 @@
     padding: 0.5rem 0.75rem;
     border-bottom: 1px solid #eee;
   }
-  
+
   .appointmentsTable td:last-child {
     border-bottom: none;
   }
-  
+
   .appointmentsTable td::before {
     content: attr(data-label);
     font-weight: 600;
@@ -459,11 +459,11 @@
     margin-right: 1rem;
     flex: 1;
   }
-  
+
   .appointmentsTable td > * {
     flex: 2;
   }
-  
+
   .statusBadge {
     min-width: auto;
     padding: 0.25rem 0.5rem;
@@ -473,12 +473,12 @@
     flex-direction: column;
     margin-bottom: 1.5rem;
   }
-  
+
   .detailLabel {
     width: 100%;
     margin-bottom: 0.25rem;
   }
-  
+
   .modal {
     width: 95%;
   }
