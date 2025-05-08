@@ -10,7 +10,7 @@ import { EHR5ReadOnly } from "@/components/ehr-textboxread-only";
 import { EHR6ReadOnly } from "@/components/ehr-textboxread-only";
 import { FaSearch } from "react-icons/fa";
 import { FaEye, FaDownload, FaPrint } from "react-icons/fa";
-import { FaTrash } from "react-icons/fa"; 
+import { FaTrash } from "react-icons/fa";
 import useSortRecords from "@/components/ehrSortRecords";
 
 import PrintEHR from "@/components/export-ehr";
@@ -19,7 +19,7 @@ import { useAuth } from "@/config/AuthContext";
 import { useRouter } from "next/router";
 import {
   getEhrRecordsByPatient,
-  getPatientNameByUid,
+  //getPatientNameByUid,
 } from "@/config/firestore";
 
 const PatientEHR = () => {
@@ -164,7 +164,6 @@ const PatientEHR = () => {
   useEffect(() => {
     setTotal(analyticalfee + orthopticfee + lensesfee + framefee);
   }, [analyticalfee, orthopticfee, lensesfee, framefee]);
-
 
   //-PLACEHOLDER
   const patients = [
@@ -366,53 +365,56 @@ const PatientEHR = () => {
 
     fetchEhrRecords();
   }, [user]);
-  
+
   // Search
-const [searchTerm, setSearchTerm] = useState("");
-const filteredPatients = patients.filter((patient) =>
-  (patient.optometrist || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
-  (patient.lastVisit || "").toLowerCase().includes(searchTerm.toLowerCase())
-);
+  const [searchTerm, setSearchTerm] = useState("");
+  const filteredPatients = patients.filter(
+    (patient) =>
+      (patient.optometrist || "")
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      (patient.lastVisit || "").toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
-// For Sorting
-const { sortedPatients, sortByField, sortOrder, sortField } = useSortRecords(filteredPatients);
+  // For Sorting
+  const { sortedPatients, sortByField, sortOrder, sortField } =
+    useSortRecords(filteredPatients);
 
-// Clear EHR
-const clearFields = () => {
-  setCaseno("");
-  setPatientname("");
-  setBirthdate("");
-  setAddress("");
-  setAge("");
-  setPhonenumber("");
-  setOccupation("");
-  setDoctor("");
-  setDistanceOD("");
-  setDistanceOS("");
-  setNearOD("");
-  setNearOS("");
-  setRxOD("");
-  setRxOS("");
-  setODvaU("");
-  setOSvaU("");
-  setODvaRX("");
-  setOSvaRX("");
-  setPD("");
-  setDBL("");
-  setSize1("");
-  setBifocals("");
-  setLens("");
-  setSize2("");
-  setSegment("");
-  setRemarks("");
-  setClinic("");
-  setOF(0);
-  setAF(0);
-  setLF(0);
-  setFF(0);
-  setTotal(0);
-};
-
+  // Clear EHR
+  const clearFields = () => {
+    setCaseno("");
+    setPatientname("");
+    setBirthdate("");
+    setAddress("");
+    setAge("");
+    setPhonenumber("");
+    setOccupation("");
+    setDoctor("");
+    setDistanceOD("");
+    setDistanceOS("");
+    setNearOD("");
+    setNearOS("");
+    setRxOD("");
+    setRxOS("");
+    setODvaU("");
+    setOSvaU("");
+    setODvaRX("");
+    setOSvaRX("");
+    setPD("");
+    setDBL("");
+    setSize1("");
+    setBifocals("");
+    setLens("");
+    setSize2("");
+    setSegment("");
+    setRemarks("");
+    setClinic("");
+    setOF(0);
+    setAF(0);
+    setLF(0);
+    setFF(0);
+    setTotal(0);
+  };
 
   return (
     <div className={styles.recordContainer}>
@@ -428,12 +430,9 @@ const clearFields = () => {
               >
                 <FaPrint />
               </button>
-              <button
-                  className={styles.button}
-                  onClick={clearFields}
-                >
-                  <FaTrash />
-                </button>
+              <button className={styles.button} onClick={clearFields}>
+                <FaTrash />
+              </button>
             </div>
           </div>
           <div
@@ -828,70 +827,74 @@ const clearFields = () => {
         <div className={styles.seconddiv}>
           <div className={styles.topBar}>
             <h1 className={styles.header2}>Record History</h1>
-              <div className={styles.searchContainer}>
-                <div className={styles.searchWrapper}>
-                  <FaSearch className={styles.searchIcon} />
-                  <input
-                    type="text"
-                    placeholder="Search by Visit Date or Optometrist..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className={styles.searchInput}
-                  />
-                </div>
+            <div className={styles.searchContainer}>
+              <div className={styles.searchWrapper}>
+                <FaSearch className={styles.searchIcon} />
+                <input
+                  type="text"
+                  placeholder="Search by Visit Date or Optometrist..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className={styles.searchInput}
+                />
               </div>
             </div>
-            <div className={styles.tableContainer}>
-              <table className={styles.table}>
-                <thead className={styles.thead}>
-                  <tr>
-                    <th
-                      className={styles.th}
-                      onClick={() => sortByField("lastVisit")}
-                      style={{ cursor: "pointer" }}
-                    >
-                      Visit Date
-                      {sortField === "lastVisit" ? (sortOrder === "asc" ? " ▲" : " ▼") : ""}
-                    </th>
-                    <th 
-                      className={styles.th} 
-                      onClick={() => sortByField("otherColumn")} 
-                      style={{ cursor: "pointer" }}
-                    >
-                      Diagnosis
-                    </th>
-                    <th 
-                      className={styles.th} 
-                      onClick={() => sortByField("otherColumn")} 
-                      style={{ cursor: "pointer" }}
-                    >
-                      Prescription
-                    </th>
-                    <th 
-                      className={styles.th} 
-                      onClick={() => sortByField("otherColumn")} 
-                      style={{ cursor: "pointer" }}
-                    >
-                      Optometrist
-                    </th>
+          </div>
+          <div className={styles.tableContainer}>
+            <table className={styles.table}>
+              <thead className={styles.thead}>
+                <tr>
+                  <th
+                    className={styles.th}
+                    onClick={() => sortByField("lastVisit")}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Visit Date
+                    {sortField === "lastVisit"
+                      ? sortOrder === "asc"
+                        ? " ▲"
+                        : " ▼"
+                      : ""}
+                  </th>
+                  <th
+                    className={styles.th}
+                    onClick={() => sortByField("otherColumn")}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Diagnosis
+                  </th>
+                  <th
+                    className={styles.th}
+                    onClick={() => sortByField("otherColumn")}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Prescription
+                  </th>
+                  <th
+                    className={styles.th}
+                    onClick={() => sortByField("otherColumn")}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Optometrist
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {sortedPatients.map((patient, index) => (
+                  <tr
+                    key={index}
+                    className={styles.tr}
+                    onClick={() => viewPatient(patient)}
+                  >
+                    <td className={styles.td}>{patient.lastVisit}</td>
+                    <td className={styles.td}>{patient.diagnosis}</td>
+                    <td className={styles.td}>{patient.prescription}</td>
+                    <td className={styles.td}>{patient.optometrist}</td>
                   </tr>
-                </thead>
-                <tbody>
-                  {sortedPatients.map((patient, index) => (
-                    <tr
-                      key={index}
-                      className={styles.tr}
-                      onClick={() => viewPatient(patient)}
-                    >
-                      <td className={styles.td}>{patient.lastVisit}</td>
-                      <td className={styles.td}>{patient.diagnosis}</td>
-                      <td className={styles.td}>{patient.prescription}</td>
-                      <td className={styles.td}>{patient.optometrist}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </main>
     </div>
