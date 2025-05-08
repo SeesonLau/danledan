@@ -185,11 +185,13 @@ const PatientAppointments = () => {
         city: city,
         date: selectedDate,
         time: selectedTime,
-        reason: reason === "Other (Please specify)" ? otherReason : reason,
+        reason: reason === "Other (Please specify)" ? "Other" : reason,
+        otherReason: otherReason,
         name,
         sex,
         email,
         contactNumber,
+        status: "Pending",
       };
 
       await saveAppointment(appointmentData);
@@ -335,6 +337,7 @@ const PatientAppointments = () => {
 
         {currentStep === 2 && (
           <ClinicSelection
+            province={province}
             city={city}
             clinic={clinic}
             setClinic={setClinic}

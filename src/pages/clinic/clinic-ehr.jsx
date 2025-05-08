@@ -19,9 +19,8 @@ import { addEhrRecord, getEhrRecordsByClinic } from "@/config/firestore";
 import { determineDiagnosis } from "@/components/getDiagnosis";
 import { Timestamp } from "firebase/firestore";
 import { FaSearch } from "react-icons/fa";
-import { FaTrash } from "react-icons/fa"; 
+import { FaTrash } from "react-icons/fa";
 import useSortPatients from "@/components/ehrSortPatients";
-
 
 const ClinicEHR = () => {
   const { user, loading } = useAuth();
@@ -126,11 +125,11 @@ const ClinicEHR = () => {
       }
 
       const ehrData = {
-        caseno,
-        patientname: name,
-        date: date ? new Date(date) : new Date(),
+        caseno: caseno,
+        patient: { id: id, name: name },
+        date: date,
         address,
-        age: Number(age),
+        age: age,
         clinic,
         phonenumber: phone,
         occupation,
@@ -335,50 +334,50 @@ const ClinicEHR = () => {
     }
   };
 
-// Search 
+  // Search
   const [searchTerm, setSearchTerm] = useState("");
   const filteredPatients = patients.filter((patient) =>
     (patient.name || "").toLowerCase().includes(searchTerm.toLowerCase())
-);
+  );
 
-// For Sorting
-const { sortedPatients, sortByField, sortOrder, sortField } = useSortPatients(filteredPatients);
+  // For Sorting
+  const { sortedPatients, sortByField, sortOrder, sortField } =
+    useSortPatients(filteredPatients);
 
-
-// Clear EHR
-const clearFields = () => {
-  setCaseno("");
-  setPatientname("");
-  setBirthdate("");
-  setAddress("");
-  setAge("");
-  setPhonenumber("");
-  setOccupation("");
-  setDoctor("");
-  setDistanceOD("");
-  setDistanceOS("");
-  setNearOD("");
-  setNearOS("");
-  setRxOD("");
-  setRxOS("");
-  setODvaU("");
-  setOSvaU("");
-  setODvaRX("");
-  setOSvaRX("");
-  setPD("");
-  setDBL("");
-  setSize1("");
-  setBifocals("");
-  setLens("");
-  setSize2("");
-  setSegment("");
-  setRemarks("");
-  setOF(0);
-  setAF(0);
-  setLF(0);
-  setFF(0);
-  setTotal(0);
-};
+  // Clear EHR
+  const clearFields = () => {
+    setCaseno("");
+    setPatientname("");
+    setBirthdate("");
+    setAddress("");
+    setAge("");
+    setPhonenumber("");
+    setOccupation("");
+    setDoctor("");
+    setDistanceOD("");
+    setDistanceOS("");
+    setNearOD("");
+    setNearOS("");
+    setRxOD("");
+    setRxOS("");
+    setODvaU("");
+    setOSvaU("");
+    setODvaRX("");
+    setOSvaRX("");
+    setPD("");
+    setDBL("");
+    setSize1("");
+    setBifocals("");
+    setLens("");
+    setSize2("");
+    setSegment("");
+    setRemarks("");
+    setOF(0);
+    setAF(0);
+    setLF(0);
+    setFF(0);
+    setTotal(0);
+  };
 
   // Render
   return (
@@ -401,10 +400,7 @@ const clearFields = () => {
               >
                 <FaPrint />
               </button>
-              <button
-                className={styles.button}
-                onClick={clearFields}
-              >
+              <button className={styles.button} onClick={clearFields}>
                 <FaTrash />
               </button>
             </div>
@@ -473,11 +469,7 @@ const clearFields = () => {
                     value={date}
                     onChange={handleChange(setBirthdate)}
                   />
-                  <EHRTextbox 
-                    label="Clinic" 
-                    value={clinic} 
-                    readOnly disabled 
-                  />
+                  <EHRTextbox label="Clinic" value={clinic} readOnly disabled />
                   <EHRTextbox
                     label="Doctor"
                     value={doctor}
@@ -775,8 +767,8 @@ const clearFields = () => {
         </div>
 
         <div className={styles.seconddiv}>
-         <div className={styles.topBar}>
-          <h1 className={styles.header2}>Patient List</h1>
+          <div className={styles.topBar}>
+            <h1 className={styles.header2}>Patient List</h1>
             <div className={styles.searchContainer}>
               <div className={styles.searchWrapper}>
                 <FaSearch className={styles.searchIcon} />
@@ -806,11 +798,16 @@ const clearFields = () => {
                       onClick={() => sortByField("caseNo")}
                       style={{ cursor: "pointer" }}
                     >
-                      Case No. {sortField === "caseNo" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
+                      Case No.{" "}
+                      {sortField === "caseNo"
+                        ? sortOrder === "asc"
+                          ? "▲"
+                          : "▼"
+                        : ""}
                     </th>
                     <th
                       className={styles.th}
-                      onClick={() => sortByField("otherColumn")} 
+                      onClick={() => sortByField("otherColumn")}
                       style={{ cursor: "pointer" }}
                     >
                       Patient Name

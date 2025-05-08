@@ -1,15 +1,16 @@
-import { useMediaQuery } from 'react-responsive';
-import ClinicLayout from '@/components/clinic-layout';
-import styles from '@/styles/clinic/clinic-appointments.module.css';
-import Head from 'next/head';
-import AppointmentsTable from '@/components/clinic/appointments/appointmentsTable';
-import AppointmentsFilters from '@/components/clinic/appointments/appointmentsFilter';
-import AppointmentModal from '@/components/clinic/appointments/appointmentModal';
-import useAppointments from '@/components/hooks/useAppointments';
-import Pagination from '@/components/clinic/appointments/pagination';
+import { useMediaQuery } from "react-responsive";
+import ClinicLayout from "@/components/clinic-layout";
+import styles from "@/styles/clinic/clinic-appointments.module.css";
+import Head from "next/head";
+import AppointmentsTable from "@/components/clinic/appointments/appointmentsTable";
+import AppointmentsFilters from "@/components/clinic/appointments/appointmentsFilter";
+import AppointmentModal from "@/components/clinic/appointments/appointmentModal";
+import useAppointments from "@/components/hooks/useAppointments";
+import Pagination from "@/components/clinic/appointments/pagination";
+import { useEffect, useState } from "react";
 
 const ClinicAppointments = () => {
-  const isDesktop = useMediaQuery({ minWidth: 1024 });
+  const [isDesktop, setIsDesktop] = useState(null);
 
   const {
     currentAppointments,
@@ -39,7 +40,10 @@ const ClinicAppointments = () => {
       <div className={styles.container}>
         <div className={styles.header}>
           <h1 className={styles.title}>Patient Appointments</h1>
-          <button className={styles.refreshButton} onClick={() => window.location.reload()}>
+          <button
+            className={styles.refreshButton}
+            onClick={() => window.location.reload()}
+          >
             Refresh
           </button>
         </div>
@@ -79,6 +83,17 @@ const ClinicAppointments = () => {
     </>
   );
 
+  useEffect(() => {
+    const checkIsDesktop = () => window.innerWidth >= 1024;
+    setIsDesktop(checkIsDesktop());
+
+    const handleResize = () => setIsDesktop(checkIsDesktop());
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  if (isDesktop === null) return null; // or show a loader while checking screen size
   return isDesktop ? (
     <ClinicLayout>
       <AppointmentsContent />

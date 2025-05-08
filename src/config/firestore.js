@@ -1,4 +1,3 @@
-import { initializeApp } from "firebase/app";
 import {
   getFirestore,
   collection,
@@ -17,10 +16,69 @@ import {
 import { db } from "./firebase";
 import { determineDiagnosis } from "@/components/getDiagnosis";
 
-// --- Collection References ---
-const ehrCollGroupRef = collectionGroup(db, "ehr");
-const ehrCollectionRef = collection(db, "ehr");
-const patientsCollectionRef = collection(db, "patients");
+// Fetching Clinics from Firestore
+export const getClinics = async (province, city) => {
+  try {
+    const clinicsRef = collection(db, "clinics");
+    let q = clinicsRef;
+
+    if (province) {
+      q = query(q, where("province", "==", province));
+    }
+    if (city) {
+      q = query(q, where("city", "==", city));
+    }
+
+    const querySnapshot = await getDocs(q);
+    const clinics = querySnapshot.docs.map((doc) => {
+      const data = doc.data();
+      return {
+        name: data.clinicName,
+        address: data.address,
+        contact: data.phone,
+        id: doc.id,
+      };
+    });
+
+    return {
+      [city]: clinics, // Return an object with a 'city' property
+    };
+  } catch (error) {
+    console.error("Error getting clinics:", error);
+    return { clinics: [] }; // Return an object with an empty 'clinics' array on error
+  }
+};
+
+export const getPatientDoc = async (patientId) => {
+  try {
+    // Create a reference to the patient document in the "patients" collection
+    const patientDocRef = doc(db, "patients", patientId);
+
+    // Retrieve the document using getDoc()
+    const patientDocSnapshot = await getDoc(patientDocRef);
+    const patient = patientDocSnapshot.data();
+
+    // Check if the document exists
+    if (patientDocSnapshot.exists()) {
+      // Return the document data as an object
+      return {
+        name: `${patient.firstName || ""} ${patient.middleName || ""} ${
+          patient.lastName || ""
+        }`,
+        sex: patient.sex,
+        email: patient.email,
+        contact: patient.phone,
+      };
+    } else {
+      // Document does not exist
+      return null;
+    }
+  } catch (error) {
+    // Handle errors appropriately
+    console.error("Error retrieving patient document:", error);
+    throw error; // Re-throw the error so the caller can handle it
+  }
+};
 
 // --- Required Fields for EHR ---
 const requiredFields = [
@@ -59,92 +117,19 @@ const requiredFields = [
   "lastvisit",
 ];
 
-// --- Validate EHR Data ---
-function validateEhrData(ehrData) {
-  for (const field of requiredFields) {
-    if (
-      ehrData[field] === undefined ||
-      ehrData[field] === null ||
-      ehrData[field] === ""
-    ) {
-      throw new Error(`Field "${field}" is required.`);
-    }
-  }
-  if (!(ehrData.date instanceof Date))
-    throw new Error("Invalid or missing 'date'.");
-  if (!(ehrData.lastvisit instanceof Date))
-    throw new Error("Invalid or missing 'lastvisit'.");
-}
-
-// --- Find Patient UID ---
-async function findPatientUid(firstName, lastName) {
-  const q = query(
-    patientsCollectionRef,
-    where("firstName", "==", firstName),
-    where("lastName", "==", lastName),
-    limit(1)
-  );
-  const snapshot = await getDocs(q);
-  if (!snapshot.empty) {
-    const doc = snapshot.docs[0];
-    return doc.id; // If you store "uid" field inside patient doc, use doc.data().uid
-  }
-  throw new Error(`Patient ${firstName} ${lastName} not found.`);
-}
-
-// --- Get Patient Full Name by UID ---
-export async function getPatientNameByUid(uid) {
-  const docRef = doc(db, "patients", uid);
-  const docSnap = await getDoc(docRef);
-  if (docSnap.exists()) {
-    const data = docSnap.data();
-    return `${data.firstName} ${data.lastName}`;
-  }
-  return "Unknown Patient";
-}
-
 // --- Add EHR Record with Versioning ---
 export const addEhrRecord = async (ehrData) => {
   try {
-    validateEhrData(ehrData);
+    const ehrCollectionRef = collection(db, "ehr");
 
-    const [firstName, lastName] = ehrData.patientname.split(" ");
-    const patientUid = await findPatientUid(firstName, lastName);
+    // Add the new document to the "ehr" collection
+    const docRef = await addDoc(ehrCollectionRef, ehrData);
 
-    const q = query(
-      ehrCollectionRef,
-      where("clinic", "==", ehrData.clinic),
-      where("caseno", "==", ehrData.caseno),
-      limit(1)
-    );
-    const snapshot = await getDocs(q);
-
-    let newVersion = 1;
-    if (!snapshot.empty) {
-      const latest = snapshot.docs[0].data();
-      newVersion = (latest.version || 1) + 1;
-    }
-
-    const diagnosis = determineDiagnosis(ehrData);
-
-    const dataToSave = {
-      ...ehrData,
-      firstName,
-      lastName,
-      patientUid,
-      date: Timestamp.fromDate(ehrData.date),
-      lastvisit: Timestamp.fromDate(ehrData.lastvisit),
-      diagnosis,
-      version: newVersion,
-    };
-
-    delete dataToSave.patientname; // (optional) remove old patientname
-
-    const docRef = await addDoc(ehrCollectionRef, dataToSave);
+    // Return the ID of the newly created document
     return docRef.id;
   } catch (error) {
-    window.alert("Error adding EHR record: " + error.message);
-    throw error;
+    // Handle errors and provide more informative error message
+    throw new Error(`Failed to save EHR data: ${error.message}`);
   }
 };
 
@@ -239,5 +224,97 @@ export const saveAppointment = async (appointmentData) => {
   } catch (error) {
     window.alert("Error saving appointment: " + error.message);
     throw error;
+  }
+};
+
+export const fetchAppointmentPatient = async (patientId) => {
+  try {
+    const appointmentsRef = collection(db, "appointments"); // Get reference to the 'appointments' collection
+    const q = query(appointmentsRef, where("userUid", "==", patientId)); // Create a query to filter by patientId
+
+    const querySnapshot = await getDocs(q); // Execute the query
+
+    const appointments = querySnapshot.docs.map((doc) => {
+      // Map each document to an object containing its ID and data
+      const info = doc.data();
+      console.log(info);
+      console.log(info.clinic.date);
+      let mm, dd, yy;
+
+      if (info?.clinic?.date) {
+        const months = {
+          January: 0,
+          February: 1,
+          March: 2,
+          April: 3,
+          May: 4,
+          June: 5,
+          July: 6,
+          August: 7,
+          September: 8,
+          October: 9,
+          November: 10,
+          December: 11,
+        };
+
+        const parts = info.clinic.date.split(" ");
+        const monthName = parts[0];
+        const day = parseInt(parts[1].replace(",", ""), 10); // Remove the comma and parse
+        const year = parseInt(parts[2], 10);
+        const month = months[monthName];
+        const date = new Date(year, month, day);
+
+        mm = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
+        dd = String(date.getDate()).padStart(2, "0");
+        yy = String(date.getFullYear()).slice(-2);
+      }
+
+      return {
+        id: doc.id,
+        name: `${info.reason} at ${info.clinic.name} on ${info.date} `,
+        time: `${info.time}`,
+      };
+    });
+    return appointments;
+  } catch (error) {
+    console.error("Error fetching appointments:", error);
+    throw error; // Re-throw the error to be handled by the caller
+  }
+};
+
+export const getAppointmentClinic = async (clinicId) => {
+  try {
+    const appointmentsRef = collection(db, "appointments");
+
+    const q = query(appointmentsRef, where("clinic.id", "==", clinicId)); // Only filter by clinicId
+
+    const querySnapshot = await getDocs(q);
+
+    const appointments = [];
+    console.log(querySnapshot);
+    querySnapshot.forEach((doc) => {
+      const appData = doc.data();
+
+      appointments.push({
+        id: doc.id,
+        patientId: appData.userUid,
+        patientName: appData.name,
+        sex: appData.sex,
+        email: appData.email,
+        contactNumber: appData.contactNumber,
+        appointmentDate: appData.date,
+        appointmentTime: appData.time,
+        reason: appData.reason,
+        otherReason: appData.otherReason,
+        status: appData.status,
+        pdfFile: "",
+        createdAt: appData.createdAt,
+      });
+    });
+    return appointments;
+  } catch (error) {
+    console.error("Error fetching appointments:", error);
+
+    return [];
   }
 };

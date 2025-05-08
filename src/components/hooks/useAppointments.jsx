@@ -1,15 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import { useAuth } from "@/config/AuthContext";
+import { getAppointmentClinic } from "@/config/firestore";
 
 const useAppointments = () => {
   const [appointments, setAppointments] = useState([]);
-  const [dateFilter, setDateFilter] = useState('');
-  const [statusFilter, setStatusFilter] = useState('All');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortConfig, setSortConfig] = useState({ key: 'appointmentDate', direction: 'asc' });
+  const [dateFilter, setDateFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortConfig, setSortConfig] = useState({
+    key: "appointmentDate",
+    direction: "asc",
+  });
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const appointmentsPerPage = 5;
+  const { user, load } = useAuth();
 
   useEffect(() => {
     // Fetch appointments from API
@@ -18,9 +24,9 @@ const useAppointments = () => {
         // const response = await fetch('/api/appointments');
         // const data = await response.json();
         // setAppointments(data);
-        
+
         // Mock data
-        setAppointments([
+        /*setAppointments([
           {
             id: 1,
             patientId: 'PID-2023-001',
@@ -66,52 +72,72 @@ const useAppointments = () => {
             pdfFile: 'robert_johnson_medical_history.pdf',
             createdAt: '2023-11-12T10:20:00'
           },
-        ]);
+        ]);*/
+        if (user?.uid) {
+          // Ensure user is defined
+          const fetchedAppointments = await getAppointmentClinic(user.uid);
+          setAppointments(fetchedAppointments);
+        } else {
+          setAppointments([]); // Or handle the case where user is not logged in
+        }
       } catch (error) {
-        console.error('Error fetching appointments:', error);
+        console.error("Error fetching appointments:", error);
       }
     };
 
     fetchAppointments();
-  }, []);
+  }, [user, load]);
 
   const filteredAppointments = appointments
-    .filter(appointment => {
+    .filter((appointment) => {
       return (
-        (dateFilter === '' || appointment.appointmentDate === dateFilter) &&
-        (statusFilter === 'All' || appointment.status === statusFilter) &&
-        (searchTerm === '' || 
-          appointment.patientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          appointment.patientId.toLowerCase().includes(searchTerm.toLowerCase()))
+        (dateFilter === "" || appointment.appointmentDate === dateFilter) &&
+        (statusFilter === "All" || appointment.status === statusFilter) &&
+        (searchTerm === "" ||
+          appointment.patientName
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
+          appointment.patientId
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()))
       );
     })
     .sort((a, b) => {
       if (a[sortConfig.key] < b[sortConfig.key]) {
-        return sortConfig.direction === 'asc' ? -1 : 1;
+        return sortConfig.direction === "asc" ? -1 : 1;
       }
       if (a[sortConfig.key] > b[sortConfig.key]) {
-        return sortConfig.direction === 'asc' ? 1 : -1;
+        return sortConfig.direction === "asc" ? 1 : -1;
       }
       return 0;
     });
 
   const indexOfLastAppointment = currentPage * appointmentsPerPage;
   const indexOfFirstAppointment = indexOfLastAppointment - appointmentsPerPage;
-  const currentAppointments = filteredAppointments.slice(indexOfFirstAppointment, indexOfLastAppointment);
-  const totalPages = Math.ceil(filteredAppointments.length / appointmentsPerPage);
+  const currentAppointments = filteredAppointments.slice(
+    indexOfFirstAppointment,
+    indexOfLastAppointment
+  );
+  const totalPages = Math.ceil(
+    filteredAppointments.length / appointmentsPerPage
+  );
 
   const requestSort = (key) => {
-    let direction = 'asc';
-    if (sortConfig.key === key && sortConfig.direction === 'asc') {
-      direction = 'desc';
+    let direction = "asc";
+    if (sortConfig.key === key && sortConfig.direction === "asc") {
+      direction = "desc";
     }
     setSortConfig({ key, direction });
   };
 
   const handleStatusChange = (id, newStatus) => {
-    setAppointments(appointments.map(appointment => 
-      appointment.id === id ? { ...appointment, status: newStatus } : appointment
-    ));
+    setAppointments(
+      appointments.map((appointment) =>
+        appointment.id === id
+          ? { ...appointment, status: newStatus }
+          : appointment
+      )
+    );
   };
 
   const handleViewAppointment = (appointment) => {
@@ -143,7 +169,7 @@ const useAppointments = () => {
     setCurrentPage,
     handleStatusChange,
     handleViewAppointment,
-    closeModal
+    closeModal,
   };
 };
 

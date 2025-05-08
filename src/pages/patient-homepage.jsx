@@ -4,16 +4,29 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import { auth, getFullName } from "../config/firebase";
-import dynamic from 'next/dynamic';
-import 'leaflet/dist/leaflet.css';
+import dynamic from "next/dynamic";
+import "leaflet/dist/leaflet.css";
+import { useAuth } from "@/config/AuthContext";
+import { fetchAppointmentPatient } from "@/config/firestore";
 
 // Dynamic imports for Leaflet (Next.js + Vercel safe)
-const MapContainer = dynamic(() => import('react-leaflet').then(mod => mod.MapContainer), { ssr: false });
-const TileLayer = dynamic(() => import('react-leaflet').then(mod => mod.TileLayer), { ssr: false });
-const Marker = dynamic(() => import('react-leaflet').then(mod => mod.Marker), { ssr: false });
-const Popup = dynamic(() => import('react-leaflet').then(mod => mod.Popup), { ssr: false });
+const MapContainer = dynamic(
+  () => import("react-leaflet").then((mod) => mod.MapContainer),
+  { ssr: false }
+);
+const TileLayer = dynamic(
+  () => import("react-leaflet").then((mod) => mod.TileLayer),
+  { ssr: false }
+);
+const Marker = dynamic(
+  () => import("react-leaflet").then((mod) => mod.Marker),
+  { ssr: false }
+);
+const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), {
+  ssr: false,
+});
 
-const patientNotifications = [
+/*const patientNotifications = [
   { id: 1, name: "Meeting with Eye Doctor at Mercado, Lapu-Lapu", time: "5:30pm" },
   { id: 2, name: "Your eye check-up is tomorrow. See you soon!", time: "10:30pm" },
   { id: 3, name: "Your appointment is confirmed. See you!", time: "5:30pm" },
@@ -24,21 +37,41 @@ const patientNotifications = [
   { id: 8, name: "Your session is confirmed. Questions?", time: "5:30pm" },
   { id: 9, name: "Update available for your session.", time: "5:30pm" },
   { id: 10, name: "See you at your appointment!", time: "5:30pm" }
-];
+];*/
 
 const PatientHomePage = () => {
   const [customMarkerIcon, setCustomMarkerIcon] = useState(null);
+  const [patientNotifications, setNotifications] = useState([]);
+  const { user } = useAuth();
+  useEffect(() => {
+    const getAppointmentData = async () => {
+      try {
+        const appointmentData = await fetchAppointmentPatient(user.uid);
+        console.log("Appointment Data:", appointmentData);
+        setNotifications(appointmentData || []);
+        // Do something with the appointment data, e.g., update state, render it
+      } catch (error) {
+        console.error("Error fetching appointment data:", error);
+        // Handle the error, e.g., show a message to the user
+      }
+    };
+
+    if (user) {
+      // Only fetch if patientId is available
+      getAppointmentData();
+    }
+  }, [user]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       // Create the custom marker icon only in the client-side environment (when window is defined)
-      const { Icon } = require("leaflet");  // Dynamically import the 'Icon' from leaflet on the client-side
+      const { Icon } = require("leaflet"); // Dynamically import the 'Icon' from leaflet on the client-side
       setCustomMarkerIcon(
         new Icon({
-          iconUrl: "/landing-page-iamge/Marker1.png",  // Path to your icon image
-          iconSize: [38, 38],  // Adjust as needed
-          iconAnchor: [19, 38],  // Bottom center point of the icon
-          popupAnchor: [0, -38]  // Popup positioning
+          iconUrl: "/landing-page-iamge/Marker1.png", // Path to your icon image
+          iconSize: [38, 38], // Adjust as needed
+          iconAnchor: [19, 38], // Bottom center point of the icon
+          popupAnchor: [0, -38], // Popup positioning
         })
       );
     }
@@ -73,7 +106,7 @@ const PatientHomePage = () => {
   //     setLoading(false); // Stop loading if geolocation is not supported
   //   }
   // }, []);
-  
+
   /*EASTER EGG LOGIC*/
   const [clickCount, setClickCount] = useState(0);
   const [timer, setTimer] = useState(null);
@@ -122,7 +155,7 @@ const PatientHomePage = () => {
   return (
     <div className={styles.patientcontainer}>
       {/* Sidebar */}
-      <PatientLayout/>
+      <PatientLayout />
 
       {/*main content */}
       <main className={styles.patientmaincontent}>
@@ -158,33 +191,27 @@ const PatientHomePage = () => {
               center={position}
               zoom={15}
               scrollWheelZoom={true}
-              style={{ height: '100%', width: '100%' }}>
+              style={{ height: "100%", width: "100%" }}
+            >
               <TileLayer
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
-            <Marker position={position} icon={customMarkerIcon}>
-              <Popup>
-                You are here.
-              </Popup>
-            </Marker>
+              <Marker position={position} icon={customMarkerIcon}>
+                <Popup>You are here.</Popup>
+              </Marker>
 
-            {/* WELLNESS CEBU HARDCODED LOCATION */}
-            <Marker position={position1} icon={customMarkerIcon}>
-              <Popup>
-                Wellness Cebu Clinic
-              </Popup>
-            </Marker>
-            
-            {/* CEBU HEALTH CENTER HARDCODED LOCATION */}
-            <Marker position={position2} icon={customMarkerIcon}>
-              <Popup>
-                Cebu Health Center
-              </Popup>
-            </Marker>
+              {/* WELLNESS CEBU HARDCODED LOCATION */}
+              <Marker position={position1} icon={customMarkerIcon}>
+                <Popup>Wellness Cebu Clinic</Popup>
+              </Marker>
 
+              {/* CEBU HEALTH CENTER HARDCODED LOCATION */}
+              <Marker position={position2} icon={customMarkerIcon}>
+                <Popup>Cebu Health Center</Popup>
+              </Marker>
             </MapContainer>
-      </div>
+          </div>
         </div>
 
         {/* Second div layer */}

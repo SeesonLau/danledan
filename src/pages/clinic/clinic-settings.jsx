@@ -35,7 +35,7 @@ const DefaultProfileSvg = () => (
 
 const ClinicSettings = () => {
   // Authentication and routing hooks
-  const { user, loading } = useAuth();
+  const { user, loading, role } = useAuth();
   const router = useRouter();
 
   // Component state management
@@ -48,12 +48,15 @@ const ClinicSettings = () => {
     licenseNumber: "",
     establishedDate: "",
     yearsActive: "",
-    address1: "",
-    address2: "", // Added second line for address
+    province: "",
+    city: "",
+    address: "", // Added second line for address
     email: "",
     phone: "",
     profilePicture: "", // URL to the profile picture
   });
+  const [isProfileComplete, setIsComplete] = useState(true);
+  const [isProfileSaved, setIsSaved] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [saveMessage, setSaveMessage] = useState({ type: "", message: "" });
@@ -137,6 +140,28 @@ const ClinicSettings = () => {
     }
   };
 
+  //For easier address handling
+
+  const provinces = {
+    "Metro Manila": ["Quezon City", "Manila", "Makati"],
+    Cebu: ["Cebu City", "Mandaue", "Lapu-Lapu"],
+    Davao: ["Davao City", "Panabo", "Tagum"],
+  };
+  const handleProvinceChange = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      province: e.target.value,
+      city: "",
+    }));
+  };
+
+  const handleCityChange = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      city: e.target.value,
+    }));
+  };
+
   // ====================
   // DATABASE OPERATIONS - USER DATA FETCHING
   // ====================
@@ -146,6 +171,10 @@ const ClinicSettings = () => {
       router.replace("/");
       return;
     }
+    /*if (role != "Clinic") {
+      router.replace("/clinic-homepage");
+      return;
+    }*/
 
     if (user) {
       const fetchUserData = async () => {
@@ -160,7 +189,7 @@ const ClinicSettings = () => {
             // Extract data from the fetched document
             const userData = userDoc.data();
             // Split address into two lines if it exists
-            let address1 = "",
+            /*let address1 = "",
               address2 = "";
             if (userData.address) {
               const addressParts = userData.address.split(",", 2);
@@ -171,7 +200,7 @@ const ClinicSettings = () => {
                       .substring(addressParts[0].length + 1)
                       .trim()
                   : "";
-            }
+            }*/
 
             // Populate the form with fetched data
             setFormData({
@@ -182,8 +211,9 @@ const ClinicSettings = () => {
               licenseNumber: userData.licenseNumber || "",
               establishedDate: userData.establishedDate || "",
               yearsActive: calculateYearsActive(userData.establishedDate) || "",
-              address1: address1,
-              address2: address2,
+              province: userData.province || "",
+              city: userData.city || "",
+              address: userData.address || "", // address
               email: userData.email || "",
               phone: userData.phone || "",
               profilePicture: userData.profilePicture || "", // Will use SVG default if empty
@@ -201,12 +231,27 @@ const ClinicSettings = () => {
           });
         } finally {
           setIsLoading(false);
+          const isFormComplete =
+            formData.clinicName &&
+            formData.ownerFirstName &&
+            formData.ownerLastName &&
+            formData.ownerMiddleName &&
+            formData.licenseNumber &&
+            formData.establishedDate &&
+            formData.yearsActive &&
+            formData.province &&
+            formData.city &&
+            formData.address &&
+            formData.email &&
+            formData.phone;
+          setIsComplete(isFormComplete);
+          setIsSaved(isProfileComplete);
         }
       };
 
       fetchUserData();
     }
-  }, [user, loading, router]);
+  }, [user, loading, role, router]);
 
   // Calculate years active based on establishment date
   const calculateYearsActive = (establishedDate) => {
@@ -235,8 +280,25 @@ const ClinicSettings = () => {
           yearsActive: calculateYearsActive(value),
         };
       }
+      if (name === "province") {
+        return {
+          ...prev,
+          [name]: value,
+
+          province: value,
+        };
+      }
+      if (name === "city") {
+        return {
+          ...prev,
+          [name]: value,
+          city: value,
+        };
+      }
       return { ...prev, [name]: value };
     });
+    setIsSaved(false);
+    setIsComplete(false);
   };
 
   // ====================
@@ -256,8 +318,8 @@ const ClinicSettings = () => {
       }
 
       // Combine address lines for storage
-      const combinedAddress =
-        formData.address1 + (formData.address2 ? `, ${formData.address2}` : "");
+      //const combinedAddress =
+      //  formData.address1 + (formData.address2 ? `, ${formData.address2}` : "");
 
       // Create a reference to the user document in Firestore
       const userDocRef = doc(db, "clinics", user.uid);
@@ -268,7 +330,9 @@ const ClinicSettings = () => {
         middleName: formData.ownerMiddleName,
         lastName: formData.ownerLastName,
         establishedDate: formData.establishedDate,
-        address: combinedAddress,
+        province: formData.province,
+        city: formData.city,
+        address: formData.address,
         phone: formData.phone,
         profilePicture: profilePictureUrl,
         // Email, license number, and years active are not updated - email and license are managed by auth and years active is calculated
@@ -302,6 +366,21 @@ const ClinicSettings = () => {
       });
     } finally {
       setIsSaving(false);
+      const isFormComplete =
+        formData.clinicName &&
+        formData.ownerFirstName &&
+        formData.ownerLastName &&
+        formData.ownerMiddleName &&
+        formData.licenseNumber &&
+        formData.establishedDate &&
+        formData.yearsActive &&
+        formData.province &&
+        formData.city &&
+        formData.address &&
+        formData.email &&
+        formData.phone;
+      setIsComplete(isFormComplete);
+      if (isFormComplete) setIsSaved(true);
     }
   };
 
@@ -455,6 +534,12 @@ const ClinicSettings = () => {
                 </div>
               </div>
 
+              <p className={styles.notice}>
+                {isProfileSaved
+                  ? ""
+                  : "*COMPLETE AND SAVE PROFILE TO USE OPTICARE'S FEATURES*"}
+              </p>
+
               {/* Clinic Name */}
               <div className={styles.formRow}>
                 <div className={styles.fullWidthInputGroup}>
@@ -541,23 +626,46 @@ const ClinicSettings = () => {
               {/* Address Row - Updated to be side by side */}
               <div className={styles.formRow}>
                 <div className={styles.inputGroup}>
-                  <label>Address Line 1</label>
-                  <input
-                    type="text"
-                    name="address1"
-                    value={formData.address1}
+                  <label className={styles.formLabel}>Province</label>
+                  <select
+                    name="province"
+                    className={styles.selectInput}
+                    value={formData.province}
                     onChange={handleChange}
-                    placeholder="Street, Building Number"
-                  />
+                  >
+                    <option value="">Select Province</option>
+                    {Object.keys(provinces).map((prov) => (
+                      <option key={prov} value={prov}>
+                        {prov}
+                      </option>
+                    ))}
+                  </select>
                 </div>
                 <div className={styles.inputGroup}>
-                  <label>Address Line 2</label>
+                  <label className={styles.formLabel}>City</label>
+                  <select
+                    name="city"
+                    className={styles.selectInput}
+                    value={formData.city}
+                    onChange={handleChange}
+                    disabled={!formData.province}
+                  >
+                    <option value="">Select City</option>
+                    {provinces[formData.province]?.map((city) => (
+                      <option key={city} value={city}>
+                        {city}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className={styles.inputGroup}>
+                  <label>Address Line</label>
                   <input
                     type="text"
-                    name="address2"
-                    value={formData.address2}
+                    name="address"
+                    value={formData.address}
                     onChange={handleChange}
-                    placeholder="City, State, ZIP Code"
+                    placeholder="Street, Barangay, ZIP Code"
                   />
                 </div>
               </div>
