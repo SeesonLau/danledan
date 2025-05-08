@@ -21,6 +21,7 @@ import { Timestamp } from "firebase/firestore";
 import { FaSearch } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
 import useSortPatients from "@/components/ehrSortPatients";
+import { generateCaseNumber } from "@/config/firestore";
 
 const ClinicEHR = () => {
   const { user, loading } = useAuth();
@@ -116,6 +117,19 @@ const ClinicEHR = () => {
     }
   }, [user, loading]);
 
+  const handleNewClick = async () => {
+    try {
+      const newCaseNumber = await generateCaseNumber();
+      clearFields();
+      setCaseno(newCaseNumber);
+    } catch (error) {
+      console.error("Failed to generate new case number", error);
+      alert(
+        "Failed to generate new case number. Please check the console for details."
+      );
+    }
+  };
+
   const handleSaveClick = async () => {
     setError(null);
     try {
@@ -125,11 +139,11 @@ const ClinicEHR = () => {
       }
 
       const ehrData = {
-        caseno: caseno,
-        patient: { id: id, name: name },
-        date: date,
+        caseno,
+        patientname: name,
+        date: date ? new Date(date) : new Date(),
         address,
-        age: age,
+        age: Number(age),
         clinic,
         phonenumber: phone,
         occupation,
@@ -655,6 +669,11 @@ const ClinicEHR = () => {
 
             <div className={styles.div6}>
               <div className={styles.horizontalFormat}>
+                <div className={styles.saveContainer}>
+                  <div className={styles.hideContainer} data-html2canvas-ignore>
+                    <SaveButton label="New" onClick={handleNewClick} />
+                  </div>
+                </div>
                 <div className={styles.saveContainer}>
                   <div className={styles.hideContainer} data-html2canvas-ignore>
                     <SaveButton label="Save" onClick={handleSaveClick} />

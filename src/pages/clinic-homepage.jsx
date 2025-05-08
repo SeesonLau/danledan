@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import ClinicLayout from "@/components/clinic-layout";
 import { auth, getFullName } from "../config/firebase";
+import { fetchAppointmentClinic } from "@/config/firestore";
 
 const todayVisit = 100;
 const oldpVisit = 50;
@@ -40,6 +41,26 @@ const ClinicHome = () => {
   if (!user) return null;
   //
   */
+
+  const { user } = useAuth();
+  useEffect(() => {
+    const getAppointmentData = async () => {
+      try {
+        const appointmentData = await fetchAppointmentClinic(user.uid);
+        console.log("Appointment Data:", appointmentData);
+        setNotifications(appointmentData || []);
+        // Do something with the appointment data, e.g., update state, render it
+      } catch (error) {
+        console.error("Error fetching appointment data:", error);
+        // Handle the error, e.g., show a message to the user
+      }
+    };
+
+    if (user) {
+      // Only fetch if patientId is available
+      getAppointmentData();
+    }
+  }, [user]);
   const [clickCount, setClickCount] = useState(0);
   const [timer, setTimer] = useState(null);
 
