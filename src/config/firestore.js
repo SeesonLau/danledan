@@ -153,6 +153,29 @@ const ehrCollectionRef = collection(db, "ehr");
 const patientsCollectionRef = collection(db, "patients");
 
 // --- Add EHR Record with Versioning ---
+export const getClinicDetails = async (clinicId) => {
+  try {
+    if (!clinicId) {
+      console.error("User UID is required to fetch clinic details.");
+      return null;
+    }
+
+    const clinicsCollection = "clinics";
+    const clinicDocRef = doc(db, clinicsCollection, clinicId);
+    const clinicSnapshot = await getDoc(clinicDocRef);
+
+    if (clinicSnapshot.exists()) {
+      return clinicSnapshot.data(); // Returns the clinic data as an object
+    } else {
+      console.log(`No clinic found with UID: ${clinicId}`);
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching clinic details:", error);
+    throw error; // Re-throw the error for the calling function to handle
+  }
+};
+
 function validateEhrData(ehrData) {
   for (const field of requiredFields) {
     if (
@@ -170,21 +193,6 @@ function validateEhrData(ehrData) {
 }
 
 async function findPatientUid(firstName, lastName) {
-  const q = query(
-    patientsCollectionRef,
-    where("firstName", "==", firstName),
-    where("lastName", "==", lastName),
-    limit(1)
-  );
-  const snapshot = await getDocs(q);
-  if (!snapshot.empty) {
-    const doc = snapshot.docs[0];
-    return doc.id; // Or doc.data().uid if you store UID in the patient doc
-  }
-  return null; // Return null if no patient is found
-}
-
-async function findClinicInfo(clinicId) {
   const q = query(
     patientsCollectionRef,
     where("firstName", "==", firstName),
@@ -533,11 +541,11 @@ export const getAppointmentClinic = async (clinicId) => {
   }
 };
 
-export const updateAppointment = async (appointmentId) => {
+export const updateAppointment = async (appointmentId, status) => {
   try {
     const appointmentRef = doc(db, "appointments", appointmentId);
     const updatedData = {
-      status: "Cancelled",
+      status: status,
     };
     await updateDoc(appointmentRef, updatedData);
   } catch (error) {

@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { addEhrRecord, getEhrRecordsByClinic } from "@/config/firestore";
 import useSortPatients from "@/components/ehrSortPatients";
 import { generateCaseNumber } from "@/config/firestore";
+import useAppointments from "./useAppointments";
 
 const useEHR = () => {
   const [clinic, setClinic] = useState("");
