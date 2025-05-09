@@ -8,6 +8,7 @@ import AppointmentModal from "@/components/clinic/appointments/appointmentModal"
 import useAppointments from "@/components/hooks/useAppointments";
 import Pagination from "@/components/clinic/appointments/pagination";
 import { useEffect, useState } from "react";
+import { useAuth } from "@/config/AuthContext";
 
 const ClinicAppointments = () => {
   const [isDesktop, setIsDesktop] = useState(null);
@@ -22,6 +23,7 @@ const ClinicAppointments = () => {
     totalPages,
     selectedAppointment,
     showModal,
+    isPageReload,
     setDateFilter,
     setStatusFilter,
     setSearchTerm,
@@ -30,7 +32,22 @@ const ClinicAppointments = () => {
     handleStatusChange,
     handleViewAppointment,
     closeModal,
+    handleReload,
+    setIsPageReload,
   } = useAppointments();
+
+  const { user, loading, isProfileComplete, isSaved } = useAuth();
+  useEffect(() => {
+    if (!loading && !user) {
+      router.replace("/"); // Redirect if not authenticated
+    }
+  }, [user, loading]);
+
+  useEffect(() => {
+    if (!isProfileComplete && !isSaved) {
+      router.replace("/clinic/clinic-settings"); // Redirect if not authenticated
+    }
+  }, [isProfileComplete, isSaved]);
 
   const AppointmentsContent = () => (
     <>
@@ -40,10 +57,7 @@ const ClinicAppointments = () => {
       <div className={styles.container}>
         <div className={styles.header}>
           <h1 className={styles.title}>Patient Appointments</h1>
-          <button
-            className={styles.refreshButton}
-            onClick={() => window.location.reload()}
-          >
+          <button className={styles.refreshButton} onClick={handleReload}>
             Refresh
           </button>
         </div>

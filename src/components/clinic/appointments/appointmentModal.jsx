@@ -5,6 +5,16 @@ import Link from "next/link";
 const AppointmentModal = ({ appointment, onClose, handleViewEHR }) => {
   if (!appointment) return null;
 
+  const router = useRouter();
+
+  const handleEHRNavigation = () => {
+    // Pass the appointment data as a query parameter.  Needs to be stringified.
+    router.push({
+      pathname: "/clinic/clinic-ehr",
+      query: { appointment: JSON.stringify(appointment) },
+    });
+  };
+
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modal}>
@@ -56,9 +66,6 @@ const AppointmentModal = ({ appointment, onClose, handleViewEHR }) => {
           )}
         </div>
         <div className={styles.modalFooter}>
-          <Link href="/clinic/clinic-ehr" passHref>
-            <div className={styles.modalButton}>View EHR</div>
-          </Link>
           <button onClick={onClose} className={styles.modalButton}>
             Close
           </button>

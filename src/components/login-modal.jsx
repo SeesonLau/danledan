@@ -11,6 +11,7 @@ import {
   loginWithGoogle,
   logout,
 } from "../config/firebase";
+import { useAuth } from "@/config/AuthContext";
 
 export let reregisterInfo = null;
 
@@ -24,6 +25,8 @@ const Modal = ({ isOpen, onClose, onSwitch }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [userType, setUserType] = useState("Patient");
   const router = useRouter();
+  const { profile, setProfile } = useAuth();
+  console.log(profile);
 
   if (!isOpen) return null;
 
@@ -36,6 +39,7 @@ const Modal = ({ isOpen, onClose, onSwitch }) => {
       const validatedRole = await loginWithEmail(email, password, userType);
       const route =
         userType === "Patient" ? "/patient-homepage" : "/clinic-homepage";
+      setProfile(userType.toLowerCase());
       router.push(route);
     } catch (error) {
       alert(error.message);
@@ -68,12 +72,14 @@ const Modal = ({ isOpen, onClose, onSwitch }) => {
       } else {
         const route =
           userType === "Patient" ? "/patient-homepage" : "/clinic-homepage";
+        setProfile(userType.toLowerCase());
         router.push(route);
       }
     } catch (error) {
       alert(error.message);
     }
   };
+  console.log(profile);
 
   return (
     <div className={styles["modal-overlay"]}>
@@ -130,8 +136,7 @@ const Modal = ({ isOpen, onClose, onSwitch }) => {
           <button
             onClick={() => setShowPassword(!showPassword)}
             className={styles["toggle-password"]}
-          >
-          </button>
+          ></button>
         </div>
 
         <button className={styles["login-button"]} onClick={handleLogin}>

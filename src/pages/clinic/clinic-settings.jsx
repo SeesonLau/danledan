@@ -35,7 +35,15 @@ const DefaultProfileSvg = () => (
 
 const ClinicSettings = () => {
   // Authentication and routing hooks
-  const { user, loading, role } = useAuth();
+  const {
+    user,
+    loading,
+    role,
+    isProfileComplete,
+    isSaved,
+    setIsComplete,
+    setIsSaved,
+  } = useAuth();
   const router = useRouter();
 
   // Component state management
@@ -55,8 +63,6 @@ const ClinicSettings = () => {
     phone: "",
     profilePicture: "", // URL to the profile picture
   });
-  const [isProfileComplete, setIsComplete] = useState(true);
-  const [isProfileSaved, setIsSaved] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [saveMessage, setSaveMessage] = useState({ type: "", message: "" });
@@ -161,7 +167,9 @@ const ClinicSettings = () => {
       city: e.target.value,
     }));
   };
-
+  console.log(formData);
+  console.log(isSaved);
+  console.log(isProfileComplete);
   // ====================
   // DATABASE OPERATIONS - USER DATA FETCHING
   // ====================
@@ -231,7 +239,7 @@ const ClinicSettings = () => {
           });
         } finally {
           setIsLoading(false);
-          const isFormComplete =
+          if (
             formData.clinicName &&
             formData.ownerFirstName &&
             formData.ownerLastName &&
@@ -243,16 +251,34 @@ const ClinicSettings = () => {
             formData.city &&
             formData.address &&
             formData.email &&
-            formData.phone;
-          setIsComplete(isFormComplete);
-          setIsSaved(isProfileComplete);
+            formData.phone
+          ) {
+            setIsComplete(true);
+            setIsSaved(true);
+          }
         }
       };
 
       fetchUserData();
     }
   }, [user, loading, role, router]);
-
+  useEffect(() => {
+    if (
+      formData.firstName &&
+      formData.lastName &&
+      formData.sex &&
+      formData.birthdate &&
+      formData.age &&
+      formData.province &&
+      formData.city &&
+      formData.address &&
+      formData.email &&
+      formData.phone
+    ) {
+      setIsComplete(true);
+      if (!setIsComplete) setIsSaved(false);
+    }
+  }, [formData]);
   // Calculate years active based on establishment date
   const calculateYearsActive = (establishedDate) => {
     if (!establishedDate) return "";
@@ -366,11 +392,10 @@ const ClinicSettings = () => {
       });
     } finally {
       setIsSaving(false);
-      const isFormComplete =
+      if (
         formData.clinicName &&
         formData.ownerFirstName &&
         formData.ownerLastName &&
-        formData.ownerMiddleName &&
         formData.licenseNumber &&
         formData.establishedDate &&
         formData.yearsActive &&
@@ -378,9 +403,11 @@ const ClinicSettings = () => {
         formData.city &&
         formData.address &&
         formData.email &&
-        formData.phone;
-      setIsComplete(isFormComplete);
-      if (isFormComplete) setIsSaved(true);
+        formData.phone
+      ) {
+        setIsComplete(true);
+        setIsSaved(true);
+      }
     }
   };
 
@@ -535,7 +562,7 @@ const ClinicSettings = () => {
               </div>
 
               <p className={styles.notice}>
-                {isProfileSaved
+                {isProfileComplete && isSaved
                   ? ""
                   : "*COMPLETE AND SAVE PROFILE TO USE OPTICARE'S FEATURES*"}
               </p>

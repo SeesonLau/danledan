@@ -78,7 +78,7 @@ const generateTimeSlots = () => {
 };
 
 const PatientAppointments = () => {
-  const { user, loading } = useAuth();
+  const { user, loading, isProfileComplete, isSaved } = useAuth();
   const router = useRouter();
   const fileInputRef = useRef(null);
 
@@ -112,6 +112,12 @@ const PatientAppointments = () => {
       router.replace("/");
     }
   }, [user, loading]);
+
+  useEffect(() => {
+    if (!isProfileComplete && !isSaved) {
+      router.replace("/patient/patient-settings"); // Redirect if not authenticated
+    }
+  }, [isProfileComplete, isSaved]);
 
   useEffect(() => {
     if (success) {

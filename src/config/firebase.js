@@ -67,13 +67,24 @@ export const loginWithEmail = async (email, password, userType) => {
       email,
       password
     );
+
+    if (!userCredential) {
+      window.alert("Authentication failed. Please try again.");
+      return;
+    }
+
     const user = userCredential.user;
+    if (!user || !user.email) {
+      window.alert("Invalid user data. Please try again.");
+      return;
+    }
 
     // Fetch user role(s) from Firestore
     const userDoc = await getDoc(doc(db, "users", user.uid));
 
     if (!userDoc.exists()) {
-      throw new Error("User data not found.");
+      window.alert("User data not found.");
+      return;
     }
 
     const userData = userDoc.data();
@@ -118,12 +129,14 @@ export const loginWithGoogle = async (userType) => {
     // Sign in with Google
     const userCredential = await signInWithPopup(auth, googleProvider);
     if (!userCredential) {
-      throw new Error("Authentication failed. Please try again.");
+      window.alert("Authentication failed. Please try again.");
+      return;
     }
 
     const user = userCredential.user;
     if (!user || !user.email) {
-      throw new Error("Invalid user data. Please try again.");
+      window.alert("Invalid user data. Please try again.");
+      return;
     }
 
     // Check if user exists in Firestore
@@ -131,7 +144,8 @@ export const loginWithGoogle = async (userType) => {
     const userDoc = await getDoc(userDocRef);
 
     if (!userDoc.exists()) {
-      throw new Error("User data not found.");
+      window.alert("User data not found.");
+      return;
     }
 
     const userData = userDoc.data();
@@ -195,7 +209,7 @@ export const registerWithEmail = async (
       const secondAccount = await addSecondRole(
         uid,
         userData,
-        role,
+        role.toLowerCase(),
         role === "Clinic" ? licenseNumber : null
       );
       alert(secondAccount.success);
@@ -262,7 +276,7 @@ export const addSecondRole = async (uid, userData, userType, licenseNumber) => {
 
     // Update the role field to ensure it keeps the original value
     await updateDoc(userRef, {
-      role: arrayUnion(...existingRole, userType), // Ensure all roles are kept
+      role: arrayUnion(...existingRole, userType), // userType is the function
     });
 
     // Define collection name based on userType
@@ -274,7 +288,7 @@ export const addSecondRole = async (uid, userData, userType, licenseNumber) => {
       email: userData.email,
       firstName: userData.firstName,
       lastName: userData.lastName,
-      role: userType.toLowerCase,
+      role: userType.toLowerCase(),
     };
 
     if (userType === "Clinic" && licenseNumber) {

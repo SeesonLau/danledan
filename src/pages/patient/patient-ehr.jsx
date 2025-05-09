@@ -10,7 +10,7 @@ import { EHR5ReadOnly } from "@/components/ehr-textboxread-only";
 import { EHR6ReadOnly } from "@/components/ehr-textboxread-only";
 import { FaSearch } from "react-icons/fa";
 import { FaEye, FaDownload, FaPrint } from "react-icons/fa";
-import { FaTrash } from "react-icons/fa"; 
+import { FaTrash } from "react-icons/fa";
 import useSortRecords from "@/components/ehrSortRecords";
 
 import PrintEHR from "@/components/export-ehr";
@@ -19,13 +19,13 @@ import { useAuth } from "@/config/AuthContext";
 import { useRouter } from "next/router";
 import {
   getEhrRecordsByPatient,
-  getPatientNameByUid,
+  //getPatientNameByUid,
 } from "@/config/firestore";
 
 const PatientEHR = () => {
   const [isPrinting, setIsPrinting] = useState(false);
 
-  const { user, loading } = useAuth();
+  const { user, loading, profile, isProfileComplete, isSaved } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -33,13 +33,22 @@ const PatientEHR = () => {
       router.replace("/"); // Redirect if not authenticated
     }
   }, [user, loading]);
+
+  console.log(profile);
+
+  useEffect(() => {
+    if (!isProfileComplete || !isSaved) {
+      router.replace("/patient/patient-settings"); // Redirect if not authenticated
+    }
+  }, [isProfileComplete, isSaved]);
+
   if (user) console.log(user);
 
   //if (loading) return <h1>Loading...</h1>; // Show a loading state while checking auth
   //  if (!user) return null; -SAME ISSUE MO ERROR BECAUSE OF THIS LINE IDK WHY
   //
 
-  useEffect(() => {
+  /*useEffect(() => {
     const fetchEhrRecords = async () => {
       try {
         if (!user?.uid) return;
@@ -55,7 +64,7 @@ const PatientEHR = () => {
     };
 
     fetchEhrRecords();
-  }, [user]);
+  }, [user]);*/
 
   const profileImageUrl = null;
 
@@ -153,6 +162,7 @@ const PatientEHR = () => {
   const [lensesfee, setLF] = useState(0);
   const [framefee, setFF] = useState(0);
   const [totalfee, setTotal] = useState(0);
+  const [patients, setPatients] = useState([]);
 
   const handleChange = (setter) => (e) => setter(e.target.value);
 
@@ -165,9 +175,8 @@ const PatientEHR = () => {
     setTotal(analyticalfee + orthopticfee + lensesfee + framefee);
   }, [analyticalfee, orthopticfee, lensesfee, framefee]);
 
-
   //-PLACEHOLDER
-  const patients = [
+  /*const patients = [
     {
       lastVisit: "15/02/2025",
       diagnosis: "Myopia",
@@ -288,10 +297,32 @@ const PatientEHR = () => {
       prescription: "+1.50 / +1.25",
       optometrist: "Dr. Clark",
     },
-  ];
+  ];*/
+
+  //fetching EHR files
+  useEffect(() => {
+    if (!user) return;
+    getEhrRecordsByPatient(user.uid)
+      .then((records) => {
+        setPatients(
+          records.map((ehr) => ({
+            prescription: ehr.caseno,
+            lastVisit: ehr.lastvisit?.toDate
+              ? ehr.lastvisit.toDate().toLocaleDateString()
+              : "",
+            diagnosis: ehr.diagnosis,
+            optometrist: ehr.doctor,
+            ehr,
+          }))
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [user]);
 
   //-PLACEHOLDER
-  const viewPatient = (patient) => {
+  /*const viewPatient = (patient) => {
     if (patient.lastVisit == "15/02/2025") {
       setCaseno(patient.caseNo || "0001");
       setPatientname(patient.name || "John Doe");
@@ -347,72 +378,94 @@ const PatientEHR = () => {
       setSize2(patient.size2 || "56");
       setSegment(patient.segment || "Round Top 22");
     }
+  };*/
+  const viewPatient = (patient) => {
+    const ehr = patient.ehr;
+    if (!ehr) return;
+    setCaseno(ehr.caseno || "");
+    setPatientname(`${ehr.firstName} ${ehr.lastName}` || "");
+    setBirthdate(
+      ehr.date?.toDate ? ehr.date.toDate().toISOString().slice(0, 10) : ""
+    );
+    setAddress(ehr.address || "");
+    setAge(ehr.age || "");
+    setPhonenumber(ehr.phonenumber || "");
+    setOccupation(ehr.occupation || "");
+    setClinic(ehr.clinic || "");
+    setDoctor(ehr.doctor || clinic || "");
+    setDistanceOD(ehr.distanceOD || "");
+    setDistanceOS(ehr.distanceOS || "");
+    setNearOD(ehr.nearOD || "");
+    setNearOS(ehr.nearOS || "");
+    setRxOD(ehr.oldRxOD || "");
+    setRxOS(ehr.oldRxOS || "");
+    setODvaU(ehr.ODvaU || "");
+    setOSvaU(ehr.OSvaU || "");
+    setODvaRX(ehr.ODvaRX || "");
+    setOSvaRX(ehr.OSvaRX || "");
+    setPD(ehr.pd || "");
+    setDBL(ehr.dbl || "");
+    setSize1(ehr.size1 || "");
+    setBifocals(ehr.bifocals || "");
+    setLens(ehr.lens || "");
+    setSize2(ehr.size2 || "");
+    setSegment(ehr.segment || "");
+    setRemarks(ehr.remarks || "");
+    setOF(ehr.orthopticfee || 0);
+    setAF(ehr.analyticalfee || 0);
+    setLF(ehr.lensesfee || 0);
+    setFF(ehr.framefee || 0);
+    setTotal(ehr.totalfee || 0);
   };
-
-  useEffect(() => {
-    const fetchEhrRecords = async () => {
-      try {
-        if (!user?.uid) return;
-
-        const records = await getEhrRecordsByPatient(user.uid);
-        setEhrRecords(records); // or however you display it
-
-        const name = await getPatientNameByUid(user.uid);
-        setPatientName(name); // display full name separately
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchEhrRecords();
-  }, [user]);
-  
   // Search
-const [searchTerm, setSearchTerm] = useState("");
-const filteredPatients = patients.filter((patient) =>
-  (patient.optometrist || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
-  (patient.lastVisit || "").toLowerCase().includes(searchTerm.toLowerCase())
-);
+  const [searchTerm, setSearchTerm] = useState("");
+  const filteredPatients = patients.filter(
+    (patient) =>
+      (patient.optometrist || "")
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      (patient.lastVisit || "").toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
-// For Sorting
-const { sortedPatients, sortByField, sortOrder, sortField } = useSortRecords(filteredPatients);
+  // For Sorting
+  const { sortedPatients, sortByField, sortOrder, sortField } =
+    useSortRecords(filteredPatients);
 
-// Clear EHR
-const clearFields = () => {
-  setCaseno("");
-  setPatientname("");
-  setBirthdate("");
-  setAddress("");
-  setAge("");
-  setPhonenumber("");
-  setOccupation("");
-  setDoctor("");
-  setDistanceOD("");
-  setDistanceOS("");
-  setNearOD("");
-  setNearOS("");
-  setRxOD("");
-  setRxOS("");
-  setODvaU("");
-  setOSvaU("");
-  setODvaRX("");
-  setOSvaRX("");
-  setPD("");
-  setDBL("");
-  setSize1("");
-  setBifocals("");
-  setLens("");
-  setSize2("");
-  setSegment("");
-  setRemarks("");
-  setClinic("");
-  setOF(0);
-  setAF(0);
-  setLF(0);
-  setFF(0);
-  setTotal(0);
-};
-
+  // Clear EHR
+  const clearFields = () => {
+    setCaseno("");
+    setPatientname("");
+    setBirthdate("");
+    setAddress("");
+    setAge("");
+    setPhonenumber("");
+    setOccupation("");
+    setDoctor("");
+    setDistanceOD("");
+    setDistanceOS("");
+    setNearOD("");
+    setNearOS("");
+    setRxOD("");
+    setRxOS("");
+    setODvaU("");
+    setOSvaU("");
+    setODvaRX("");
+    setOSvaRX("");
+    setPD("");
+    setDBL("");
+    setSize1("");
+    setBifocals("");
+    setLens("");
+    setSize2("");
+    setSegment("");
+    setRemarks("");
+    setClinic("");
+    setOF(0);
+    setAF(0);
+    setLF(0);
+    setFF(0);
+    setTotal(0);
+  };
 
   return (
     <div className={styles.recordContainer}>
@@ -428,12 +481,9 @@ const clearFields = () => {
               >
                 <FaPrint />
               </button>
-              <button
-                  className={styles.button}
-                  onClick={clearFields}
-                >
-                  <FaTrash />
-                </button>
+              <button className={styles.button} onClick={clearFields}>
+                <FaTrash />
+              </button>
             </div>
           </div>
           <div
@@ -495,7 +545,7 @@ const clearFields = () => {
                 </div>
 
                 <div className={styles.profileColumn}>
-                  <EHR6ReadOnly
+                  <EHR1ReadOnly
                     label="Birth Date"
                     value={date}
                     readOnly
@@ -620,7 +670,6 @@ const clearFields = () => {
                     <input
                       type="text"
                       value={segment}
-                      onChange={handleChange(setSegment)}
                       readOnly
                       tabIndex={-1}
                       style={{
@@ -713,7 +762,6 @@ const clearFields = () => {
                       <input
                         type="text"
                         value={analyticalfee}
-                        onChange={handleInputChange(setAF)}
                         readOnly
                         tabIndex={-1}
                         style={{
@@ -736,7 +784,6 @@ const clearFields = () => {
                       <input
                         type="text"
                         value={orthopticfee}
-                        onChange={handleInputChange(setOF)}
                         readOnly
                         tabIndex={-1}
                         style={{
@@ -759,7 +806,6 @@ const clearFields = () => {
                       <input
                         type="text"
                         value={lensesfee}
-                        onChange={handleInputChange(setLF)}
                         readOnly
                         tabIndex={-1}
                         style={{
@@ -782,7 +828,6 @@ const clearFields = () => {
                       <input
                         type="text"
                         value={framefee}
-                        onChange={handleInputChange(setFF)}
                         readOnly
                         tabIndex={-1}
                         style={{
@@ -828,70 +873,74 @@ const clearFields = () => {
         <div className={styles.seconddiv}>
           <div className={styles.topBar}>
             <h1 className={styles.header2}>Record History</h1>
-              <div className={styles.searchContainer}>
-                <div className={styles.searchWrapper}>
-                  <FaSearch className={styles.searchIcon} />
-                  <input
-                    type="text"
-                    placeholder="Search by Visit Date or Optometrist..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className={styles.searchInput}
-                  />
-                </div>
+            <div className={styles.searchContainer}>
+              <div className={styles.searchWrapper}>
+                <FaSearch className={styles.searchIcon} />
+                <input
+                  type="text"
+                  placeholder="Search by Visit Date or Optometrist..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className={styles.searchInput}
+                />
               </div>
             </div>
-            <div className={styles.tableContainer}>
-              <table className={styles.table}>
-                <thead className={styles.thead}>
-                  <tr>
-                    <th
-                      className={styles.th}
-                      onClick={() => sortByField("lastVisit")}
-                      style={{ cursor: "pointer" }}
-                    >
-                      Visit Date
-                      {sortField === "lastVisit" ? (sortOrder === "asc" ? " ▲" : " ▼") : ""}
-                    </th>
-                    <th 
-                      className={styles.th} 
-                      onClick={() => sortByField("otherColumn")} 
-                      style={{ cursor: "pointer" }}
-                    >
-                      Diagnosis
-                    </th>
-                    <th 
-                      className={styles.th} 
-                      onClick={() => sortByField("otherColumn")} 
-                      style={{ cursor: "pointer" }}
-                    >
-                      Prescription
-                    </th>
-                    <th 
-                      className={styles.th} 
-                      onClick={() => sortByField("otherColumn")} 
-                      style={{ cursor: "pointer" }}
-                    >
-                      Optometrist
-                    </th>
+          </div>
+          <div className={styles.tableContainer}>
+            <table className={styles.table}>
+              <thead className={styles.thead}>
+                <tr>
+                  <th
+                    className={styles.th}
+                    onClick={() => sortByField("lastVisit")}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Visit Date
+                    {sortField === "lastVisit"
+                      ? sortOrder === "asc"
+                        ? " ▲"
+                        : " ▼"
+                      : ""}
+                  </th>
+                  <th
+                    className={styles.th}
+                    onClick={() => sortByField("otherColumn")}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Diagnosis
+                  </th>
+                  <th
+                    className={styles.th}
+                    onClick={() => sortByField("otherColumn")}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Prescription
+                  </th>
+                  <th
+                    className={styles.th}
+                    onClick={() => sortByField("otherColumn")}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Optometrist
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {sortedPatients.map((patient, index) => (
+                  <tr
+                    key={index}
+                    className={styles.tr}
+                    onClick={() => viewPatient(patient)}
+                  >
+                    <td className={styles.td}>{patient.lastVisit}</td>
+                    <td className={styles.td}>{patient.diagnosis}</td>
+                    <td className={styles.td}>{patient.prescription}</td>
+                    <td className={styles.td}>{patient.optometrist}</td>
                   </tr>
-                </thead>
-                <tbody>
-                  {sortedPatients.map((patient, index) => (
-                    <tr
-                      key={index}
-                      className={styles.tr}
-                      onClick={() => viewPatient(patient)}
-                    >
-                      <td className={styles.td}>{patient.lastVisit}</td>
-                      <td className={styles.td}>{patient.diagnosis}</td>
-                      <td className={styles.td}>{patient.prescription}</td>
-                      <td className={styles.td}>{patient.optometrist}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </main>
     </div>

@@ -6,12 +6,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import ClinicLayout from "@/components/clinic-layout";
 import { auth, getFullName } from "../config/firebase";
+import { fetchAppointmentClinic } from "@/config/firestore";
+import { useAuth } from "@/config/AuthContext";
+import { useRouter } from "next/router";
 
-const todayVisit = 100;
 const oldpVisit = 50;
 const newpVisit = 50;
 
-const patientNotifications = [
+/*const patientNotifications = [
   { id: 1, name: "i love joy arenas", time: "5:30pm" },
   { id: 2, name: "i love joy arenas", time: "5:30pm" },
   { id: 3, name: "i love joy arenas", time: "5:30pm" },
@@ -22,24 +24,23 @@ const patientNotifications = [
   { id: 8, name: "Dawson Alegarbes", time: "5:30pm" },
   { id: 9, name: "Dan Adlawan", time: "5:30pm" },
   { id: 10, name: "Joy Arenas", time: "5:30pm" },
-];
+];*/
 
 const ClinicHome = () => {
-  /*
-  const { user, loading } = useAuth();
+  const { user, loading, profile, isProfileComplete, isSaved } = useAuth();
   const router = useRouter();
-
   useEffect(() => {
     if (!loading && !user) {
       router.replace("/"); // Redirect if not authenticated
     }
   }, [user, loading]);
-  if (user) console.log(user);
+  console.log(profile);
+  useEffect(() => {
+    if (!isProfileComplete && !isSaved) {
+      router.replace("/clinic/clinic-settings"); // Redirect if not authenticated
+    }
+  }, [isProfileComplete, isSaved]);
 
-  //if (loading) return <h1>Loading...</h1>; // Show a loading state while checking auth
-  if (!user) return null;
-  //
-  */
   const [clickCount, setClickCount] = useState(0);
   const [timer, setTimer] = useState(null);
 
@@ -89,6 +90,100 @@ const ClinicHome = () => {
   const options = ["Today", "Yesterday", "This Week", "This Month"];
   /*END OF FILTER LOGIC IN THE PATIENT LIST*/
 
+  //notifications fetching
+
+  const [todayVisit, setTodayVisit] = useState(0);
+  const [alltimeVisit, setAlltimeVisit] = useState(0);
+  const [patientNotifications, setNotifications] = useState([]);
+  function filterAppointmentsByDate(appointments, filterOption) {
+    const today = new Date();
+    const tomorrow = new Date();
+    tomorrow.setDate(today.getDate() + 1);
+    const yesterday = new Date();
+    yesterday.setDate(today.getDate() - 1);
+    const startOfWeek = new Date(today);
+    startOfWeek.setDate(today.getDate() - today.getDay());
+    const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+    const parseDate = (dateString) => {
+      if (!dateString || typeof dateString !== "string") return null;
+      const parts = dateString.split(", ");
+      if (parts.length !== 2) return null;
+      const dayMonth = parts[0].split(" ");
+      if (dayMonth.length !== 2) return null;
+      const monthString = dayMonth[0];
+      const day = parseInt(dayMonth[1], 10);
+      const year = parseInt(parts[1], 10);
+      const monthIndex = new Date(
+        Date.parse(monthString + " 1, 2000")
+      ).getMonth();
+      return isNaN(monthIndex) || isNaN(day) || isNaN(year)
+        ? null
+        : new Date(year, monthIndex, day);
+    };
+
+    const isSameDay = (d1, d2) =>
+      d1 && d2 && d1.toDateString() === d2.toDateString();
+    const isWithinWeek = (d) =>
+      d &&
+      d >= startOfWeek &&
+      d <= today &&
+      d <= new Date(startOfWeek.getTime() + 6 * 24 * 60 * 60 * 1000);
+    const isWithinMonth = (d) =>
+      d &&
+      d.getFullYear() === today.getFullYear() &&
+      d.getMonth() === today.getMonth();
+
+    return appointments.filter((appt) => {
+      const apptDate = appt?.date ? parseDate(appt.date) : null;
+      if (!apptDate) return false;
+
+      switch (filterOption) {
+        case "Today":
+          return isSameDay(apptDate, today);
+        case "Tomorrow":
+          return isSameDay(apptDate, tomorrow);
+        case "This Week":
+          return isWithinWeek(apptDate);
+        case "This Month":
+          return isWithinMonth(apptDate);
+        default:
+          return true;
+      }
+    });
+  }
+  function countCompleteAppointments(appointments) {
+    return appointments.filter((appt) => appt.status === "Complete").length;
+  }
+  useEffect(() => {
+    const getAppointmentData = async () => {
+      try {
+        const appointmentData = await fetchAppointmentClinic(user.uid);
+        console.log("Appointment Data:", appointmentData);
+        const filteredAppointments = filterAppointmentsByDate(
+          appointmentData || [],
+          selected
+        );
+        setNotifications(filteredAppointments);
+        //for visit count
+        const AppointmentsToday = countCompleteAppointments(
+          filterAppointmentsByDate(appointmentData || [], "Today")
+        );
+        const AppointmentsTomorrow =
+          countCompleteAppointments(filteredAppointments);
+        // Do something with the appointment data, e.g., update state, render it
+      } catch (error) {
+        console.error("Error fetching appointment data:", error);
+        // Handle the error, e.g., show a message to the user
+      }
+    };
+
+    if (user) {
+      // Only fetch if clinicId is available
+      getAppointmentData();
+    }
+  }, [user, selected]);
+
   //for Display Name
   // State to hold user's name
   const [fullName, setFullName] = useState("Loading...");
@@ -134,6 +229,10 @@ const ClinicHome = () => {
           <div className={styles.mapcontainer}>
             <h3 className={styles.maptitle}>Visits for Today</h3>
             <h3 className={styles.mapvisits}>{todayVisit}</h3>
+          </div>
+          <div className={styles.mapcontainer}>
+            <h3 className={styles.maptitle}>Total Visits up to Date</h3>
+            <h3 className={styles.mapvisits}>{alltimeVisit}</h3>
           </div>
         </div>
 

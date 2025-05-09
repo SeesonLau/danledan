@@ -1,10 +1,21 @@
 import React from "react";
 import styles from "../styles/clinic-ehr/clinic-ehr-textbox.module.css";
-import { useRef } from 'react';
-import { FaRegCalendarAlt } from 'react-icons/fa'; // imported icon
+import { useRef } from "react";
+import { FaRegCalendarAlt } from "react-icons/fa"; // imported icon
 
-export const EHRTextbox = ({ label, value, onChange }) => {
-  return (
+export const EHRTextbox = ({ label, value, onChange, disabled }) => {
+  return disabled ? (
+    <div className={styles.ehrTextbox}>
+      <label className={styles.ehrTextboxLabel}>{label}</label>
+      <input
+        type="text"
+        value={value}
+        className={styles.ehrTextboxContent}
+        disabled
+        readOnly
+      />
+    </div>
+  ) : (
     <div className={styles.ehrTextbox}>
       <label className={styles.ehrTextboxLabel}>{label}</label>
       <input
@@ -17,8 +28,19 @@ export const EHRTextbox = ({ label, value, onChange }) => {
   );
 };
 
-export const EHR2Textbox = ({ label, value, onChange }) => {
-  return (
+export const EHR2Textbox = ({ label, value, onChange, disabled }) => {
+  return disabled ? (
+    <div className={styles.ehrTextbox2}>
+      <label className={styles.ehrTextboxLabel2}>{label}</label>
+      <input
+        type="text"
+        value={value}
+        onChange={onChange}
+        className={styles.ehrTextboxContent}
+        disabled
+      />
+    </div>
+  ) : (
     <div className={styles.ehrTextbox2}>
       <label className={styles.ehrTextboxLabel2}>{label}</label>
       <input
@@ -31,8 +53,19 @@ export const EHR2Textbox = ({ label, value, onChange }) => {
   );
 };
 
-export const EHR3Textbox = ({ label, value, onChange }) => {
-  return (
+export const EHR3Textbox = ({ label, value, onChange, disabled }) => {
+  return disabled ? (
+    <div className={styles.ehrTextbox3}>
+      <label className={styles.ehrTextboxLabel3}>{label}</label>
+      <input
+        type="text"
+        value={value}
+        onChange={onChange}
+        className={styles.ehrTextboxContent3}
+        disabled
+      />
+    </div>
+  ) : (
     <div className={styles.ehrTextbox3}>
       <label className={styles.ehrTextboxLabel3}>{label}</label>
       <input
@@ -45,8 +78,19 @@ export const EHR3Textbox = ({ label, value, onChange }) => {
   );
 };
 
-export const EHR4Textbox = ({ label, value, onChange }) => {
-  return (
+export const EHR4Textbox = ({ label, value, onChange, disabled }) => {
+  return disabled ? (
+    <div className={styles.ehrTextbox4}>
+      <label className={styles.ehrTextboxLabel4}>{label}</label>
+      <input
+        type="text"
+        value={value}
+        onChange={onChange}
+        className={styles.ehrTextboxContent4}
+        disabled
+      />
+    </div>
+  ) : (
     <div className={styles.ehrTextbox4}>
       <label className={styles.ehrTextboxLabel4}>{label}</label>
       <input
@@ -59,8 +103,20 @@ export const EHR4Textbox = ({ label, value, onChange }) => {
   );
 };
 
-export const EHR5Textbox = ({ label, value, onChange }) => {
-  return (
+export const EHR5Textbox = ({ label, value, onChange, disabled }) => {
+  return disabled ? (
+    <div className={styles.ehrTextbox5}>
+      <label className={styles.ehrTextboxLabel5}>{label}</label>
+      <textarea
+        className={styles.ehrTextarea5}
+        value={value}
+        onChange={onChange}
+        rows="4"
+        cols="50"
+        disabled
+      />
+    </div>
+  ) : (
     <div className={styles.ehrTextbox5}>
       <label className={styles.ehrTextboxLabel5}>{label}</label>
       <textarea
@@ -74,17 +130,35 @@ export const EHR5Textbox = ({ label, value, onChange }) => {
   );
 };
 
-
-export const EHR6Textbox = ({ label, value, onChange }) => {
+export const EHR6Textbox = ({ label, value, onChange, disabled }) => {
   const inputRef = useRef(null);
 
   const handleIconClick = () => {
     // Open date picker programmatically
     inputRef.current?.showPicker?.(); // works in modern browsers
-    inputRef.current?.focus();        // fallback
+    inputRef.current?.focus(); // fallback
   };
 
-  return (
+  return disabled ? (
+    <div className={styles.ehrTextbox6}>
+      <label className={styles.ehrTextboxLabel}>{label}</label>
+      <div className={styles.ehrTextboxWrapper}>
+        <input
+          ref={inputRef}
+          type="date"
+          value={value}
+          onChange={onChange}
+          className={styles.ehrTextboxContent6}
+          disabled
+        />
+        <FaRegCalendarAlt
+          className={styles.calendarIcon}
+          onClick={handleIconClick}
+          style={{ cursor: "pointer" }}
+        />
+      </div>
+    </div>
+  ) : (
     <div className={styles.ehrTextbox6}>
       <label className={styles.ehrTextboxLabel}>{label}</label>
       <div className={styles.ehrTextboxWrapper}>
@@ -98,7 +172,7 @@ export const EHR6Textbox = ({ label, value, onChange }) => {
         <FaRegCalendarAlt
           className={styles.calendarIcon}
           onClick={handleIconClick}
-          style={{ cursor: 'pointer' }}
+          style={{ cursor: "pointer" }}
         />
       </div>
     </div>
