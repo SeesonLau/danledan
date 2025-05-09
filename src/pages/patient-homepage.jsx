@@ -8,6 +8,7 @@ import dynamic from "next/dynamic";
 import "leaflet/dist/leaflet.css";
 import { useAuth } from "@/config/AuthContext";
 import { fetchAppointmentPatient } from "@/config/firestore";
+import { filter } from "lodash";
 
 // Dynamic imports for Leaflet (Next.js + Vercel safe)
 const MapContainer = dynamic(
@@ -41,26 +42,6 @@ const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), {
 
 const PatientHomePage = () => {
   const [customMarkerIcon, setCustomMarkerIcon] = useState(null);
-  const [patientNotifications, setNotifications] = useState([]);
-  const { user } = useAuth();
-  useEffect(() => {
-    const getAppointmentData = async () => {
-      try {
-        const appointmentData = await fetchAppointmentPatient(user.uid);
-        console.log("Appointment Data:", appointmentData);
-        setNotifications(appointmentData || []);
-        // Do something with the appointment data, e.g., update state, render it
-      } catch (error) {
-        console.error("Error fetching appointment data:", error);
-        // Handle the error, e.g., show a message to the user
-      }
-    };
-
-    if (user) {
-      // Only fetch if patientId is available
-      getAppointmentData();
-    }
-  }, [user]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -134,8 +115,91 @@ const PatientHomePage = () => {
   /*FILTER LOGIC IN THE NOTIFICATION*/
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("Today");
-  const options = ["Today", "Yesterday", "This Week", "This Month"];
+  const options = ["Today", "Tomorrow", "This Week", "This Month"];
   /*END OF FILTER LOGIC IN THE NOTIFICATION*/
+
+  //fetching notifications
+  const [patientNotifications, setNotifications] = useState([]);
+  const { user } = useAuth();
+  function filterAppointmentsByDate(appointments, filterOption) {
+    const today = new Date();
+    const tomorrow = new Date();
+    tomorrow.setDate(today.getDate() + 1);
+    const yesterday = new Date();
+    yesterday.setDate(today.getDate() - 1);
+    const startOfWeek = new Date(today);
+    startOfWeek.setDate(today.getDate() - today.getDay());
+    const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+    const parseDate = (dateString) => {
+      if (!dateString || typeof dateString !== "string") return null;
+      const parts = dateString.split(", ");
+      if (parts.length !== 2) return null;
+      const dayMonth = parts[0].split(" ");
+      if (dayMonth.length !== 2) return null;
+      const monthString = dayMonth[0];
+      const day = parseInt(dayMonth[1], 10);
+      const year = parseInt(parts[1], 10);
+      const monthIndex = new Date(
+        Date.parse(monthString + " 1, 2000")
+      ).getMonth();
+      return isNaN(monthIndex) || isNaN(day) || isNaN(year)
+        ? null
+        : new Date(year, monthIndex, day);
+    };
+
+    const isSameDay = (d1, d2) =>
+      d1 && d2 && d1.toDateString() === d2.toDateString();
+    const isWithinWeek = (d) =>
+      d &&
+      d >= startOfWeek &&
+      d <= today &&
+      d <= new Date(startOfWeek.getTime() + 6 * 24 * 60 * 60 * 1000);
+    const isWithinMonth = (d) =>
+      d &&
+      d.getFullYear() === today.getFullYear() &&
+      d.getMonth() === today.getMonth();
+
+    return appointments.filter((appt) => {
+      const apptDate = appt?.date ? parseDate(appt.date) : null;
+      if (!apptDate) return false;
+
+      switch (filterOption) {
+        case "Today":
+          return isSameDay(apptDate, today);
+        case "Tomorrow":
+          return isSameDay(apptDate, tomorrow);
+        case "This Week":
+          return isWithinWeek(apptDate);
+        case "This Month":
+          return isWithinMonth(apptDate);
+        default:
+          return true;
+      }
+    });
+  }
+  useEffect(() => {
+    const getAppointmentData = async () => {
+      try {
+        const appointmentData = await fetchAppointmentPatient(user.uid);
+        console.log("Appointment Data:", appointmentData);
+        const filteredAppointments = filterAppointmentsByDate(
+          appointmentData || [],
+          selected
+        );
+        setNotifications(filteredAppointments);
+        // Do something with the appointment data, e.g., update state, render it
+      } catch (error) {
+        console.error("Error fetching appointment data:", error);
+        // Handle the error, e.g., show a message to the user
+      }
+    };
+
+    if (user) {
+      // Only fetch if patientId is available
+      getAppointmentData();
+    }
+  }, [user, selected]);
 
   //for Display Name
   // State to hold user's name

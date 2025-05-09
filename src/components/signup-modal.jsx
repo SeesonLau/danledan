@@ -124,7 +124,9 @@ const RegisterModal = ({ isOpen, onClose, onSwitch }) => {
       setReregisterInfo(null);
       //alert(userType);
       const route =
-        userType === "Patient" ? "/patient-homepage" : "/clinic-homepage";
+        userType === "Patient"
+          ? "/patient/patient-settings"
+          : "/clinic/clinic-settings";
       router.push(route);
     } else {
       alert(result.message);
@@ -167,7 +169,9 @@ const RegisterModal = ({ isOpen, onClose, onSwitch }) => {
             return;
           }
           const route =
-            userType === "Patient" ? "/patient-homepage" : "/clinic-homepage";
+            userType === "Patient"
+              ? "/patient/patient-settings"
+              : "/clinic/clinic-settings";
           router.push(route);
         } else {
           alert(result.message);

@@ -95,7 +95,7 @@ export const getClinicDoc = async (clinicId) => {
       // Return the document data as an object
       return {
         name: clinic.clinicName,
-        licenseNumber: clinic.sex,
+        licenseNumber: clinic.licenseNumber,
         email: clinic.email,
         contact: clinic.phone,
         id: clinicDocSnapshot.id,
@@ -179,9 +179,24 @@ async function findPatientUid(firstName, lastName) {
   const snapshot = await getDocs(q);
   if (!snapshot.empty) {
     const doc = snapshot.docs[0];
-    return doc.id; // If you store "uid" field inside patient doc, use doc.data().uid
+    return doc.id; // Or doc.data().uid if you store UID in the patient doc
   }
-  throw new Error(`Patient ${firstName} ${lastName} not found.`);
+  return null; // Return null if no patient is found
+}
+
+async function findClinicInfo(clinicId) {
+  const q = query(
+    patientsCollectionRef,
+    where("firstName", "==", firstName),
+    where("lastName", "==", lastName),
+    limit(1)
+  );
+  const snapshot = await getDocs(q);
+  if (!snapshot.empty) {
+    const doc = snapshot.docs[0];
+    return doc.id; // Or doc.data().uid if you store UID in the patient doc
+  }
+  return null; // Return null if no patient is found
 }
 
 export const addEhrRecord = async (ehrData) => {
@@ -192,7 +207,7 @@ export const addEhrRecord = async (ehrData) => {
     const patientUid = await findPatientUid(firstName, lastName);
 
     const q = query(
-      ehrCollectionRef,
+      ehrCollGroupRef,
       where("clinic", "==", ehrData.clinic),
       where("caseno", "==", ehrData.caseno),
       limit(1)
@@ -224,6 +239,26 @@ export const addEhrRecord = async (ehrData) => {
     return docRef.id;
   } catch (error) {
     window.alert("Error adding EHR record: " + error.message);
+    throw error;
+  }
+};
+
+export const saveEHRRecord = async (appointmentData) => {
+  try {
+    if (!appointmentData || typeof appointmentData !== "object") {
+      throw new Error("Invalid appointment data.");
+    }
+
+    const appointmentsCollectionRef = collection(db, "ehr");
+
+    const dataToSave = {
+      ...appointmentData,
+    };
+
+    const docRef = await addDoc(appointmentsCollectionRef, dataToSave);
+    return docRef.id;
+  } catch (error) {
+    window.alert("Error saving appointment: " + error.message);
     throw error;
   }
 };
@@ -266,7 +301,7 @@ export const getEhrRecordsByClinic = async (clinicId) => {
   try {
     if (!clinicId) throw new Error("Clinic ID is required.");
 
-    const q = query(ehrCollectionRef, where("clinic", "==", clinicId));
+    const q = query(ehrCollGroupRef, where("clinic", "==", clinicId));
     const querySnapshot = await getDocs(q);
 
     const recordsByCase = {};
@@ -288,31 +323,12 @@ export const getEhrRecordsByClinic = async (clinicId) => {
   }
 };
 
-// --- Get Single EHR Record by ID ---
-export const getEhrRecordById = async (docId) => {
-  try {
-    const docRef = doc(db, "ehr", docId);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      return { id: docSnap.id, ...docSnap.data() };
-    } else {
-      return null;
-    }
-  } catch (error) {
-    window.alert("Error getting EHR record by ID: " + error.message);
-    throw error;
-  }
-};
-
 // --- Get EHRs by Patient UID ---
-export const getEhrRecordsByPatient = async (patientName) => {
+export const getEhrRecordsByPatient = async (patientId) => {
   try {
-    if (!clinicId) throw new Error("Clinic ID is required.");
+    if (!patientId) throw new Error("Patient ID is required.");
 
-    const q = query(
-      ehrCollectionRef,
-      where("firstName", "==", patientName.first)
-    );
+    const q = query(ehrCollGroupRef, where("patientUid", "==", patientId));
     const querySnapshot = await getDocs(q);
 
     const recordsByCase = {};
@@ -358,6 +374,62 @@ export const saveAppointment = async (appointmentData) => {
   }
 };
 
+export const fetchAppointmentClinic = async (clinicId) => {
+  try {
+    const appointmentsRef = collection(db, "appointments"); // Get reference to the 'appointments' collection
+    const q = query(appointmentsRef, where("clinic.id", "==", clinicId)); // Create a query to filter by clinicId
+
+    const querySnapshot = await getDocs(q); // Execute the query
+
+    const appointments = querySnapshot.docs.map((doc) => {
+      // Map each document to an object containing its ID and data
+      const info = doc.data();
+      console.log(info);
+      //console.log(info.clinic.date);
+      let mm, dd, yy;
+
+      /*if (info?.clinic?.date) {
+        const months = {
+          January: 0,
+          February: 1,
+          March: 2,
+          April: 3,
+          May: 4,
+          June: 5,
+          July: 6,
+          August: 7,
+          September: 8,
+          October: 9,
+          November: 10,
+          December: 11,
+        };
+
+        const parts = info.clinic.date.split(" ");
+        const monthName = parts[0];
+        const day = parseInt(parts[1].replace(",", ""), 10); // Remove the comma and parse
+        const year = parseInt(parts[2], 10);
+        const month = months[monthName];
+        const date = new Date(year, month, day);
+
+        mm = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
+        dd = String(date.getDate()).padStart(2, "0");
+        yy = String(date.getFullYear()).slice(-2);
+      }*/
+
+      return {
+        id: doc.id,
+        name: `${info.reason} at ${info.name} on ${info.date} `,
+        time: `${info.time}`,
+        date: info.date,
+      };
+    });
+    return appointments;
+  } catch (error) {
+    console.error("Error fetching appointments:", error);
+    throw error; // Re-throw the error to be handled by the caller
+  }
+};
+
 export const fetchAppointmentPatient = async (patientId) => {
   try {
     const appointmentsRef = collection(db, "appointments"); // Get reference to the 'appointments' collection
@@ -369,10 +441,10 @@ export const fetchAppointmentPatient = async (patientId) => {
       // Map each document to an object containing its ID and data
       const info = doc.data();
       console.log(info);
-      console.log(info.clinic.date);
+      //console.log(info.clinic.date);
       let mm, dd, yy;
 
-      if (info?.clinic?.date) {
+      /*if (info?.date) {
         const months = {
           January: 0,
           February: 1,
@@ -388,7 +460,7 @@ export const fetchAppointmentPatient = async (patientId) => {
           December: 11,
         };
 
-        const parts = info.clinic.date.split(" ");
+        const parts = info.date.split(" ");
         const monthName = parts[0];
         const day = parseInt(parts[1].replace(",", ""), 10); // Remove the comma and parse
         const year = parseInt(parts[2], 10);
@@ -398,67 +470,13 @@ export const fetchAppointmentPatient = async (patientId) => {
         mm = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
         dd = String(date.getDate()).padStart(2, "0");
         yy = String(date.getFullYear()).slice(-2);
-      }
+      }*/
 
       return {
         id: doc.id,
         name: `${info.reason} at ${info.clinic.name} on ${info.date} `,
         time: `${info.time}`,
-      };
-    });
-    return appointments;
-  } catch (error) {
-    console.error("Error fetching appointments:", error);
-    throw error; // Re-throw the error to be handled by the caller
-  }
-};
-
-export const fetchAppointmentClinic = async (clinicId) => {
-  try {
-    const appointmentsRef = collection(db, "appointments"); // Get reference to the 'appointments' collection
-    const q = query(appointmentsRef, where("userUid", "==", clinicId)); // Create a query to filter by patientId
-
-    const querySnapshot = await getDocs(q); // Execute the query
-
-    const appointments = querySnapshot.docs.map((doc) => {
-      // Map each document to an object containing its ID and data
-      const info = doc.data();
-      console.log(info);
-      console.log(info.clinic.date);
-      let mm, dd, yy;
-
-      if (info?.clinic?.date) {
-        const months = {
-          January: 0,
-          February: 1,
-          March: 2,
-          April: 3,
-          May: 4,
-          June: 5,
-          July: 6,
-          August: 7,
-          September: 8,
-          October: 9,
-          November: 10,
-          December: 11,
-        };
-
-        const parts = info.clinic.date.split(" ");
-        const monthName = parts[0];
-        const day = parseInt(parts[1].replace(",", ""), 10); // Remove the comma and parse
-        const year = parseInt(parts[2], 10);
-        const month = months[monthName];
-        const date = new Date(year, month, day);
-
-        mm = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
-        dd = String(date.getDate()).padStart(2, "0");
-        yy = String(date.getFullYear()).slice(-2);
-      }
-
-      return {
-        id: doc.id,
-        name: `${info.reason} at ${info.clinic.name} on ${info.date} `,
-        time: `${info.time}`,
+        date: info.date,
       };
     });
     return appointments;
@@ -512,5 +530,17 @@ export const getAppointmentClinic = async (clinicId) => {
     console.error("Error fetching appointments:", error);
 
     return [];
+  }
+};
+
+export const updateAppointment = async (appointmentId) => {
+  try {
+    const appointmentRef = doc(db, "appointments", appointmentId);
+    const updatedData = {
+      status: "Cancelled",
+    };
+    await updateDoc(appointmentRef, updatedData);
+  } catch (error) {
+    console.error("Error updating appointment:", error);
   }
 };

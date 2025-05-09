@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { useAuth } from "@/config/AuthContext";
-import { getAppointmentClinic } from "@/config/firestore";
+import { getAppointmentClinic, updateAppointment } from "@/config/firestore";
 
 const useAppointments = () => {
   const [appointments, setAppointments] = useState([]);
@@ -17,76 +17,80 @@ const useAppointments = () => {
   const appointmentsPerPage = 5;
   const { user, load } = useAuth();
 
-  useEffect(() => {
-    // Fetch appointments from API
-    const fetchAppointments = async () => {
-      try {
-        // const response = await fetch('/api/appointments');
-        // const data = await response.json();
-        // setAppointments(data);
+  const [isPageReload, setIsPageReload] = useState(false);
+  const fetchAppointments = async () => {
+    try {
+      // const response = await fetch('/api/appointments');
+      // const data = await response.json();
+      // setAppointments(data);
 
-        // Mock data
-        /*setAppointments([
-          {
-            id: 1,
-            patientId: 'PID-2023-001',
-            patientName: 'John Doe',
-            sex: 'Male',
-            email: 'john.doe@example.com',
-            contactNumber: '09123456789',
-            appointmentDate: '2023-11-15',
-            appointmentTime: '10:00 AM',
-            reason: 'Checkup',
-            otherReason: '',
-            status: 'Completed',
-            pdfFile: 'john_doe_diagnosis.pdf',
-            createdAt: '2023-11-10T09:30:00'
-          },
-          {
-            id: 2,
-            patientId: 'PID-2023-002',
-            patientName: 'Jane Smith',
-            sex: 'Female',
-            email: 'jane.smith@example.com',
-            contactNumber: '09234567890',
-            appointmentDate: '2023-11-16',
-            appointmentTime: '2:00 PM',
-            reason: 'Dental Checkup',
-            otherReason: '',
-            status: 'Pending',
-            pdfFile: null,
-            createdAt: '2023-11-11T14:15:00'
-          },
-          {
-            id: 3,
-            patientId: 'PID-2023-003',
-            patientName: 'Robert Johnson',
-            sex: 'Male',
-            email: 'robert.j@example.com',
-            contactNumber: '09345678901',
-            appointmentDate: '2023-11-17',
-            appointmentTime: '9:30 AM',
-            reason: 'Other (Please specify)',
-            otherReason: 'Annual physical exam',
-            status: 'Cancelled',
-            pdfFile: 'robert_johnson_medical_history.pdf',
-            createdAt: '2023-11-12T10:20:00'
-          },
-        ]);*/
-        if (user?.uid) {
-          // Ensure user is defined
-          const fetchedAppointments = await getAppointmentClinic(user.uid);
-          setAppointments(fetchedAppointments);
-        } else {
-          setAppointments([]); // Or handle the case where user is not logged in
-        }
-      } catch (error) {
-        console.error("Error fetching appointments:", error);
+      // Mock data
+      /*setAppointments([
+        {
+          id: 1,
+          patientId: 'PID-2023-001',
+          patientName: 'John Doe',
+          sex: 'Male',
+          email: 'john.doe@example.com',
+          contactNumber: '09123456789',
+          appointmentDate: '2023-11-15',
+          appointmentTime: '10:00 AM',
+          reason: 'Checkup',
+          otherReason: '',
+          status: 'Completed',
+          pdfFile: 'john_doe_diagnosis.pdf',
+          createdAt: '2023-11-10T09:30:00'
+        },
+        {
+          id: 2,
+          patientId: 'PID-2023-002',
+          patientName: 'Jane Smith',
+          sex: 'Female',
+          email: 'jane.smith@example.com',
+          contactNumber: '09234567890',
+          appointmentDate: '2023-11-16',
+          appointmentTime: '2:00 PM',
+          reason: 'Dental Checkup',
+          otherReason: '',
+          status: 'Pending',
+          pdfFile: null,
+          createdAt: '2023-11-11T14:15:00'
+        },
+        {
+          id: 3,
+          patientId: 'PID-2023-003',
+          patientName: 'Robert Johnson',
+          sex: 'Male',
+          email: 'robert.j@example.com',
+          contactNumber: '09345678901',
+          appointmentDate: '2023-11-17',
+          appointmentTime: '9:30 AM',
+          reason: 'Other (Please specify)',
+          otherReason: 'Annual physical exam',
+          status: 'Cancelled',
+          pdfFile: 'robert_johnson_medical_history.pdf',
+          createdAt: '2023-11-12T10:20:00'
+        },
+      ]);*/
+      if (user?.uid) {
+        // Ensure user is defined
+        const fetchedAppointments = await getAppointmentClinic(user.uid);
+        setAppointments(fetchedAppointments);
+      } else {
+        setAppointments([]); // Or handle the case where user is not logged in
       }
-    };
+    } catch (error) {
+      console.error("Error fetching appointments:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchAppointments();
-  }, [user, load]);
+  }, [isPageReload, user]);
+
+  const handleReload = () => {
+    setIsPageReload(!isPageReload);
+  };
 
   const filteredAppointments = appointments
     .filter((appointment) => {
@@ -162,6 +166,7 @@ const useAppointments = () => {
     totalPages,
     selectedAppointment,
     showModal,
+    isPageReload,
     setDateFilter,
     setStatusFilter,
     setSearchTerm,
@@ -170,6 +175,9 @@ const useAppointments = () => {
     handleStatusChange,
     handleViewAppointment,
     closeModal,
+    handleReload,
+    setIsPageReload,
+    fetchAppointments,
   };
 };
 

@@ -39,7 +39,7 @@ const PatientEHR = () => {
   //  if (!user) return null; -SAME ISSUE MO ERROR BECAUSE OF THIS LINE IDK WHY
   //
 
-  useEffect(() => {
+  /*useEffect(() => {
     const fetchEhrRecords = async () => {
       try {
         if (!user?.uid) return;
@@ -55,7 +55,7 @@ const PatientEHR = () => {
     };
 
     fetchEhrRecords();
-  }, [user]);
+  }, [user]);*/
 
   const profileImageUrl = null;
 
@@ -153,6 +153,7 @@ const PatientEHR = () => {
   const [lensesfee, setLF] = useState(0);
   const [framefee, setFF] = useState(0);
   const [totalfee, setTotal] = useState(0);
+  const [patients, setPatients] = useState([]);
 
   const handleChange = (setter) => (e) => setter(e.target.value);
 
@@ -166,7 +167,7 @@ const PatientEHR = () => {
   }, [analyticalfee, orthopticfee, lensesfee, framefee]);
 
   //-PLACEHOLDER
-  const patients = [
+  /*const patients = [
     {
       lastVisit: "15/02/2025",
       diagnosis: "Myopia",
@@ -287,10 +288,32 @@ const PatientEHR = () => {
       prescription: "+1.50 / +1.25",
       optometrist: "Dr. Clark",
     },
-  ];
+  ];*/
+
+  //fetching EHR files
+  useEffect(() => {
+    if (!user) return;
+    getEhrRecordsByPatient(user.uid)
+      .then((records) => {
+        setPatients(
+          records.map((ehr) => ({
+            prescription: ehr.caseno,
+            lastVisit: ehr.lastvisit?.toDate
+              ? ehr.lastvisit.toDate().toLocaleDateString()
+              : "",
+            diagnosis: ehr.diagnosis,
+            optometrist: ehr.doctor,
+            ehr,
+          }))
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [user]);
 
   //-PLACEHOLDER
-  const viewPatient = (patient) => {
+  /*const viewPatient = (patient) => {
     if (patient.lastVisit == "15/02/2025") {
       setCaseno(patient.caseNo || "0001");
       setPatientname(patient.name || "John Doe");
@@ -346,26 +369,45 @@ const PatientEHR = () => {
       setSize2(patient.size2 || "56");
       setSegment(patient.segment || "Round Top 22");
     }
+  };*/
+  const viewPatient = (patient) => {
+    const ehr = patient.ehr;
+    if (!ehr) return;
+    setCaseno(ehr.caseno || "");
+    setPatientname(`${ehr.firstName} ${ehr.lastName}` || "");
+    setBirthdate(
+      ehr.date?.toDate ? ehr.date.toDate().toISOString().slice(0, 10) : ""
+    );
+    setAddress(ehr.address || "");
+    setAge(ehr.age || "");
+    setPhonenumber(ehr.phonenumber || "");
+    setOccupation(ehr.occupation || "");
+    setClinic(ehr.clinic || "");
+    setDoctor(ehr.doctor || clinic || "");
+    setDistanceOD(ehr.distanceOD || "");
+    setDistanceOS(ehr.distanceOS || "");
+    setNearOD(ehr.nearOD || "");
+    setNearOS(ehr.nearOS || "");
+    setRxOD(ehr.oldRxOD || "");
+    setRxOS(ehr.oldRxOS || "");
+    setODvaU(ehr.ODvaU || "");
+    setOSvaU(ehr.OSvaU || "");
+    setODvaRX(ehr.ODvaRX || "");
+    setOSvaRX(ehr.OSvaRX || "");
+    setPD(ehr.pd || "");
+    setDBL(ehr.dbl || "");
+    setSize1(ehr.size1 || "");
+    setBifocals(ehr.bifocals || "");
+    setLens(ehr.lens || "");
+    setSize2(ehr.size2 || "");
+    setSegment(ehr.segment || "");
+    setRemarks(ehr.remarks || "");
+    setOF(ehr.orthopticfee || 0);
+    setAF(ehr.analyticalfee || 0);
+    setLF(ehr.lensesfee || 0);
+    setFF(ehr.framefee || 0);
+    setTotal(ehr.totalfee || 0);
   };
-
-  useEffect(() => {
-    const fetchEhrRecords = async () => {
-      try {
-        if (!user?.uid) return;
-
-        const records = await getEhrRecordsByPatient(user.uid);
-        setEhrRecords(records); // or however you display it
-
-        const name = await getPatientNameByUid(user.uid);
-        setPatientName(name); // display full name separately
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchEhrRecords();
-  }, [user]);
-
   // Search
   const [searchTerm, setSearchTerm] = useState("");
   const filteredPatients = patients.filter(
@@ -494,7 +536,7 @@ const PatientEHR = () => {
                 </div>
 
                 <div className={styles.profileColumn}>
-                  <EHR6ReadOnly
+                  <EHR1ReadOnly
                     label="Birth Date"
                     value={date}
                     readOnly
@@ -619,7 +661,6 @@ const PatientEHR = () => {
                     <input
                       type="text"
                       value={segment}
-                      onChange={handleChange(setSegment)}
                       readOnly
                       tabIndex={-1}
                       style={{
@@ -712,7 +753,6 @@ const PatientEHR = () => {
                       <input
                         type="text"
                         value={analyticalfee}
-                        onChange={handleInputChange(setAF)}
                         readOnly
                         tabIndex={-1}
                         style={{
@@ -735,7 +775,6 @@ const PatientEHR = () => {
                       <input
                         type="text"
                         value={orthopticfee}
-                        onChange={handleInputChange(setOF)}
                         readOnly
                         tabIndex={-1}
                         style={{
@@ -758,7 +797,6 @@ const PatientEHR = () => {
                       <input
                         type="text"
                         value={lensesfee}
-                        onChange={handleInputChange(setLF)}
                         readOnly
                         tabIndex={-1}
                         style={{
@@ -781,7 +819,6 @@ const PatientEHR = () => {
                       <input
                         type="text"
                         value={framefee}
-                        onChange={handleInputChange(setFF)}
                         readOnly
                         tabIndex={-1}
                         style={{

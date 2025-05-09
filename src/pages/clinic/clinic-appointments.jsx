@@ -22,6 +22,7 @@ const ClinicAppointments = () => {
     totalPages,
     selectedAppointment,
     showModal,
+    isPageReload,
     setDateFilter,
     setStatusFilter,
     setSearchTerm,
@@ -30,6 +31,8 @@ const ClinicAppointments = () => {
     handleStatusChange,
     handleViewAppointment,
     closeModal,
+    handleReload,
+    setIsPageReload,
   } = useAppointments();
 
   const AppointmentsContent = () => (
@@ -40,10 +43,7 @@ const ClinicAppointments = () => {
       <div className={styles.container}>
         <div className={styles.header}>
           <h1 className={styles.title}>Patient Appointments</h1>
-          <button
-            className={styles.refreshButton}
-            onClick={() => window.location.reload()}
-          >
+          <button className={styles.refreshButton} onClick={handleReload}>
             Refresh
           </button>
         </div>
