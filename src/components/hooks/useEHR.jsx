@@ -4,7 +4,11 @@ import { FaEye, FaDownload, FaPrint } from "react-icons/fa";
 import PrintEHR from "@/components/export-ehr";
 import { useAuth } from "@/config/AuthContext";
 import { useRouter } from "next/router";
-import { addEhrRecord, getEhrRecordsByClinic } from "@/config/firestore";
+import {
+  addEhrRecord,
+  getEhrRecordsByClinic,
+  getClinicDoc,
+} from "@/config/firestore";
 import useSortPatients from "@/components/ehrSortPatients";
 import { generateCaseNumber } from "@/config/firestore";
 import useAppointments from "./useAppointments";
@@ -55,6 +59,8 @@ const useEHR = () => {
   const [error, setError] = useState(null);
   const [isPrinting, setIsPrinting] = useState(false);
   const [newEHRSaved, setNewEHRSaved] = useState(false);
+
+  const [clinicDetails, setClinicDoc] = useState();
 
   const calculateAge = (birthDate) => {
     const today = new Date();
@@ -219,8 +225,19 @@ const useEHR = () => {
 
   useEffect(() => {
     if (user && user.uid) {
+      const fetchClinicDetails = async () => {
+        try {
+          const data = await getClinicDetails(user.uid);
+          setClinicDetails(data);
+        } catch (err) {
+          console.log(err);
+        }
+      };
+
+      fetchClinicDetails();
+      console.log("Clinic Details: ", clinicDetails);
       setClinic(user.uid);
-      setDoctor(user.email);
+      setDoctor("");
     }
   }, [user]);
 
