@@ -124,6 +124,19 @@ const ClinicEHR = () => {
     sortedPatients,
   } = useEHR();
 
+  const { isProfileComplete, isSaved } = useAuth();
+  useEffect(() => {
+    if (!loading && !user) {
+      router.replace("/"); // Redirect if not authenticated
+    }
+  }, [user, loading]);
+
+  useEffect(() => {
+    if (!isProfileComplete && !isSaved) {
+      router.replace("/clinic/clinic-settings"); // Redirect if not authenticated
+    }
+  }, [isProfileComplete, isSaved]);
+
   // Render
   return (
     <div className={styles.recordContainer}>
@@ -543,11 +556,25 @@ const ClinicEHR = () => {
           </div>
           <div className={styles.tableContainer}>
             {loadingPatients ? (
-              <div style={{ textAlign: "center", padding: "2rem" }}>
+              (<div style={{ textAlign: "center", padding: "2rem" }}>
                 Loading...
               </div> /*: error ? (
               <div style={{ color: "red", textAlign: "center" }}>{error}</div>
-            ) */
+            ) */ /*: error ? (
+              <div style={{ color: "red", textAlign: "center" }}>{error}</div>
+            ) */ /*: error ? (
+              <div style={{ color: "red", textAlign: "center" }}>{error}</div>
+            ) */ /*: error ? (
+              <div style={{ color: "red", textAlign: "center" }}>{error}</div>
+            ) */ /*: error ? (
+              <div style={{ color: "red", textAlign: "center" }}>{error}</div>
+            ) */ /*: error ? (
+              <div style={{ color: "red", textAlign: "center" }}>{error}</div>
+            ) */ /*: error ? (
+              <div style={{ color: "red", textAlign: "center" }}>{error}</div>
+            ) */ /*: error ? (
+              <div style={{ color: "red", textAlign: "center" }}>{error}</div>
+            ) */)
             ) : (
               <table className={styles.table}>
                 <thead className={styles.thead}>

@@ -8,6 +8,7 @@ import ClinicLayout from "@/components/clinic-layout";
 import { auth, getFullName } from "../config/firebase";
 import { fetchAppointmentClinic } from "@/config/firestore";
 import { useAuth } from "@/config/AuthContext";
+import { useRouter } from "next/router";
 
 const oldpVisit = 50;
 const newpVisit = 50;
@@ -26,6 +27,20 @@ const newpVisit = 50;
 ];*/
 
 const ClinicHome = () => {
+  const { user, loading, profile, isProfileComplete, isSaved } = useAuth();
+  const router = useRouter();
+  useEffect(() => {
+    if (!loading && !user) {
+      router.replace("/"); // Redirect if not authenticated
+    }
+  }, [user, loading]);
+  console.log(profile);
+  useEffect(() => {
+    if (!isProfileComplete && !isSaved) {
+      router.replace("/clinic/clinic-settings"); // Redirect if not authenticated
+    }
+  }, [isProfileComplete, isSaved]);
+
   const [clickCount, setClickCount] = useState(0);
   const [timer, setTimer] = useState(null);
 
@@ -80,7 +95,6 @@ const ClinicHome = () => {
   const [todayVisit, setTodayVisit] = useState(0);
   const [alltimeVisit, setAlltimeVisit] = useState(0);
   const [patientNotifications, setNotifications] = useState([]);
-  const { user } = useAuth();
   function filterAppointmentsByDate(appointments, filterOption) {
     const today = new Date();
     const tomorrow = new Date();

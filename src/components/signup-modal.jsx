@@ -11,6 +11,7 @@ import {
   auth,
 } from "@/config/firebase";
 import { reregisterInfo, setReregisterInfo } from "./login-modal";
+import { useAuth } from "@/config/AuthContext";
 
 const RegisterModal = ({ isOpen, onClose, onSwitch }) => {
   const [formData, setFormData] = useState({
@@ -25,6 +26,7 @@ const RegisterModal = ({ isOpen, onClose, onSwitch }) => {
     reregisterInfo && reregisterInfo?.role === "clinic" ? "Clinic" : "Patient"
   );
   const router = useRouter();
+  const { setProfile } = useAuth();
 
   if (!isOpen) return null;
 
@@ -124,9 +126,8 @@ const RegisterModal = ({ isOpen, onClose, onSwitch }) => {
       setReregisterInfo(null);
       //alert(userType);
       const route =
-        userType === "Patient"
-          ? "/patient/patient-settings"
-          : "/clinic/clinic-settings";
+        userType === "Patient" ? "/patient-homepage" : "/clinic-homepage";
+      setProfile(userType.toLowerCase());
       router.push(route);
     } else {
       alert(result.message);
@@ -169,9 +170,8 @@ const RegisterModal = ({ isOpen, onClose, onSwitch }) => {
             return;
           }
           const route =
-            userType === "Patient"
-              ? "/patient/patient-settings"
-              : "/clinic/clinic-settings";
+            userType === "Patient" ? "/patient-homepage" : "/clinic-homepage";
+          setProfile(userType.toLowerCase());
           router.push(route);
         } else {
           alert(result.message);

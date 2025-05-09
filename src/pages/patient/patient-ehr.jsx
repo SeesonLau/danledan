@@ -25,7 +25,7 @@ import {
 const PatientEHR = () => {
   const [isPrinting, setIsPrinting] = useState(false);
 
-  const { user, loading } = useAuth();
+  const { user, loading, profile, isProfileComplete, isSaved } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -33,6 +33,15 @@ const PatientEHR = () => {
       router.replace("/"); // Redirect if not authenticated
     }
   }, [user, loading]);
+
+  console.log(profile);
+
+  useEffect(() => {
+    if (!isProfileComplete || !isSaved) {
+      router.replace("/patient/patient-settings"); // Redirect if not authenticated
+    }
+  }, [isProfileComplete, isSaved]);
+
   if (user) console.log(user);
 
   //if (loading) return <h1>Loading...</h1>; // Show a loading state while checking auth

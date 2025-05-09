@@ -9,6 +9,7 @@ import "leaflet/dist/leaflet.css";
 import { useAuth } from "@/config/AuthContext";
 import { fetchAppointmentPatient } from "@/config/firestore";
 import { filter } from "lodash";
+import { useRouter } from "next/router";
 
 // Dynamic imports for Leaflet (Next.js + Vercel safe)
 const MapContainer = dynamic(
@@ -42,6 +43,21 @@ const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), {
 
 const PatientHomePage = () => {
   const [customMarkerIcon, setCustomMarkerIcon] = useState(null);
+
+  const { user, loading, isProfileComplete, isSaved } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.replace("/"); // Redirect if not authenticated
+    }
+  }, [user, loading]);
+
+  useEffect(() => {
+    if (!isProfileComplete && !isSaved) {
+      router.replace("/patient/patient-settings"); // Redirect if not authenticated
+    }
+  }, [isProfileComplete, isSaved]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -120,7 +136,6 @@ const PatientHomePage = () => {
 
   //fetching notifications
   const [patientNotifications, setNotifications] = useState([]);
-  const { user } = useAuth();
   function filterAppointmentsByDate(appointments, filterOption) {
     const today = new Date();
     const tomorrow = new Date();

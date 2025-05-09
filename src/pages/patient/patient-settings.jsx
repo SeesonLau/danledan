@@ -30,7 +30,15 @@ const DefaultProfileSvg = () => (
 
 const PatientSettings = () => {
   // Authentication and routing hooks
-  const { user, loading, role } = useAuth();
+  const {
+    user,
+    loading,
+    role,
+    isProfileComplete,
+    isSaved,
+    setIsComplete,
+    setIsSaved,
+  } = useAuth();
   const router = useRouter();
 
   // Component state management
@@ -49,8 +57,8 @@ const PatientSettings = () => {
     phone: "",
     profilePicture: "", // URL to the profile picture
   });
-  const [isProfileComplete, setIsComplete] = useState(true);
-  const [isSaved, setIsSaved] = useState(true);
+  //const [isProfileComplete, setIsComplete] = useState(true);
+  //const [isSaved, setIsSaved] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [saveMessage, setSaveMessage] = useState({ type: "", message: "" });
@@ -158,7 +166,9 @@ const PatientSettings = () => {
       city: e.target.value,
     }));
   };
-
+  console.log(formData);
+  console.log(isSaved);
+  console.log(isProfileComplete);
   // ====================
   // DATABASE OPERATIONS - USER DATA FETCHING
   // ====================
@@ -232,7 +242,6 @@ const PatientSettings = () => {
           if (
             formData.firstName &&
             formData.lastName &&
-            formData.middleName &&
             formData.sex &&
             formData.birthdate &&
             formData.age &&
@@ -253,10 +262,9 @@ const PatientSettings = () => {
   }, [user, loading, role, router]);
 
   useEffect(() => {
-    const isFormComplete =
+    if (
       formData.firstName &&
       formData.lastName &&
-      formData.middleName &&
       formData.sex &&
       formData.birthdate &&
       formData.age &&
@@ -264,10 +272,11 @@ const PatientSettings = () => {
       formData.city &&
       formData.address &&
       formData.email &&
-      formData.phone;
-
-    setIsComplete(isFormComplete);
-    setIsSaved(false);
+      formData.phone
+    ) {
+      setIsComplete(true);
+      if (!setIsComplete) setIsSaved(false);
+    }
   }, [formData]);
   // Calculate age based on birthdate
   const calculateAge = (birthdate) => {
@@ -320,6 +329,8 @@ const PatientSettings = () => {
       }
       return { ...prev, [name]: value };
     });
+    setIsComplete(false);
+    setIsSaved(false);
   };
 
   // ====================
@@ -387,8 +398,21 @@ const PatientSettings = () => {
       });
     } finally {
       setIsSaving(false);
-      setIsComplete(true);
-      setIsSaved(true); // Reset completion status after save
+      if (
+        formData.firstName &&
+        formData.lastName &&
+        formData.sex &&
+        formData.birthdate &&
+        formData.age &&
+        formData.province &&
+        formData.city &&
+        formData.address &&
+        formData.email &&
+        formData.phone
+      ) {
+        setIsComplete(true);
+        setIsSaved(true);
+      } // Reset completion status after save
     }
   };
 
@@ -518,7 +542,7 @@ const PatientSettings = () => {
             </div>
           </div>
           <p className={styles.notice}>
-            {isProfileComplete
+            {isProfileComplete && isSaved
               ? ""
               : "*COMPLETE AND SAVE PROFILE TO USE OPTICARE'S FEATURES*"}
           </p>

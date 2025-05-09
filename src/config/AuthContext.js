@@ -11,6 +11,9 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState(null);
+  const [profile, setProfile] = useState(null);
+  const [isProfileComplete, setIsComplete] = useState(true);
+  const [isSaved, setIsSaved] = useState(true);
   const router = useRouter();
   const auth = getAuth();
 
@@ -51,7 +54,21 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, logout, role }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        logout,
+        role,
+        profile,
+        setProfile,
+        isProfileComplete,
+        isSaved,
+        setProfile,
+        setIsComplete,
+        setIsSaved,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
