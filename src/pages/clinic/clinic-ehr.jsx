@@ -239,7 +239,6 @@ const ClinicEHR = () => {
                     label="Doctor"
                     value={doctor}
                     onChange={handleChange(setDoctor)}
-                    disabled
                   />
                 </div>
               </div>
@@ -559,6 +558,8 @@ const ClinicEHR = () => {
               (<div style={{ textAlign: "center", padding: "2rem" }}>
                 Loading...
               </div> /*: error ? (
+              <div style={{ color: "red", textAlign: "center" }}>{error}</div>
+            ) */ /*: error ? (
               <div style={{ color: "red", textAlign: "center" }}>{error}</div>
             ) */ /*: error ? (
               <div style={{ color: "red", textAlign: "center" }}>{error}</div>
