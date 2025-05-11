@@ -289,7 +289,7 @@ const useEHR = () => {
         address,
         age: Number(age),
         clinic,
-        phonenumber,
+        phonenumber: phone,
         occupation,
         doctor,
         distanceOD,
