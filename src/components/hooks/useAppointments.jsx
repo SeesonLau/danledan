@@ -15,9 +15,10 @@ const useAppointments = () => {
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const appointmentsPerPage = 5;
-  const { user, load } = useAuth();
+  const { user, loading } = useAuth();
 
   const [isPageReload, setIsPageReload] = useState(false);
+  const [isFromAppointments, setIsFromAppointments] = useState(false);
   const fetchAppointments = async () => {
     try {
       // const response = await fetch('/api/appointments');
@@ -85,8 +86,16 @@ const useAppointments = () => {
   };
 
   useEffect(() => {
-    fetchAppointments();
-  }, [isPageReload, user]);
+    async function fetchApp() {
+      try {
+        const appointments = await fetchAppointments();
+        console.log("Appointments fetched:", appointments);
+      } catch (error) {
+        console.error("Error fetching appointments:", error);
+      }
+    }
+    fetchApp();
+  }, [isPageReload, user, loading]);
 
   const handleReload = () => {
     setIsPageReload(!isPageReload);
@@ -142,6 +151,7 @@ const useAppointments = () => {
           : appointment
       )
     );
+    updateAppointment(id, newStatus);
   };
 
   const handleViewAppointment = (appointment) => {
@@ -167,6 +177,7 @@ const useAppointments = () => {
     selectedAppointment,
     showModal,
     isPageReload,
+    isFromAppointments,
     setDateFilter,
     setStatusFilter,
     setSearchTerm,
@@ -178,6 +189,7 @@ const useAppointments = () => {
     handleReload,
     setIsPageReload,
     fetchAppointments,
+    setIsFromAppointments,
   };
 };
 
