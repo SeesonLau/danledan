@@ -60,7 +60,7 @@ const useEHR = () => {
   const [isPrinting, setIsPrinting] = useState(false);
   const [newEHRSaved, setNewEHRSaved] = useState(false);
 
-  const [clinicDetails, setClinicDoc] = useState();
+  const [clinicDetails, setClinicDetails] = useState();
 
   const calculateAge = (birthDate) => {
     const today = new Date();
@@ -239,7 +239,7 @@ const useEHR = () => {
       setClinic(user.uid);
       setDoctor("");
     }
-  }, [user]);
+  }, [user, clinic]);
 
   useEffect(() => {
     setTotal(analyticalfee + orthopticfee + lensesfee + framefee);
